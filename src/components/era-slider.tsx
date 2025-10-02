@@ -3,6 +3,8 @@
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { SudharshanaChakraIcon } from "./icons/sudharshana-chakra";
+import { ShankhaIcon } from "./icons/shankha";
+import { PadmaIcon } from "./icons/padma";
 
 interface EraSliderProps {
   selectedEra: string;
@@ -20,8 +22,10 @@ export function EraSlider({ selectedEra, onEraChange }: EraSliderProps) {
 
   return (
     <div className="p-4 rounded-lg bg-card/50 border border-border">
-      <div className="flex justify-center items-center mb-4">
+      <div className="flex justify-around items-center mb-4">
+        <ShankhaIcon className="w-12 h-12" />
         <SudharshanaChakraIcon className="w-16 h-16 animate-spin-slow" />
+        <PadmaIcon className="w-12 h-12" />
       </div>
       <div className="flex justify-between items-center mb-4">
         <Label htmlFor="era-slider" className="text-lg font-headline text-accent">
