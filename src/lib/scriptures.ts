@@ -1,4 +1,4 @@
-export type ScriptureCategory = 'Ancient Scriptures' | 'Regional Texts' | 'Philosophical Works';
+export type ScriptureCategory = 'Ancient Scriptures' | 'Regional Texts' | 'Philosophical Works' | 'Puranas';
 
 export type Scripture = {
   id: string;
@@ -25,6 +25,42 @@ export const scriptures: Scripture[] = [
     title: 'Ramayana',
     category: 'Ancient Scriptures',
     content: 'An ancient Indian epic poem which narrates the struggle of the divine prince Rama to rescue his wife Sita from the demon king Ravana.'
+  },
+  {
+    id: 'epic-2',
+    title: 'Mahabharata',
+    category: 'Ancient Scriptures',
+    content: 'One of the two major Sanskrit epics of ancient India, it narrates the struggle between two groups of cousins in the Kurukshetra War and the fates of the Kaurava and the Pāṇḍava princes and their successors.'
+  },
+  {
+    id: 'gita-1',
+    title: 'Bhagavad Gita',
+    category: 'Ancient Scriptures',
+    content: 'A 700-verse Hindu scripture that is part of the epic Mahabharata, dated to the second half of the first millennium BCE and is typical of the Hindu synthesis.'
+  },
+  {
+    id: 'smriti-1',
+    title: 'Manusmriti',
+    category: 'Ancient Scriptures',
+    content: 'A discourse given by Manu and Bhrigu on dharma topics such as duties, rights, laws, conduct, virtues and others.'
+  },
+  {
+    id: 'purana-1',
+    title: 'Bhagavata Purana',
+    category: 'Puranas',
+    content: 'One of Hinduism\'s eighteen great Puranas. It promotes bhakti (devotion) to Krishna, integrating themes from the Advaita philosophy of Adi Shankara, the Vishishtadvaita of Ramanujacharya and the Dvaita of Madhvacharya.'
+  },
+  {
+    id: 'purana-2',
+    title: 'Vishnu Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen Mahapuranas, a genre of ancient and medieval texts of Hinduism. It is an important Pancharatra text in the Vaishnavism literature corpus.'
+  },
+  {
+    id: 'purana-3',
+    title: 'Shiva Purana',
+    category: 'Puranas',
+    content: 'One of eighteen major Puranas, a genre of Sanskrit texts in Hinduism, and part of the Shaivism literature corpus. It primarily centers around the Hindu god Shiva and goddess Parvati.'
   },
   {
     id: 'regional-1',
