@@ -51,16 +51,14 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
 
   useEffect(() => {
     if (scripture) {
-      const fetchSummary = async () => {
-        setSummaryData(null); // Clear previous data before fetching new
-        const result = await getScriptureSummaryAction({
+      startTransition(() => {
+        setSummaryData(null);
+        getScriptureSummaryAction({
           scriptureContent: scripture.content,
           era: era,
           category: scripture.category,
-        });
-        setSummaryData(result);
-      };
-      startTransition(fetchSummary);
+        }).then(setSummaryData);
+      });
     } else {
       setSummaryData(null); // Clear data if no scripture is selected
     }
@@ -80,7 +78,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
     <div className="p-1">
       <h2 className="font-headline text-3xl md:text-4xl text-accent mb-6">{scripture.title}</h2>
       
-      {isPending ? (
+      {isPending || !summaryData ? (
         <DetailsSkeleton />
       ) : summaryData?.error ? (
         <Alert variant="destructive">
@@ -88,7 +86,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{summaryData.error}</AlertDescription>
         </Alert>
-      ) : summaryData ? (
+      ) : (
         <div className="space-y-6 animate-in fade-in-50 duration-500">
           <Card className="bg-card/70 border-border/50 backdrop-blur-sm">
             <CardHeader>
@@ -113,7 +111,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
             </CardContent>
           </Card>
         </div>
-      ) : <DetailsSkeleton />}
+      ) }
     </div>
   );
 }

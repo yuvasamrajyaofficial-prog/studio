@@ -25,10 +25,8 @@ export default function Home() {
 
   // Effect to update selected scripture when era changes
   useEffect(() => {
-    // If no scripture is selected, or if the selected one is no longer in the filtered list,
-    // default to the first scripture in the new list.
-    if (!selectedScripture || !filteredScriptures.some(s => s.id === selectedScripture.id)) {
-      setSelectedScripture(filteredScriptures.length > 0 ? filteredScriptures[0] : null);
+    if (!filteredScriptures.find(s => s.id === selectedScripture?.id)) {
+      setSelectedScripture(filteredScriptures[0] || null);
     }
   }, [selectedEra, filteredScriptures, selectedScripture]);
 
