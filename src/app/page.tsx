@@ -5,16 +5,20 @@ import { Header } from '@/components/layout/header';
 import { EraSlider } from '@/components/era-slider';
 import { ScriptureTree } from '@/components/scripture-tree';
 import { ScriptureDetails } from '@/components/scripture-details';
-import { scriptures, type Scripture } from '@/lib/scriptures';
+import { scriptures, type Scripture, Yuga } from '@/lib/scriptures';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+const yugaOrder: Yuga[] = ['Satya', 'Treta', 'Dvapara', 'Kali'];
 
 export default function Home() {
   const [selectedEra, setSelectedEra] = useState<string>('Kali');
   const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(null);
 
   const filteredScriptures = useMemo(() => {
-    // Timeless scriptures should appear in all eras
-    return scriptures.filter(s => s.yuga === selectedEra || s.yuga === 'Timeless');
+    const currentEraIndex = yugaOrder.indexOf(selectedEra as Yuga);
+    const visibleYugas = yugaOrder.slice(0, currentEraIndex + 1);
+
+    return scriptures.filter(s => s.yuga === 'Timeless' || visibleYugas.includes(s.yuga));
   }, [selectedEra]);
 
   // Effect to update selected scripture when era changes
