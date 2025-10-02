@@ -51,15 +51,16 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
 
   useEffect(() => {
     if (scripture) {
-      startTransition(async () => {
-        setSummaryData(null);
+      const fetchSummary = async () => {
+        setSummaryData(null); // Clear previous data
         const result = await getScriptureSummaryAction({
           scriptureContent: scripture.content,
           era: era,
           category: scripture.category,
         });
         setSummaryData(result);
-      });
+      };
+      startTransition(fetchSummary);
     }
   }, [scripture, era]);
 
@@ -110,7 +111,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
             </CardContent>
           </Card>
         </div>
-      ) : null}
+      ) : <DetailsSkeleton />}
     </div>
   );
 }

@@ -3,35 +3,15 @@
  * @fileOverview Summarizes a scripture based on the selected era and category, providing contextual information about potential biases.
  *
  * - summarizeScripture - A function that handles the scripture summarization process.
- * - SummarizeScriptureInput - The input type for the summarizeScripture function.
- * - SummarizeScriptureOutput - The return type for the summarizeScripture function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-const SummarizeScriptureInputSchema = z.object({
-  scriptureContent: z
-    .string()
-    .describe('The content of the scripture to be summarized.'),
-  era: z.string().describe('The historical era of the scripture.'),
-  category: z.string().describe('The category of the scripture.'),
-});
-export type SummarizeScriptureInput = z.infer<
-  typeof SummarizeScriptureInputSchema
->;
-
-const SummarizeScriptureOutputSchema = z.object({
-  summary: z.string().describe('A concise summary of the scripture.'),
-  biasContext: z
-    .string()
-    .describe(
-      'Information about potential biases relevant to the scripture content, era, and category.'
-    ),
-});
-export type SummarizeScriptureOutput = z.infer<
-  typeof SummarizeScriptureOutputSchema
->;
+import {
+  SummarizeScriptureInputSchema,
+  SummarizeScriptureOutputSchema,
+  type SummarizeScriptureInput,
+  type SummarizeScriptureOutput,
+} from '@/ai/schemas';
 
 export async function summarizeScripture(
   input: SummarizeScriptureInput
@@ -43,7 +23,17 @@ const prompt = ai.definePrompt({
   name: 'summarizeScripturePrompt',
   input: {schema: SummarizeScriptureInputSchema},
   output: {schema: SummarizeScriptureOutputSchema},
-  prompt: `You are an expert in ancient scriptures. Provide a concise summary of the scripture tailored to the selected era and category. Also, provide information about potential biases relevant to the content, era, and category.\n\nScripture Content: {{{scriptureContent}}}\nEra: {{{era}}}\nCategory: {{{category}}}\n\nSummary:\nBias Context:`,
+  prompt: `You are an expert in ancient scriptures. Your task is to provide a concise summary of the provided scripture content, tailored to the selected era and category. Additionally, provide a thoughtful analysis of potential biases relevant to the content, era, and category.
+
+If the provided content seems unrelated or nonsensical for the given category and era, state that you cannot provide a summary for the given input.
+
+Scripture Content: {{{scriptureContent}}}
+Era: {{{era}}}
+Category: {{{category}}}
+
+Follow this structure precisely:
+Summary: [Your summary here]
+Bias Context: [Your bias context here]`,
 });
 
 const summarizeScriptureFlow = ai.defineFlow(
@@ -54,6 +44,9 @@ const summarizeScriptureFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('AI failed to generate a response.');
+    }
+    return output;
   }
 );

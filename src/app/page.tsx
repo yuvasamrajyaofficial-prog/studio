@@ -10,7 +10,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Home() {
   const [selectedEra, setSelectedEra] = useState<string>('Kali');
-  const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(null);
+  // Set the first scripture as the default selected one
+  const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(
+    scriptures.length > 0 ? scriptures[0] : null
+  );
 
   return (
     <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
@@ -33,7 +36,11 @@ export default function Home() {
           
           <section className="lg:col-span-2 xl:col-span-3">
              <ScrollArea className="h-[calc(100vh-12rem)] pr-4">
-                <ScriptureDetails scripture={selectedScripture} era={selectedEra} />
+                <ScriptureDetails 
+                    key={selectedScripture?.id} 
+                    scripture={selectedScripture} 
+                    era={selectedEra} 
+                />
              </ScrollArea>
           </section>
         </main>
