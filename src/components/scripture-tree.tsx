@@ -31,6 +31,7 @@ export function ScriptureTree({ scriptures, onSelectScripture, selectedScripture
     'Upapuranas',
     'Darshanas (Philosophy)',
     'Agamas & Tantras',
+    'Jain Agamas & Philosophy',
     'Niti, Artha & Psychology',
     'Bhakti Texts',
     'Yoga & Sadhana',

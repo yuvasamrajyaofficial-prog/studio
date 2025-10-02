@@ -8,6 +8,7 @@ export type ScriptureCategory =
   | 'Upapuranas'
   | 'Darshanas (Philosophy)'
   | 'Agamas & Tantras'
+  | 'Jain Agamas & Philosophy'
   | 'Niti, Artha & Psychology'
   | 'Bhakti Texts'
   | 'Yoga & Sadhana'
@@ -193,6 +194,13 @@ export const scriptures: Scripture[] = [
   },
 
   // 4. DHARMA SHASTRA
+  {
+    id: 'dharma-satya',
+    title: 'Laws of Manu (Satya Yuga)',
+    category: 'Dharma Shastra',
+    content: 'The codes of conduct and social structure as ordained for the age of truth.',
+    yuga: 'Satya'
+  },
   {
     id: 'dharma-gautama',
     title: 'Gautama Dharma Sutra',
@@ -532,6 +540,44 @@ export const scriptures: Scripture[] = [
     content: 'A tantric text presented as a dialogue between Shiva and Parvati, discussing rituals and spiritual practices for the Kali Yuga.',
     yuga: 'Kali'
   },
+  
+  // JAINISM (Timeless, placed in Kali for practical purposes of the app)
+  {
+    id: 'jain-agamas',
+    title: 'Jain Agamas',
+    category: 'Jain Agamas & Philosophy',
+    content: 'The canonical scriptures of Jainism as per the Svetambara tradition, including the 12 Angas.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'jain-samayasara',
+    title: 'Samayasara',
+    category: 'Jain Agamas & Philosophy',
+    content: 'A key Digambara Jain text by Acharya Kundakunda on the nature of the self (Atman).',
+    yuga: 'Kali'
+  },
+  {
+    id: 'jain-tattvartha',
+    title: 'Tattvartha Sutra',
+    category: 'Jain Agamas & Philosophy',
+    content: 'A foundational Jain text by Umaswati, accepted by all major sects, summarizing Jain philosophy.',
+    yuga: 'Kali'
+  },
+   {
+    id: 'jain-acharanga',
+    title: 'Acharanga Sutra',
+    category: 'Jain Agamas & Philosophy',
+    content: 'The first of the twelve Angas, it deals with the conduct of a Jain monk.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'jain-kalpa',
+    title: 'Kalpa Sūtra',
+    category: 'Jain Agamas & Philosophy',
+    content: 'A Jain text containing the biographies of the Jinas, notably Parshvanatha and Mahavira.',
+    yuga: 'Kali'
+  },
+
 
   // 10. NITI, ARTHA & PSYCHOLOGY (Kali)
   {
@@ -828,12 +874,5 @@ export const scriptures: Scripture[] = [
     category: 'Advanced Vedanta',
     content: 'A part of the Sivarahasya Purana, it is a dialogue between the sage Ribhu and his disciple Nidagha on the unreality of the world and the sole reality of Brahman.',
     yuga: 'Kali'
-  },
-  {
-    id: 'dharma-satya',
-    title: 'Laws of Manu (Satya Yuga)',
-    category: 'Dharma Shastra',
-    content: 'The codes of conduct and social structure as ordained for the age of truth.',
-    yuga: 'Satya'
   },
 ];
