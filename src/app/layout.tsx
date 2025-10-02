@@ -1,10 +1,24 @@
-import type {Metadata} from 'next';
-import { Toaster } from "@/components/ui/toaster"
-import './globals.css';
+import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/toaster";
+import { Playfair_Display, PT_Sans } from "next/font/google";
+import { cn } from "@/lib/utils";
+import "./globals.css";
+
+const fontSans = PT_Sans({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-sans",
+});
+
+const fontSerif = Playfair_Display({
+  subsets: ["latin"],
+  weight: "700",
+  variable: "--font-serif",
+});
 
 export const metadata: Metadata = {
-  title: 'Cosmic Scriptures Explorer',
-  description: 'Navigate the vast universe of ancient texts and philosophies.',
+  title: "Cosmic Scriptures Explorer",
+  description: "Navigate the vast universe of ancient texts and philosophies.",
 };
 
 export default function RootLayout({
@@ -13,13 +27,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-body text-foreground antialiased",
+          fontSans.variable,
+          fontSerif.variable
+        )}
+      >
         {children}
         <Toaster />
       </body>
