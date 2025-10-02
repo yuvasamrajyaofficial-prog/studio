@@ -52,7 +52,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
   useEffect(() => {
     if (scripture) {
       const fetchSummary = async () => {
-        setSummaryData(null); // Clear previous data
+        setSummaryData(null); // Clear previous data before fetching new
         const result = await getScriptureSummaryAction({
           scriptureContent: scripture.content,
           era: era,
@@ -61,6 +61,8 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
         setSummaryData(result);
       };
       startTransition(fetchSummary);
+    } else {
+      setSummaryData(null); // Clear data if no scripture is selected
     }
   }, [scripture, era]);
 
