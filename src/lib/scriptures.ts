@@ -45,22 +45,112 @@ export const scriptures: Scripture[] = [
     content: 'A discourse given by Manu and Bhrigu on dharma topics such as duties, rights, laws, conduct, virtues and others.'
   },
   {
-    id: 'purana-1',
+    id: 'purana-bhagavata',
     title: 'Bhagavata Purana',
     category: 'Puranas',
     content: 'One of Hinduism\'s eighteen great Puranas. It promotes bhakti (devotion) to Krishna, integrating themes from the Advaita philosophy of Adi Shankara, the Vishishtadvaita of Ramanujacharya and the Dvaita of Madhvacharya.'
   },
   {
-    id: 'purana-2',
+    id: 'purana-vishnu',
     title: 'Vishnu Purana',
     category: 'Puranas',
     content: 'One of the eighteen Mahapuranas, a genre of ancient and medieval texts of Hinduism. It is an important Pancharatra text in the Vaishnavism literature corpus.'
   },
   {
-    id: 'purana-3',
+    id: 'purana-shiva',
     title: 'Shiva Purana',
     category: 'Puranas',
     content: 'One of eighteen major Puranas, a genre of Sanskrit texts in Hinduism, and part of the Shaivism literature corpus. It primarily centers around the Hindu god Shiva and goddess Parvati.'
+  },
+  {
+    id: 'purana-agni',
+    title: 'Agni Purana',
+    category: 'Puranas',
+    content: 'A Sanskrit text and one of the eighteen major Puranas of Hinduism. The text is encyclopedic, covering topics such as cosmology, mythology, genealogy, politics, education system, iconography, taxation theories, organization of army, theories on proper causes for war, martial arts, diplomacy, local laws, building public projects, water distribution methods, trees and plants, medicine, Vastu Shastra (architecture), and gemology.'
+  },
+  {
+    id: 'purana-bhavishya',
+    title: 'Bhavishya Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major works in the Purana genre of Hinduism, written in Sanskrit. The title Bhavishya means "future" and implies it is a work that contains prophecies regarding the future.'
+  },
+  {
+    id: 'purana-brahma',
+    title: 'Brahma Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major Puranas genre of Hindu texts in Sanskrit language. It is listed as the first Maha-Purana in all the anthologies, and therefore also called Adi Purana.'
+  },
+  {
+    id: 'purana-brahmanda',
+    title: 'Brahmanda Purana',
+    category: 'Puranas',
+    content: 'A Sanskrit text and one of the eighteen major Puranas. It is listed as the 18th Maha-Purana in almost all the anthologies. The text is named after one of the cosmological theories of Hinduism, which is the "cosmic egg" (Brahma-anda).'
+  },
+  {
+    id: 'purana-brahmavaivarta',
+    title: 'Brahmavaivarta Purana',
+    category: 'Puranas',
+    content: 'A voluminous Sanskrit text and a major Purana of Hinduism. It is a Vaishnavism text, and it is with the Bhagavata Purana, that has been influential to the Krishna-related Hindu traditions.'
+  },
+  {
+    id: 'purana-garuda',
+    title: 'Garuda Purana',
+    category: 'Puranas',
+    content: 'One of the 18 Mahapuranas. It is a Vaishnavism text, and its first part contains a dialogue between Vishnu and Garuda. The second half of the text deals with details of life after death, funeral rites and metaphysics of reincarnation.'
+  },
+  {
+    id: 'purana-kurma',
+    title: 'Kurma Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen Mahapuranas. The text is named after the tortoise avatar of Vishnu. The text is believed to have been recited by Kurma to king Indradyumna and the sages in the Naimisha forest.'
+  },
+  {
+    id: 'purana-linga',
+    title: 'Linga Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen Mahapuranas, and a Shaivism text of Hinduism. The text\'s title Linga refers to the icon of Shiva.'
+  },
+  {
+    id: 'purana-markandeya',
+    title: 'Markandeya Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major Mahapuranas. The text is named after the sage Markandeya who is the central character in it. The text is probably one of the oldest Puranas in Hinduism.'
+  },
+  {
+    id: 'purana-matsya',
+    title: 'Matsya Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major Puranas. The text is named after the half-human and half-fish avatar of Vishnu, Matsya. The text is notable for providing one of the earliest known definitions of a Purana.'
+  },
+  {
+    id: 'purana-narada',
+    title: 'Narada Purana',
+    category: 'Puranas',
+    content: 'Also known as Naradiya Purana, is one of the eighteen Mahapuranas, and a Vaishnavism text. It is a compilation of two parts (bhagas), with the first part called Purvabhaga and the second part called Uttarabhaga.'
+  },
+  {
+    id: 'purana-padma',
+    title: 'Padma Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major Puranas, and a Vaishnavism text. It is named after the lotus in which creator god Brahma appeared. It is a large text, with over 50,000 verses.'
+  },
+  {
+    id: 'purana-skanda',
+    title: 'Skanda Purana',
+    category: 'Puranas',
+    content: 'The largest Mahapurana, a genre of eighteen Hindu religious texts. The text is devoted mainly to the lilas of Kartikeya, a son of Shiva and Parvati, who is also known as Skanda.'
+  },
+  {
+    id: 'purana-vamana',
+    title: 'Vamana Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen major Puranas. The text is named after one of the ten incarnations of Vishnu. It is a Vaishnavism text, and its main focus is on the stories of Vamana, an avatar of Vishnu.'
+  },
+  {
+    id: 'purana-varaha',
+    title: 'Varaha Purana',
+    category: 'Puranas',
+    content: 'One of the eighteen Mahapuranas. The text is named after the boar avatar of Vishnu, Varaha. The text contains stories of Varaha, and is a Vaishnavism text.'
   },
   {
     id: 'regional-1',
