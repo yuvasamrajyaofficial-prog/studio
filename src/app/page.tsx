@@ -4,7 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { EraSlider } from '@/components/era-slider';
-import { CosmicTree } from '@/components/cosmic-tree';
+import { ScriptureTree } from '@/components/scripture-tree';
+import { ScriptureHierarchy } from '@/components/scripture-hierarchy';
 import { ScriptureDetails } from '@/components/scripture-details';
 import { scriptures, type Scripture, Yuga } from '@/lib/scriptures';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -42,8 +43,9 @@ export default function Home() {
         <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4 sm:p-8">
           <aside className="lg:col-span-1 xl:col-span-1 flex flex-col gap-8">
             <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
+             <ScriptureHierarchy />
             <ScrollArea className="flex-1 bg-card/50 border border-border rounded-lg p-2 max-h-[60vh] lg:max-h-none">
-              <CosmicTree 
+              <ScriptureTree 
                 scriptures={filteredScriptures} 
                 onSelectScripture={setSelectedScripture} 
                 selectedScriptureId={selectedScripture?.id ?? null}
