@@ -27,10 +27,14 @@ export default function Home() {
 
   // Effect to update selected scripture when era changes
   useEffect(() => {
+    // If there's no selected scripture or the current one is not in the filtered list
     if (!selectedScripture || !filteredScriptures.find(s => s.id === selectedScripture.id)) {
+      // Set the selected scripture to the first one in the new filtered list
       setSelectedScripture(filteredScriptures[0] || null);
     }
-  }, [selectedEra, filteredScriptures, selectedScripture]);
+  // This effect should only run when the list of filtered scriptures changes (i.e., when the era changes)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredScriptures]);
 
 
   return (
