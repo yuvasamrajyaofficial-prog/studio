@@ -33,7 +33,7 @@ export function EraSlider({ selectedEra, onEraChange }: EraSliderProps) {
                 width={64}
                 height={64}
                 data-ai-hint={shankhaImage.imageHint}
-                className="w-16 h-16 object-contain"
+                className="w-16 h-16 object-contain rounded-full"
             />
         )}
         <SudharshanaChakraIcon className="w-16 h-16 animate-spin-slow" />
@@ -44,7 +44,7 @@ export function EraSlider({ selectedEra, onEraChange }: EraSliderProps) {
                 width={64}
                 height={64}
                 data-ai-hint={padmaImage.imageHint}
-                className="w-16 h-16 object-contain"
+                className="w-16 h-16 object-contain rounded-full"
             />
         )}
       </div>
