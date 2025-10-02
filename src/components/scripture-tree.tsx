@@ -6,6 +6,7 @@ import { ConstellationIcon } from "@/components/icons/constellation";
 import type { Scripture, ScriptureCategory } from "@/lib/scriptures";
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { orderedCategories } from "@/lib/scriptures";
 
 interface ScriptureTreeProps {
   scriptures: Scripture[];
@@ -20,24 +21,6 @@ export function ScriptureTree({ scriptures, onSelectScripture, selectedScripture
       return acc;
     }, {} as Record<ScriptureCategory, Scripture[]>);
   }, [scriptures]);
-
-  const orderedCategories: ScriptureCategory[] = [
-    'Vedas',
-    'Upanishads',
-    'Vedanga',
-    'Dharma Shastra',
-    'Itihasa',
-    'Puranas',
-    'Upapuranas',
-    'Darshanas (Philosophy)',
-    'Agamas & Tantras',
-    'Jain Agamas & Philosophy',
-    'Niti, Artha & Psychology',
-    'Bhakti Texts',
-    'Yoga & Sadhana',
-    'Acharya Bhashyas (Commentaries)',
-    'Advanced Vedanta'
-  ];
 
   return (
     <div className="w-full">

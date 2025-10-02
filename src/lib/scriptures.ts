@@ -877,3 +877,21 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
 ];
+
+export const orderedCategories: ScriptureCategory[] = [
+    'Vedas',
+    'Upanishads',
+    'Vedanga',
+    'Dharma Shastra',
+    'Itihasa',
+    'Puranas',
+    'Upapuranas',
+    'Darshanas (Philosophy)',
+    'Agamas & Tantras',
+    'Jain Agamas & Philosophy',
+    'Niti, Artha & Psychology',
+    'Bhakti Texts',
+    'Yoga & Sadhana',
+    'Acharya Bhashyas (Commentaries)',
+    'Advanced Vedanta'
+];
