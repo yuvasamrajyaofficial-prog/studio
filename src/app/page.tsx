@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Header } from '@/components/layout/header';
 import { EraSlider } from '@/components/era-slider';
 import { ScriptureTree } from '@/components/scripture-tree';
@@ -10,10 +10,25 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function Home() {
   const [selectedEra, setSelectedEra] = useState<string>('Kali');
-  // Set the first scripture as the default selected one
-  const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(
-    scriptures.length > 0 ? scriptures[0] : null
-  );
+  const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(null);
+
+  const filteredScriptures = useMemo(() => {
+    // Timeless scriptures should appear in all eras
+    return scriptures.filter(s => s.yuga === selectedEra || s.yuga === 'Timeless');
+  }, [selectedEra]);
+
+  // Effect to update selected scripture when era changes
+  useEffect(() => {
+    // If the currently selected scripture is not in the new filtered list, reset it.
+    if (selectedScripture && !filteredScriptures.some(s => s.id === selectedScripture.id)) {
+      // Set to the first scripture in the new list, or null if the list is empty.
+      setSelectedScripture(filteredScriptures.length > 0 ? filteredScriptures[0] : null);
+    } else if (!selectedScripture && filteredScriptures.length > 0) {
+      // If no scripture is selected, select the first one from the filtered list.
+      setSelectedScripture(filteredScriptures[0]);
+    }
+  }, [selectedEra, filteredScriptures, selectedScripture]);
+
 
   return (
     <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
@@ -27,7 +42,7 @@ export default function Home() {
             <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
             <ScrollArea className="flex-1 bg-card/50 border border-border rounded-lg p-2 max-h-[60vh] lg:max-h-none">
               <ScriptureTree 
-                scriptures={scriptures} 
+                scriptures={filteredScriptures} 
                 onSelectScripture={setSelectedScripture} 
                 selectedScriptureId={selectedScripture?.id ?? null}
               />
