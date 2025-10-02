@@ -9,6 +9,8 @@ import { ScriptureHierarchy } from '@/components/scripture-hierarchy';
 import { ScriptureDetails } from '@/components/scripture-details';
 import { scriptures, type Scripture, Yuga } from '@/lib/scriptures';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BookMarked, Telescope } from 'lucide-react';
 
 const yugaOrder: Yuga[] = ['Satya', 'Treta', 'Dvapara', 'Kali'];
 
@@ -25,7 +27,7 @@ export default function Home() {
 
   // Effect to update selected scripture when era changes
   useEffect(() => {
-    if (!filteredScriptures.find(s => s.id === selectedScripture?.id)) {
+    if (!selectedScripture || !filteredScriptures.find(s => s.id === selectedScripture.id)) {
       setSelectedScripture(filteredScriptures[0] || null);
     }
   }, [selectedEra, filteredScriptures, selectedScripture]);
@@ -38,20 +40,38 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         
-        <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-8 p-4 sm:p-8">
-          <aside className="lg:col-span-1 xl:col-span-1 flex flex-col gap-8">
+        <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 p-4 sm:p-8">
+          <aside className="lg:col-span-1 flex flex-col gap-8">
             <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
-             <ScriptureHierarchy />
-            <ScrollArea className="flex-1 bg-card/50 border border-border rounded-lg p-2 max-h-[60vh] lg:max-h-none">
-              <ScriptureTree 
-                scriptures={filteredScriptures} 
-                onSelectScripture={setSelectedScripture} 
-                selectedScriptureId={selectedScripture?.id ?? null}
-              />
-            </ScrollArea>
+            <Tabs defaultValue="library" className="flex-1 flex flex-col">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="library">
+                  <BookMarked className="mr-2 h-4 w-4" />
+                  Cosmic Library
+                  </TabsTrigger>
+                <TabsTrigger value="hierarchy">
+                  <Telescope className="mr-2 h-4 w-4" />
+                  Hierarchy
+                  </TabsTrigger>
+              </TabsList>
+              <TabsContent value="library" className="flex-1 mt-4">
+                 <ScrollArea className="flex-1 bg-card/50 border border-border rounded-lg p-2 max-h-[60vh] lg:max-h-[calc(100vh-23rem)]">
+                    <ScriptureTree 
+                      scriptures={filteredScriptures} 
+                      onSelectScripture={setSelectedScripture} 
+                      selectedScriptureId={selectedScripture?.id ?? null}
+                    />
+                </ScrollArea>
+              </TabsContent>
+              <TabsContent value="hierarchy" className="flex-1 mt-4">
+                 <div className="h-full max-h-[60vh] lg:max-h-[calc(100vh-23rem)]">
+                    <ScriptureHierarchy />
+                 </div>
+              </TabsContent>
+            </Tabs>
           </aside>
           
-          <section className="lg:col-span-2 xl:col-span-3">
+          <section className="lg:col-span-2">
              <ScrollArea className="h-[calc(100vh-12rem)] pr-4">
                 <ScriptureDetails 
                     key={selectedScripture?.id} 

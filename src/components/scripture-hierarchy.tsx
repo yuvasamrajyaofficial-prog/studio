@@ -20,12 +20,12 @@ export function ScriptureHierarchy() {
   }, {} as Record<string, typeof scriptures>);
 
   return (
-    <div className="p-4 rounded-lg bg-card/50 border border-border">
+    <div className="p-4 rounded-lg bg-card/50 border border-border h-full flex flex-col">
          <div className="flex items-center gap-3 mb-4">
              <ConstellationIcon className="w-8 h-8" />
             <h3 className="font-headline text-lg text-accent">Scripture Hierarchy</h3>
         </div>
-      <ScrollArea className="h-48">
+      <ScrollArea className="flex-1">
         <Accordion type="multiple" className="w-full">
           {orderedCategories.map((category) => {
             const categoryScriptures = scripturesByCategory[category];
