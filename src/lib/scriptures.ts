@@ -305,6 +305,20 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
+    id: 'purana-linga',
+    title: 'Linga Purana',
+    category: 'Puranas',
+    content: 'A Shaiva text that focuses on the worship of Shiva in the form of the Linga.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'purana-garuda',
+    title: 'Garuda Purana',
+    category: 'Puranas',
+    content: 'Known for its descriptions of the afterlife, funeral rites, and reincarnation.',
+    yuga: 'Kali'
+  },
+  {
     id: 'purana-narada',
     title: 'Narada Purana',
     category: 'Puranas',
@@ -312,17 +326,17 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-markandeya',
-    title: 'Markandeya Purana',
-    category: 'Puranas',
-    content: 'Famous for containing the Devi Mahatmya, a key text of Shaktism.',
-    yuga: 'Kali'
-  },
-  {
     id: 'purana-agni',
     title: 'Agni Purana',
     category: 'Puranas',
     content: 'An encyclopedic text covering a vast range of topics including rituals, cosmology, and astrology.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'purana-skanda',
+    title: 'Skanda Purana',
+    category: 'Puranas',
+    content: 'The largest Mahapurana, containing a wealth of myths, legends, and pilgrimage guides.',
     yuga: 'Kali'
   },
   {
@@ -340,24 +354,10 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-linga',
-    title: 'Linga Purana',
+    id: 'purana-markandeya',
+    title: 'Markandeya Purana',
     category: 'Puranas',
-    content: 'A Shaiva text that focuses on the worship of Shiva in the form of the Linga.',
-    yuga: 'Kali'
-  },
-  {
-    id: 'purana-varaha',
-    title: 'Varaha Purana',
-    category: 'Puranas',
-    content: 'Focuses on Vishnu\'s boar avatar, Varaha, and stories related to his worship.',
-    yuga: 'Kali'
-  },
-  {
-    id: 'purana-skanda',
-    title: 'Skanda Purana',
-    category: 'Puranas',
-    content: 'The largest Mahapurana, containing a wealth of myths, legends, and pilgrimage guides.',
+    content: 'Famous for containing the Devi Mahatmya, a key text of Shaktism.',
     yuga: 'Kali'
   },
   {
@@ -368,10 +368,10 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-kurma',
-    title: 'Kurma Purana',
+    id: 'purana-varaha',
+    title: 'Varaha Purana',
     category: 'Puranas',
-    content: 'Recited by Vishnu in his tortoise avatar, Kurma, it discusses theological and pilgrimage topics.',
+    content: 'Focuses on Vishnu\'s boar avatar, Varaha, and stories related to his worship.',
     yuga: 'Kali'
   },
   {
@@ -382,10 +382,10 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-garuda',
-    title: 'Garuda Purana',
+    id: 'purana-kurma',
+    title: 'Kurma Purana',
     category: 'Puranas',
-    content: 'Known for its descriptions of the afterlife, funeral rites, and reincarnation.',
+    content: 'Recited by Vishnu in his tortoise avatar, Kurma, it discusses theological and pilgrimage topics.',
     yuga: 'Kali'
   },
   {
