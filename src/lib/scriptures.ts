@@ -296,18 +296,11 @@ export const scriptures: Scripture[] = [
     content: 'A major Shaiva text dedicated to the stories and worship of Shiva.',
     yuga: 'Kali'
   },
-  {
-    id: 'purana-linga',
-    title: 'Linga Purana',
+   {
+    id: 'purana-bhagavata',
+    title: 'Bhagavata Purana (Srimad Bhagavatam)',
     category: 'Puranas',
-    content: 'A Shaiva text that focuses on the worship of Shiva in the form of the Linga.',
-    yuga: 'Kali'
-  },
-  {
-    id: 'purana-garuda',
-    title: 'Garuda Purana',
-    category: 'Puranas',
-    content: 'Known for its descriptions of the afterlife, funeral rites, and reincarnation.',
+    content: 'The most celebrated Purana, focusing on the life and teachings of Krishna and promoting bhakti.',
     yuga: 'Kali'
   },
   {
@@ -318,10 +311,10 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-bhagavata',
-    title: 'Bhagavata Purana (Srimad Bhagavatam)',
+    id: 'purana-markandeya',
+    title: 'Markandeya Purana',
     category: 'Puranas',
-    content: 'The most celebrated Purana, focusing on the life and teachings of Krishna and promoting bhakti.',
+    content: 'Famous for containing the Devi Mahatmya, a key text of Shaktism.',
     yuga: 'Kali'
   },
   {
@@ -329,13 +322,6 @@ export const scriptures: Scripture[] = [
     title: 'Agni Purana',
     category: 'Puranas',
     content: 'An encyclopedic text covering a vast range of topics including rituals, cosmology, and astrology.',
-    yuga: 'Kali'
-  },
-  {
-    id: 'purana-skanda',
-    title: 'Skanda Purana',
-    category: 'Puranas',
-    content: 'The largest Mahapurana, containing a wealth of myths, legends, and pilgrimage guides.',
     yuga: 'Kali'
   },
   {
@@ -353,17 +339,10 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-markandeya',
-    title: 'Markandeya Purana',
+    id: 'purana-linga',
+    title: 'Linga Purana',
     category: 'Puranas',
-    content: 'Famous for containing the Devi Mahatmya, a key text of Shaktism.',
-    yuga: 'Kali'
-  },
-  {
-    id: 'purana-vamana',
-    title: 'Vamana Purana',
-    category: 'Puranas',
-    content: 'Narrates the story of Vishnu\'s dwarf avatar, Vamana.',
+    content: 'A Shaiva text that focuses on the worship of Shiva in the form of the Linga.',
     yuga: 'Kali'
   },
   {
@@ -374,10 +353,17 @@ export const scriptures: Scripture[] = [
     yuga: 'Kali'
   },
   {
-    id: 'purana-matsya',
-    title: 'Matsya Purana',
+    id: 'purana-skanda',
+    title: 'Skanda Purana',
     category: 'Puranas',
-    content: 'Details the story of Vishnu\'s fish avatar, Matsya, and includes genealogies of royal dynasties.',
+    content: 'The largest Mahapurana, containing a wealth of myths, legends, and pilgrimage guides.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'purana-vamana',
+    title: 'Vamana Purana',
+    category: 'Puranas',
+    content: 'Narrates the story of Vishnu\'s dwarf avatar, Vamana.',
     yuga: 'Kali'
   },
   {
@@ -385,6 +371,20 @@ export const scriptures: Scripture[] = [
     title: 'Kurma Purana',
     category: 'Puranas',
     content: 'Recited by Vishnu in his tortoise avatar, Kurma, it discusses theological and pilgrimage topics.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'purana-matsya',
+    title: 'Matsya Purana',
+    category: 'Puranas',
+    content: 'Details the story of Vishnu\'s fish avatar, Matsya, and includes genealogies of royal dynasties.',
+    yuga: 'Kali'
+  },
+  {
+    id: 'purana-garuda',
+    title: 'Garuda Purana',
+    category: 'Puranas',
+    content: 'Known for its descriptions of the afterlife, funeral rites, and reincarnation.',
     yuga: 'Kali'
   },
   {
