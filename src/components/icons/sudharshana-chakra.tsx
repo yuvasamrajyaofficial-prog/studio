@@ -5,25 +5,42 @@ export function SudharshanaChakraIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+      viewBox="0 0 100 100"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       className={cn("text-accent drop-shadow-[0_0_3px_hsl(var(--accent))]", props.className)}
       {...props}
     >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="3" />
-      <line x1="12" y1="2" x2="12" y2="5" />
-      <line x1="12" y1="19" x2="12" y2="22" />
-      <line x1="2" y1="12" x2="5" y2="12" />
-      <line x1="19" y1="12" x2="22" y2="12" />
-      <line x1="4.93" y1="4.93" x2="7.05" y2="7.05" />
-      <line x1="16.95" y1="16.95" x2="19.07" y2="19.07" />
-      <line x1="4.93" y1="19.07" x2="7.05" y2="16.95" />
-      <line x1="16.95" y1="7.05" x2="19.07" y2="4.93" />
+      {/* Outer rim */}
+      <circle cx="50" cy="50" r="48" strokeWidth="4" />
+      <circle cx="50" cy="50" r="42" />
+
+      {/* Decorative dots on the rim */}
+      {Array.from({ length: 48 }).map((_, i) => {
+        const angle = (i * 360) / 48;
+        const x = 50 + 45 * Math.cos((angle * Math.PI) / 180);
+        const y = 50 + 45 * Math.sin((angle * Math.PI) / 180);
+        return <circle key={i} cx={x} cy={y} r="0.75" fill="currentColor" stroke="none" />;
+      })}
+
+      {/* 8 Main Spokes */}
+      {Array.from({ length: 8 }).map((_, i) => {
+        const angle = (i * 360) / 8;
+        const x2 = 50 + 34 * Math.cos((angle * Math.PI) / 180);
+        const y2 = 50 + 34 * Math.sin((angle * Math.PI) / 180);
+        return <line key={i} x1="50" y1="50" x2={x2} y2={y2} strokeWidth="3" />;
+      })}
+
+      {/* Central Hub */}
+      <circle cx="50" cy="50" r="16" />
+      <circle cx="50" cy="50" r="12" strokeWidth="1" />
+      <circle cx="50" cy="50" r="8" fill="currentColor" />
+
+      {/* Decorative circle on spokes */}
+      <circle cx="50" cy="50" r="25" strokeWidth="1.5" />
     </svg>
   );
 }
