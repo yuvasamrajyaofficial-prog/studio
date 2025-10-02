@@ -1,11 +1,8 @@
 "use client";
 
-import Image from 'next/image';
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { SudharshanaChakraIcon } from "./icons/sudharshana-chakra";
-import { ShankhaIcon } from './icons/shankha';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 interface EraSliderProps {
   selectedEra: string;
@@ -21,23 +18,10 @@ export function EraSlider({ selectedEra, onEraChange }: EraSliderProps) {
     onEraChange(eras[value[0]]);
   };
   
-  const padmaImage = PlaceHolderImages.find(img => img.id === 'padma');
-
   return (
     <div className="p-4 rounded-lg bg-card/50 border border-border">
       <div className="flex justify-around items-center mb-4">
-        <ShankhaIcon className="w-16 h-16 text-accent drop-shadow-[0_0_3px_hsl(var(--accent))]" />
         <SudharshanaChakraIcon className="w-16 h-16 animate-spin-slow" />
-        {padmaImage && (
-            <Image 
-                src={padmaImage.imageUrl}
-                alt={padmaImage.description}
-                width={64}
-                height={64}
-                data-ai-hint={padmaImage.imageHint}
-                className="w-16 h-16 object-contain rounded-full"
-            />
-        )}
       </div>
       <div className="flex justify-between items-center mb-4">
         <Label htmlFor="era-slider" className="text-lg font-headline text-accent">
