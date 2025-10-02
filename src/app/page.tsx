@@ -54,20 +54,18 @@ export default function Home() {
                   Hierarchy
                   </TabsTrigger>
               </TabsList>
-              <TabsContent value="library" className="flex-1 mt-4">
-                 <ScrollArea className="flex-1 bg-card/50 border border-border rounded-lg p-2 max-h-[60vh] lg:max-h-[calc(100vh-21rem)]">
+              <ScrollArea className="mt-4 flex-1 bg-card/50 border border-border rounded-lg max-h-[60vh] lg:max-h-[calc(100vh-21rem)]">
+                <TabsContent value="library" className="p-2">
                     <ScriptureTree 
                       scriptures={filteredScriptures} 
                       onSelectScripture={setSelectedScripture} 
                       selectedScriptureId={selectedScripture?.id ?? null}
                     />
-                </ScrollArea>
-              </TabsContent>
-              <TabsContent value="hierarchy" className="flex-1 mt-4">
-                 <div className="h-full max-h-[60vh] lg:max-h-[calc(100vh-21rem)]">
+                </TabsContent>
+                <TabsContent value="hierarchy">
                     <ScriptureHierarchy />
-                 </div>
-              </TabsContent>
+                </TabsContent>
+              </ScrollArea>
             </Tabs>
           </aside>
           
