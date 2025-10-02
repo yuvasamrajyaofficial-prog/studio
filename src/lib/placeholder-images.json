@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "shankha",
+      "description": "An ornate conch shell, representing the primordial sound of creation.",
+      "imageUrl": "https://images.unsplash.com/photo-1571378023115-0df759b786aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb25jaCUyMHNoZWxsfGVufDB8fHx8MTc1OTQxOTE2N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "conch shell"
+    },
+    {
+      "id": "padma",
+      "description": "A blooming lotus flower, symbolizing purity, enlightenment, and spiritual awakening.",
+      "imageUrl": "https://images.unsplash.com/photo-1534169256946-e453674146c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsb3R1cyUyMGZsb3dlcnxlbnwwfHx8fDE3NTkzNzY1OTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lotus flower"
+    }
+  ]
 }

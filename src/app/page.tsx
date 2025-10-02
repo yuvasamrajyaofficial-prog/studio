@@ -54,7 +54,7 @@ export default function Home() {
                   Hierarchy
                   </TabsTrigger>
               </TabsList>
-              <ScrollArea className="mt-4 flex-1 bg-card/50 border border-border rounded-lg max-h-[60vh] lg:max-h-[calc(100vh-21rem)]">
+               <ScrollArea className="mt-4 flex-1 bg-card/50 border border-border rounded-lg h-0 min-h-[400px]">
                 <TabsContent value="library" className="p-2">
                     <ScriptureTree 
                       scriptures={filteredScriptures} 
