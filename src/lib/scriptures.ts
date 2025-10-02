@@ -1,4 +1,18 @@
-export type ScriptureCategory = 'Ancient Scriptures' | 'Regional Texts' | 'Philosophical Works' | 'Puranas';
+export type ScriptureCategory =
+  | 'Vedas'
+  | 'Upanishads'
+  | 'Vedanga'
+  | 'Dharma Shastra'
+  | 'Itihasa'
+  | 'Puranas'
+  | 'Upapuranas'
+  | 'Darshanas (Philosophy)'
+  | 'Agamas & Tantras'
+  | 'Niti, Artha & Psychology'
+  | 'Bhakti Texts'
+  | 'Yoga & Sadhana'
+  | 'Acharya Bhashyas (Commentaries)'
+  | 'Advanced Vedanta';
 
 export type Scripture = {
   id: string;
@@ -8,172 +22,697 @@ export type Scripture = {
 };
 
 export const scriptures: Scripture[] = [
+  // 1. SHRUTI – VEDAS
   {
-    id: 'veda-1',
-    title: 'Rigveda',
-    category: 'Ancient Scriptures',
-    content: 'An ancient Indian collection of Vedic Sanskrit hymns. It is one of the four sacred canonical texts of Hinduism known as the Vedas.'
+    id: 'veda-rig',
+    title: 'Rig Veda',
+    category: 'Vedas',
+    content: 'The most ancient of the Vedas, containing hymns to devas and insights into cosmic order.'
   },
   {
-    id: 'upanishad-1',
+    id: 'veda-yajur',
+    title: 'Yajur Veda',
+    category: 'Vedas',
+    content: 'A compilation of ritual offering formulas (mantras) that were said by a priest while an individual performed ritual actions.'
+  },
+  {
+    id: 'veda-sama',
+    title: 'Sama Veda',
+    category: 'Vedas',
+    content: 'The Veda of melodies and chants, its hymns are meant to be sung during rituals.'
+  },
+  {
+    id: 'veda-atharva',
+    title: 'Atharva Veda',
+    category: 'Vedas',
+    content: 'A collection of spells, prayers, charms, and hymns for healing, protection, and daily life.'
+  },
+
+  // 2. UPANISHADS
+  {
+    id: 'upanishad-isha',
     title: 'Isha Upanishad',
-    category: 'Ancient Scriptures',
-    content: 'One of the shortest Upanishads, embedded as the final chapter of the Shukla Yajurveda. It is a Mukhya Upanishad, and is known in two recensions, called Kanva and Madhyandina.'
+    category: 'Upanishads',
+    content: 'A brief poem discussing the nature of the supreme being, self, and the world.'
   },
   {
-    id: 'epic-1',
-    title: 'Ramayana',
-    category: 'Ancient Scriptures',
-    content: 'An ancient Indian epic poem which narrates the struggle of the divine prince Rama to rescue his wife Sita from the demon king Ravana.'
+    id: 'upanishad-kena',
+    title: 'Kena Upanishad',
+    category: 'Upanishads',
+    content: 'Explores the nature of Brahman and the knower of Brahman.'
   },
   {
-    id: 'epic-2',
-    title: 'Mahabharata',
-    category: 'Ancient Scriptures',
-    content: 'One of the two major Sanskrit epics of ancient India, it narrates the struggle between two groups of cousins in the Kurukshetra War and the fates of the Kaurava and the Pāṇḍava princes and their successors.'
+    id: 'upanishad-katha',
+    title: 'Katha Upanishad',
+    category: 'Upanishads',
+    content: 'Contains the famous dialogue between Nachiketa and Yama on the nature of man, knowledge, Atman and Moksha.'
   },
   {
-    id: 'gita-1',
-    title: 'Bhagavad Gita',
-    category: 'Ancient Scriptures',
-    content: 'A 700-verse Hindu scripture that is part of the epic Mahabharata, dated to the second half of the first millennium BCE and is typical of the Hindu synthesis.'
+    id: 'upanishad-prashna',
+    title: 'Prashna Upanishad',
+    category: 'Upanishads',
+    content: 'Consists of six questions asked by pupils to the sage Pippalada.'
   },
   {
-    id: 'smriti-1',
+    id: 'upanishad-mundaka',
+    title: 'Mundaka Upanishad',
+    category: 'Upanishads',
+    content: 'Lays out the distinction between the higher knowledge of Brahman and the lower knowledge of the empirical world.'
+  },
+  {
+    id: 'upanishad-mandukya',
+    title: 'Mandukya Upanishad',
+    category: 'Upanishads',
+    content: 'The shortest Upanishad, it discusses the syllable Aum and the theory of four states of consciousness.'
+  },
+  {
+    id: 'upanishad-taittiriya',
+    title: 'Taittiriya Upanishad',
+    category: 'Upanishads',
+    content: 'Describes the various degrees of happiness and the path to Brahman.'
+  },
+  {
+    id: 'upanishad-aitareya',
+    title: 'Aitareya Upanishad',
+    category: 'Upanishads',
+    content: 'Deals with the creation of the universe and the Atman as the creator.'
+  },
+  {
+    id: 'upanishad-chandogya',
+    title: 'Chandogya Upanishad',
+    category: 'Upanishads',
+    content: 'A foundational text for the Vedanta school, known for the story of Uddalaka Aruni and his son Shvetaketu.'
+  },
+  {
+    id: 'upanishad-brihadaranyaka',
+    title: 'Brihadaranyaka Upanishad',
+    category: 'Upanishads',
+    content: 'One of the oldest and most important Upanishads, it explores the nature of reality and the self.'
+  },
+  {
+    id: 'upanishad-shvetashvatara',
+    title: 'Shvetashvatara Upanishad',
+    category: 'Upanishads',
+    content: 'A theistic Upanishad that emphasizes the personal God, Rudra-Shiva.'
+  },
+  {
+    id: 'upanishad-kaushitaki',
+    title: 'Kaushitaki Upanishad',
+    category: 'Upanishads',
+    content: 'Discusses the soul\'s journey after death and the doctrine of reincarnation.'
+  },
+  {
+    id: 'upanishad-maitri',
+    title: 'Maitri Upanishad',
+    category: 'Upanishads',
+    content: 'Deals with the nature of the self and the path of meditation.'
+  },
+
+  // 3. VEDANGA
+  {
+    id: 'vedanga-shiksha',
+    title: 'Shiksha',
+    category: 'Vedanga',
+    content: 'The science of phonetics and phonology for the correct pronunciation of Vedic hymns and mantras.'
+  },
+  {
+    id: 'vedanga-vyakarana',
+    title: 'Vyakarana (Panini’s Ashtadhyayi)',
+    category: 'Vedanga',
+    content: 'Sanskrit grammar, with Panini\'s work being the most foundational.'
+  },
+  {
+    id: 'vedanga-chandas',
+    title: 'Chandas',
+    category: 'Vedanga',
+    content: 'The study of poetic meters used in the Vedas.'
+  },
+  {
+    id: 'vedanga-nirukta',
+    title: 'Nirukta (Yaska’s Nirukta)',
+    category: 'Vedanga',
+    content: 'Etymology of Vedic words, explaining their origins and meanings.'
+  },
+  {
+    id: 'vedanga-jyotisha',
+    title: 'Jyotisha',
+    category: 'Vedanga',
+    content: 'Vedic astronomy and astrology, used to determine auspicious times for rituals.'
+  },
+  {
+    id: 'vedanga-kalpa-sutras',
+    title: 'Kalpa Sutras',
+    category: 'Vedanga',
+    content: 'Manuals for rituals, including Shrauta (public rites), Grihya (domestic rites), and Dharma (conduct).'
+  },
+
+  // 4. DHARMA SHASTRA
+  {
+    id: 'dharma-manusmriti',
     title: 'Manusmriti',
-    category: 'Ancient Scriptures',
-    content: 'A discourse given by Manu and Bhrigu on dharma topics such as duties, rights, laws, conduct, virtues and others.'
+    category: 'Dharma Shastra',
+    content: 'An ancient legal text giving a discourse on dharma, duties, rights, laws, and conduct.'
   },
   {
-    id: 'purana-bhagavata',
-    title: 'Bhagavata Purana',
-    category: 'Puranas',
-    content: 'One of Hinduism\'s eighteen great Puranas. It promotes bhakti (devotion) to Krishna, integrating themes from the Advaita philosophy of Adi Shankara, the Vishishtadvaita of Ramanujacharya and the Dvaita of Madhvacharya.'
+    id: 'dharma-yajnavalkya',
+    title: 'Yajnavalkya Smriti',
+    category: 'Dharma Shastra',
+    content: 'A legal text that is more structured and less archaic than Manusmriti.'
   },
   {
-    id: 'purana-vishnu',
-    title: 'Vishnu Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen Mahapuranas, a genre of ancient and medieval texts of Hinduism. It is an important Pancharatra text in the Vaishnavism literature corpus.'
+    id: 'dharma-narada',
+    title: 'Narada Smriti',
+    category: 'Dharma Shastra',
+    content: 'A dharma shastra text that focuses exclusively on procedural and substantive law.'
   },
   {
-    id: 'purana-shiva',
-    title: 'Shiva Purana',
-    category: 'Puranas',
-    content: 'One of eighteen major Puranas, a genre of Sanskrit texts in Hinduism, and part of the Shaivism literature corpus. It primarily centers around the Hindu god Shiva and goddess Parvati.'
+    id: 'dharma-parashara',
+    title: 'Parashara Smriti',
+    category: 'Dharma Shastra',
+    content: 'A code of laws specifically for the Kali Yuga.'
   },
   {
-    id: 'purana-agni',
-    title: 'Agni Purana',
-    category: 'Puranas',
-    content: 'A Sanskrit text and one of the eighteen major Puranas of Hinduism. The text is encyclopedic, covering topics such as cosmology, mythology, genealogy, politics, education system, iconography, taxation theories, organization of army, theories on proper causes for war, martial arts, diplomacy, local laws, building public projects, water distribution methods, trees and plants, medicine, Vastu Shastra (architecture), and gemology.'
+    id: 'dharma-gautama',
+    title: 'Gautama Dharma Sutra',
+    category: 'Dharma Shastra',
+    content: 'One of the oldest Dharma Sutras, dealing with laws of conduct, inheritance, and penances.'
   },
   {
-    id: 'purana-bhavishya',
-    title: 'Bhavishya Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen major works in the Purana genre of Hinduism, written in Sanskrit. The title Bhavishya means "future" and implies it is a work that contains prophecies regarding the future.'
+    id: 'dharma-apastamba',
+    title: 'Apastamba Dharma Sutra',
+    category: 'Dharma Shastra',
+    content: 'A text covering a wide range of topics related to dharma, including social customs and legal procedures.'
   },
+
+  // 5. ITIHASA
+  {
+    id: 'itihasa-ramayana',
+    title: 'Ramayana',
+    category: 'Itihasa',
+    content: 'Epic poem by Valmiki narrating the life and journey of Rama.'
+  },
+  {
+    id: 'itihasa-mahabharata',
+    title: 'Mahabharata',
+    category: 'Itihasa',
+    content: 'Epic poem by Vyasa detailing the Kurukshetra War and the fates of the Kaurava and Pandava princes.'
+  },
+  {
+    id: 'itihasa-gita',
+    title: 'Bhagavad Gita',
+    category: 'Itihasa',
+    content: 'A 700-verse scripture within the Mahabharata, presenting a dialogue between Krishna and Arjuna on the battlefield.'
+  },
+
+  // 6. PURANAS
   {
     id: 'purana-brahma',
     title: 'Brahma Purana',
     category: 'Puranas',
-    content: 'One of the eighteen major Puranas genre of Hindu texts in Sanskrit language. It is listed as the first Maha-Purana in all the anthologies, and therefore also called Adi Purana.'
-  },
-  {
-    id: 'purana-brahmanda',
-    title: 'Brahmanda Purana',
-    category: 'Puranas',
-    content: 'A Sanskrit text and one of the eighteen major Puranas. It is listed as the 18th Maha-Purana in almost all the anthologies. The text is named after one of the cosmological theories of Hinduism, which is the "cosmic egg" (Brahma-anda).'
-  },
-  {
-    id: 'purana-brahmavaivarta',
-    title: 'Brahmavaivarta Purana',
-    category: 'Puranas',
-    content: 'A voluminous Sanskrit text and a major Purana of Hinduism. It is a Vaishnavism text, and it is with the Bhagavata Purana, that has been influential to the Krishna-related Hindu traditions.'
-  },
-  {
-    id: 'purana-garuda',
-    title: 'Garuda Purana',
-    category: 'Puranas',
-    content: 'One of the 18 Mahapuranas. It is a Vaishnavism text, and its first part contains a dialogue between Vishnu and Garuda. The second half of the text deals with details of life after death, funeral rites and metaphysics of reincarnation.'
-  },
-  {
-    id: 'purana-kurma',
-    title: 'Kurma Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen Mahapuranas. The text is named after the tortoise avatar of Vishnu. The text is believed to have been recited by Kurma to king Indradyumna and the sages in the Naimisha forest.'
-  },
-  {
-    id: 'purana-linga',
-    title: 'Linga Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen Mahapuranas, and a Shaivism text of Hinduism. The text\'s title Linga refers to the icon of Shiva.'
-  },
-  {
-    id: 'purana-markandeya',
-    title: 'Markandeya Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen major Mahapuranas. The text is named after the sage Markandeya who is the central character in it. The text is probably one of the oldest Puranas in Hinduism.'
-  },
-  {
-    id: 'purana-matsya',
-    title: 'Matsya Purana',
-    category: 'Puranas',
-    content: 'One of the eighteen major Puranas. The text is named after the half-human and half-fish avatar of Vishnu, Matsya. The text is notable for providing one of the earliest known definitions of a Purana.'
-  },
-  {
-    id: 'purana-narada',
-    title: 'Narada Purana',
-    category: 'Puranas',
-    content: 'Also known as Naradiya Purana, is one of the eighteen Mahapuranas, and a Vaishnavism text. It is a compilation of two parts (bhagas), with the first part called Purvabhaga and the second part called Uttarabhaga.'
+    content: 'Often called the Adi Purana, it contains stories of creation, the life of Brahma, and holy places.'
   },
   {
     id: 'purana-padma',
     title: 'Padma Purana',
     category: 'Puranas',
-    content: 'One of the eighteen major Puranas, and a Vaishnavism text. It is named after the lotus in which creator god Brahma appeared. It is a large text, with over 50,000 verses.'
+    content: 'A large Purana that discusses cosmology, pilgrimage, and the glory of Vishnu and Shiva.'
+  },
+  {
+    id: 'purana-vishnu',
+    title: 'Vishnu Purana',
+    category: 'Puranas',
+    content: 'An important Vaishnava text detailing the stories of Vishnu and his avatars.'
+  },
+  {
+    id: 'purana-shiva',
+    title: 'Shiva Purana',
+    category: 'Puranas',
+    content: 'A major Shaiva text dedicated to the stories and worship of Shiva.'
+  },
+  {
+    id: 'purana-linga',
+    title: 'Linga Purana',
+    category: 'Puranas',
+    content: 'A Shaiva text that focuses on the worship of Shiva in the form of the Linga.'
+  },
+  {
+    id: 'purana-garuda',
+    title: 'Garuda Purana',
+    category: 'Puranas',
+    content: 'Known for its descriptions of the afterlife, funeral rites, and reincarnation.'
+  },
+  {
+    id: 'purana-narada',
+    title: 'Narada Purana',
+    category: 'Puranas',
+    content: 'Discusses various pilgrimage sites and the importance of devotion to Vishnu.'
+  },
+  {
+    id: 'purana-bhagavata',
+    title: 'Bhagavata Purana (Srimad Bhagavatam)',
+    category: 'Puranas',
+    content: 'The most celebrated Purana, focusing on the life and teachings of Krishna and promoting bhakti.'
+  },
+  {
+    id: 'purana-agni',
+    title: 'Agni Purana',
+    category: 'Puranas',
+    content: 'An encyclopedic text covering a vast range of topics including rituals, cosmology, and astrology.'
   },
   {
     id: 'purana-skanda',
     title: 'Skanda Purana',
     category: 'Puranas',
-    content: 'The largest Mahapurana, a genre of eighteen Hindu religious texts. The text is devoted mainly to the lilas of Kartikeya, a son of Shiva and Parvati, who is also known as Skanda.'
+    content: 'The largest Mahapurana, containing a wealth of myths, legends, and pilgrimage guides.'
+  },
+  {
+    id: 'purana-bhavishya',
+    title: 'Bhavishya Purana',
+    category: 'Puranas',
+    content: 'A text that contains prophecies regarding the future.'
+  },
+  {
+    id: 'purana-brahmavaivarta',
+    title: 'Brahmavaivarta Purana',
+    category: 'Puranas',
+    content: 'Focuses on Krishna and Radha, identifying Krishna as the supreme being.'
+  },
+  {
+    id: 'purana-markandeya',
+    title: 'Markandeya Purana',
+    category: 'Puranas',
+    content: 'Famous for containing the Devi Mahatmya, a key text of Shaktism.'
   },
   {
     id: 'purana-vamana',
     title: 'Vamana Purana',
     category: 'Puranas',
-    content: 'One of the eighteen major Puranas. The text is named after one of the ten incarnations of Vishnu. It is a Vaishnavism text, and its main focus is on the stories of Vamana, an avatar of Vishnu.'
+    content: 'Narrates the story of Vishnu\'s dwarf avatar, Vamana.'
   },
   {
     id: 'purana-varaha',
     title: 'Varaha Purana',
     category: 'Puranas',
-    content: 'One of the eighteen Mahapuranas. The text is named after the boar avatar of Vishnu, Varaha. The text contains stories of Varaha, and is a Vaishnavism text.'
+    content: 'Focuses on Vishnu\'s boar avatar, Varaha, and stories related to his worship.'
   },
   {
-    id: 'regional-1',
-    title: 'Tirukkuṛaḷ',
-    category: 'Regional Texts',
-    content: 'A classic Tamil language text consisting of 1,330 short couplets of seven words each, or kurals. The text is divided into three books with aphoristic teachings on virtue, wealth, and love.'
+    id: 'purana-matsya',
+    title: 'Matsya Purana',
+    category: 'Puranas',
+    content: 'Details the story of Vishnu\'s fish avatar, Matsya, and includes genealogies of royal dynasties.'
   },
   {
-    id: 'regional-2',
+    id: 'purana-kurma',
+    title: 'Kurma Purana',
+    category: 'Puranas',
+    content: 'Recited by Vishnu in his tortoise avatar, Kurma, it discusses theological and pilgrimage topics.'
+  },
+  {
+    id: 'purana-brahmanda',
+    title: 'Brahmanda Purana',
+    category: 'Puranas',
+    content: 'Named after the "cosmic egg," it contains the Lalita Sahasranama and discusses cosmology and geography.'
+  },
+
+  // 7. UPAPURANAS
+  {
+    id: 'upapurana-kalika',
+    title: 'Kalika Purana',
+    category: 'Upapuranas',
+    content: 'A Shakta text focusing on the goddess Kali.'
+  },
+  {
+    id: 'upapurana-devi-bhagavata',
+    title: 'Devi Bhagavata Purana',
+    category: 'Upapuranas',
+    content: 'A major Shakta text that presents the Goddess as the supreme being and foundation of the cosmos.'
+  },
+  {
+    id: 'upapurana-ganesha',
+    title: 'Ganesha Purana',
+    category: 'Upapuranas',
+    content: 'A text dedicated to the stories and worship of Ganesha.'
+  },
+  {
+    id: 'upapurana-narasimha',
+    title: 'Narasimha Purana',
+    category: 'Upapuranas',
+    content: 'Focuses on the stories of Vishnu\'s man-lion avatar, Narasimha.'
+  },
+  {
+    id: 'upapurana-saura',
+    title: 'Saura Purana',
+    category: 'Upapuranas',
+    content: 'A text dedicated to the sun god, Surya.'
+  },
+
+  // 8. DARSHANAS
+  {
+    id: 'darshana-nyaya',
+    title: 'Nyaya Sutras',
+    category: 'Darshanas (Philosophy)',
+    content: 'A foundational text of the Nyaya school of logic by Gautama.'
+  },
+  {
+    id: 'darshana-vaisheshika',
+    title: 'Vaisheshika Sutras',
+    category: 'Darshanas (Philosophy)',
+    content: 'A text by Kanada that lays out the principles of atomic theory and metaphysics.'
+  },
+  {
+    id: 'darshana-samkhya',
+    title: 'Samkhya Karika',
+    category: 'Darshanas (Philosophy)',
+    content: 'A key text of the Samkhya school by Kapila, detailing the dualistic philosophy of purusha and prakriti.'
+  },
+  {
+    id: 'darshana-yoga',
+    title: 'Yoga Sutras',
+    category: 'Darshanas (Philosophy)',
+    content: 'A collection of 196 sutras by Patanjali on the theory and practice of Yoga.'
+  },
+  {
+    id: 'darshana-mimamsa',
+    title: 'Purva Mimamsa Sutras',
+    category: 'Darshanas (Philosophy)',
+    content: 'A text by Jaimini that focuses on the exegesis of the Vedas and the rituals of yajna.'
+  },
+  {
+    id: 'darshana-vedanta',
+    title: 'Vedanta / Brahma Sutras',
+    category: 'Darshanas (Philosophy)',
+    content: 'A text by Vyasa that systematizes the philosophical ideas of the Upanishads.'
+  },
+
+  // 9. AGAMAS & TANTRAS
+  {
+    id: 'agama-shaiva',
+    title: 'Shaiva Agamas',
+    category: 'Agamas & Tantras',
+    content: 'A collection of texts that form the theological basis of Shaivism.'
+  },
+  {
+    id: 'agama-vaishnava',
+    title: 'Vaishnava Agamas',
+    category: 'Agamas & Tantras',
+    content: 'Texts like Pancharatra and Vaikhanasa that are foundational to Vaishnava temple rituals.'
+  },
+  {
+    id: 'agama-shakta',
+    title: 'Shakta Agamas (Tantras)',
+    category: 'Agamas & Tantras',
+    content: 'Texts central to Shaktism, focusing on the worship of the Divine Mother.'
+  },
+  {
+    id: 'tantra-vijnana-bhairava',
+    title: 'Vijnana Bhairava Tantra',
+    category: 'Agamas & Tantras',
+    content: 'A key text of Kashmir Shaivism, presenting 112 meditation methods (dharanas).'
+  },
+  {
+    id: 'tantra-shiva-sutras',
+    title: 'Shiva Sutras of Vasugupta',
+    category: 'Agamas & Tantras',
+    content: 'A foundational text of Kashmir Shaivism, outlining the path to the realization of ultimate reality.'
+  },
+  {
+    id: 'tantra-spanda-karika',
+    title: 'Spanda Karika',
+    category: 'Agamas & Tantras',
+    content: 'A text by Kallata that elaborates on the principles of the Shiva Sutras.'
+  },
+  {
+    id: 'tantra-rudra-yamala',
+    title: 'Rudra Yamala Tantra',
+    category: 'Agamas & Tantras',
+    content: 'A tantric text that presents its teachings as a dialogue between Shiva and Bhairavi.'
+  },
+  {
+    id: 'tantra-kularnava',
+    title: 'Kularnava Tantra',
+    category: 'Agamas & Tantras',
+    content: 'One of the most important texts of the Kaula school of Tantra.'
+  },
+  {
+    id: 'tantra-mahanirvana',
+    title: 'Mahanirvana Tantra',
+    category: 'Agamas & Tantras',
+    content: 'A tantric text presented as a dialogue between Shiva and Parvati, discussing rituals and spiritual practices for the Kali Yuga.'
+  },
+
+  // 10. NITI, ARTHA & PSYCHOLOGY
+  {
+    id: 'niti-chanakya',
+    title: 'Chanakya Niti',
+    category: 'Niti, Artha & Psychology',
+    content: 'A collection of aphorisms on ethics, governance, and statecraft by Kautilya.'
+  },
+  {
+    id: 'niti-arthashastra',
+    title: 'Arthashastra',
+    category: 'Niti, Artha & Psychology',
+    content: 'An ancient treatise on statecraft, economic policy, and military strategy by Kautilya.'
+  },
+  {
+    id: 'niti-panchatantra',
+    title: 'Panchatantra',
+    category: 'Niti, Artha & Psychology',
+    content: 'An ancient collection of animal fables in verse and prose by Vishnu Sharma.'
+  },
+  {
+    id: 'niti-hitopadesha',
+    title: 'Hitopadesha',
+    category: 'Niti, Artha & Psychology',
+    content: 'A collection of fables with moral teachings by Narayana Pandit.'
+  },
+  {
+    id: 'niti-nitishataka',
+    title: 'Nitishataka',
+    category: 'Niti, Artha & Psychology',
+    content: 'One of three collections of hundred verses by Bhartrihari, dealing with ethics and worldly wisdom.'
+  },
+  {
+    id: 'niti-nitisara',
+    title: 'Nitisara',
+    category: 'Niti, Artha & Psychology',
+    content: 'A work on polity and statecraft by Kamandaka.'
+  },
+  {
+    id: 'niti-shukra',
+    title: 'Shukra Niti',
+    category: 'Niti, Artha & Psychology',
+    content: 'A treatise on morality, social customs, and statecraft attributed to the sage Shukracharya.'
+  },
+
+  // 11. BHAKTI TEXTS
+  {
+    id: 'bhakti-narada-sutra',
+    title: 'Narada Bhakti Sutra',
+    category: 'Bhakti Texts',
+    content: 'A collection of sutras on the nature of devotion (bhakti).'
+  },
+  {
+    id: 'bhakti-sandilya-sutra',
+    title: 'Sandilya Bhakti Sutra',
+    category: 'Bhakti Texts',
+    content: 'Another important text on the philosophy of devotion.'
+  },
+  {
+    id: 'bhakti-ramcharitmanas',
+    title: 'Ramcharitmanas',
+    category: 'Bhakti Texts',
+    content: 'An epic poem in the Awadhi language by Tulsidas, retelling the Ramayana with a focus on bhakti.'
+  },
+  {
+    id: 'bhakti-bhaja-govindam',
+    title: 'Bhaja Govindam',
+    category: 'Bhakti Texts',
+    content: 'A popular hymn by Shankaracharya that emphasizes devotion to Govinda (Krishna) as essential for salvation.'
+  },
+  {
+    id: 'bhakti-gita-govinda',
     title: 'Gita Govinda',
-    category: 'Regional Texts',
-    content: 'A work composed by the 12th-century Indian poet, Jayadeva. It describes the relationship between Krishna and the gopis of Vrindavana, and in particular one gopi named Radha.'
+    category: 'Bhakti Texts',
+    content: 'A poetic work by Jayadeva describing the relationship between Krishna and Radha.'
   },
   {
-    id: 'philo-1',
-    title: 'Yoga Sutras of Patanjali',
-    category: 'Philosophical Works',
-    content: 'A collection of 196 Indian sutras on the theory and practice of yoga. The Yoga Sutras were compiled sometime between 500 BCE and 400 CE by the sage Patanjali.'
+    id: 'bhakti-divya-prabandham',
+    title: 'Divya Prabandham',
+    category: 'Bhakti Texts',
+    content: 'A collection of 4,000 Tamil verses by the Alvars, the poet-saints of Vaishnavism.'
   },
   {
-    id: 'philo-2',
-    title: 'Brahma Sutras',
-    category: 'Philosophical Works',
-    content: 'A Sanskrit text, attributed to the sage Badarayana or Vyasa, estimated to have been completed in its surviving form in approx. 400-450 CE. The text systematizes and summarizes the philosophical and spiritual ideas in the Upanishads.'
+    id: 'bhakti-tevaram',
+    title: 'Tevaram',
+    category: 'Bhakti Texts',
+    content: 'A collection of Tamil hymns dedicated to Shiva, composed by the Nayanmars, the poet-saints of Shaivism.'
   },
+
+  // 12. YOGA & SADHANA TEXTS
+  {
+    id: 'yoga-hatha-pradipika',
+    title: 'Hatha Yoga Pradipika',
+    category: 'Yoga & Sadhana',
+    content: 'A classic manual on Hatha Yoga by Svatmarama, detailing asanas, pranayama, mudras, and bandhas.'
+  },
+  {
+    id: 'yoga-gheranda-samhita',
+    title: 'Gheranda Samhita',
+    category: 'Yoga & Sadhana',
+    content: 'A comprehensive text on Hatha Yoga, presented as a dialogue between the sage Gheranda and his disciple.'
+  },
+  {
+    id: 'yoga-shiva-samhita',
+    title: 'Shiva Samhita',
+    category: 'Yoga & Sadhana',
+    content: 'A text on Hatha Yoga that emphasizes the philosophical and spiritual aspects of the practice.'
+  },
+  {
+    id: 'yoga-yajnavalkya',
+    title: 'Yoga Yajnavalkya',
+    category: 'Yoga & Sadhana',
+    content: 'A classical treatise on Yoga presented as a dialogue between the sage Yajnavalkya and his wife Gargi.'
+  },
+
+  // 13. ACHARYA BHASHYAS & VEDANTA WORKS
+  {
+    id: 'bhashya-sankara-brahma-sutra',
+    title: 'Brahma Sutra Bhashya (Shankara)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Shankaracharya\'s commentary on the Brahma Sutras, the foundational text of Advaita Vedanta.'
+  },
+  {
+    id: 'bhashya-sankara-gita',
+    title: 'Bhagavad Gita Bhashya (Shankara)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Shankaracharya\'s commentary on the Bhagavad Gita from an Advaita perspective.'
+  },
+  {
+    id: 'bhashya-sankara-upanishad',
+    title: 'Upanishad Bhashyas (Shankara)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Shankaracharya\'s commentaries on the principal Upanishads.'
+  },
+  {
+    id: 'vedanta-upadesa-sahasri',
+    title: 'Upadesa Sahasri',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'A work by Shankaracharya consisting of a thousand teachings on Advaita Vedanta.'
+  },
+  {
+    id: 'vedanta-vivekachudamani',
+    title: 'Vivekachudamani',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'A famous introductory text on Advaita Vedanta, attributed to Shankaracharya.'
+  },
+  {
+    id: 'vedanta-atma-bodha',
+    title: 'Atma Bodha',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'A short treatise on Advaita Vedanta by Shankaracharya, explaining the path to self-realization.'
+  },
+  {
+    id: 'vedanta-aparokshanubhuti',
+    title: 'Aparokshanubhuti',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'A text by Shankaracharya on the direct experience of the Self.'
+  },
+  {
+    id: 'bhashya-ramanuja-sri',
+    title: 'Sri Bhashya (Ramanuja)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Ramanujacharya\'s commentary on the Brahma Sutras, the foundational text of Vishishtadvaita Vedanta.'
+  },
+  {
+    id: 'bhashya-ramanuja-gita',
+    title: 'Gita Bhashya (Ramanuja)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Ramanujacharya\'s commentary on the Bhagavad Gita from a Vishishtadvaita perspective.'
+  },
+  {
+    id: 'vedanta-vedartha-sangraha',
+    title: 'Vedartha Sangraha',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'A work by Ramanujacharya that summarizes the philosophy of Vishishtadvaita.'
+  },
+  {
+    id: 'bhashya-madhva-brahma-sutra',
+    title: 'Brahma Sutra Bhashya (Madhva)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Madhvacharya\'s commentary on the Brahma Sutras, the foundational text of Dvaita Vedanta.'
+  },
+  {
+    id: 'bhashya-madhva-gita',
+    title: 'Gita Bhashya (Madhva)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Madhvacharya\'s commentary on the Bhagavad Gita from a Dvaita perspective.'
+  },
+  {
+    id: 'vedanta-mahabharata-tatparya',
+    title: 'Mahabharata Tatparya Nirnaya',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Madhvacharya\'s commentary on the Mahabharata, interpreting it from a Dvaita viewpoint.'
+  },
+  {
+    id: 'bhashya-vallabha-anubhashya',
+    title: 'Anubhashya (Vallabha)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Vallabhacharya\'s commentary on the Brahma Sutras, outlining the philosophy of Shuddhadvaita.'
+  },
+  {
+    id: 'bhashya-vallabha-subodhini',
+    title: 'Subodhini (Vallabha)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Vallabhacharya\'s commentary on the Bhagavata Purana.'
+  },
+  {
+    id: 'bhashya-nimbarka-vedanta-parijata',
+    title: 'Vedanta Parijata Saurabha (Nimbarka)',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Nimbarkacharya\'s commentary on the Brahma Sutras, expounding the philosophy of Dvaitadvaita.'
+  },
+  {
+    id: 'vedanta-siksastakam',
+    title: 'Siksastakam',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Eight devotional verses composed by Chaitanya Mahaprabhu, encapsulating the philosophy of Gaudiya Vaishnavism.'
+  },
+  {
+    id: 'bhashya-gaudiya-bhagavata',
+    title: 'Gaudiya Vaishnava Commentaries',
+    category: 'Acharya Bhashyas (Commentaries)',
+    content: 'Commentaries on the Bhagavata Purana by followers of Chaitanya Mahaprabhu.'
+  },
+
+  // 14. ADVANCED VEDANTA & JNANA TEXTS
+  {
+    id: 'jnana-yoga-vasistha',
+    title: 'Yoga Vasistha',
+    category: 'Advanced Vedanta',
+    content: 'A detailed text on Advaita Vedanta presented as a dialogue between the sage Vasistha and Prince Rama.'
+  },
+  {
+    id: 'jnana-ashtavakra-gita',
+    title: 'Ashtavakra Gita',
+    category: 'Advanced Vedanta',
+    content: 'A dialogue between the sage Ashtavakra and King Janaka on the nature of the Self, reality, and bondage.'
+  },
+  {
+    id: 'jnana-avadhuta-gita',
+    title: 'Avadhuta Gita',
+    category: 'Advanced Vedanta',
+    content: 'A text of extreme Advaita, expressing the state of a liberated soul (Avadhuta).'
+  },
+  {
+    id: 'jnana-tripura-rahasya',
+    title: 'Tripura Rahasya',
+    category: 'Advanced Vedanta',
+    content: 'A text of Advaita Vedanta that explains the teachings through the story of the goddess Tripura.'
+  },
+  {
+    id: 'jnana-ribhu-gita',
+    title: 'Ribhu Gita',
+    category: 'Advanced Vedanta',
+    content: 'A part of the Sivarahasya Purana, it is a dialogue between the sage Ribhu and his disciple Nidagha on the unreality of the world and the sole reality of Brahman.'
+  }
 ];
