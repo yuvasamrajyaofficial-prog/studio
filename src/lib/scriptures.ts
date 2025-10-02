@@ -1,3 +1,4 @@
+
 export type ScriptureCategory =
   | 'Vedas'
   | 'Upanishads'
@@ -269,6 +270,13 @@ export const scriptures: Scripture[] = [
 
   // 6. PURANAS (Composed in Dvapara/Kali)
   {
+    id: 'purana-bhagavata',
+    title: 'Bhagavata Purana (Srimad Bhagavatam)',
+    category: 'Puranas',
+    content: 'The most celebrated Purana, focusing on the life and teachings of Krishna and promoting bhakti.',
+    yuga: 'Kali'
+  },
+  {
     id: 'purana-brahma',
     title: 'Brahma Purana',
     category: 'Puranas',
@@ -294,13 +302,6 @@ export const scriptures: Scripture[] = [
     title: 'Shiva Purana',
     category: 'Puranas',
     content: 'A major Shaiva text dedicated to the stories and worship of Shiva.',
-    yuga: 'Kali'
-  },
-   {
-    id: 'purana-bhagavata',
-    title: 'Bhagavata Purana (Srimad Bhagavatam)',
-    category: 'Puranas',
-    content: 'The most celebrated Purana, focusing on the life and teachings of Krishna and promoting bhakti.',
     yuga: 'Kali'
   },
   {
