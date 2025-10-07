@@ -32,7 +32,7 @@ export const scriptures: Scripture[] = [
     id: 'veda-rig',
     title: 'Rig Veda',
     category: 'Vedas',
-    content: 'The most ancient of the Vedas, containing hymns to devas and insights into cosmic order.',
+    content: 'The Rig Veda is the oldest and most important of the four Vedas, a foundational scripture of Sanatana Dharma. It is a vast collection of 1,028 hymns (sūktas) and 10,600 verses, organized into ten books (maṇḍalas). Composed in Vedic Sanskrit, these hymns are considered divine revelations (Śruti) heard by ancient sages (ṛṣis). They are dedicated to various deities (devas) such as Agni (the fire god), Indra (the king of gods), and Soma (a sacred plant and drink), exploring themes of cosmology, ritual, philosophy, and the nature of reality. It serves as the principal source for understanding the mythology, rituals, and philosophical underpinnings of the early Vedic period.',
     yuga: 'Timeless'
   },
   {
