@@ -10,18 +10,19 @@ import { Button } from "@/components/ui/button";
 import type { Scripture } from "@/lib/scriptures";
 import { orderedCategories } from "@/lib/scriptures";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface ScriptureTreeProps {
   scriptures: Scripture[];
-  onSelectScripture: (scripture: Scripture) => void;
-  selectedScriptureId: string | null;
 }
 
 export function ScriptureTree({
   scriptures,
-  onSelectScripture,
-  selectedScriptureId,
 }: ScriptureTreeProps) {
+  const pathname = usePathname();
+  const selectedScriptureId = pathname.split('/').pop() ?? null;
+
   const scripturesByCategory = scriptures.reduce((acc, scripture) => {
     if (!acc[scripture.category]) {
       acc[scripture.category] = [];
@@ -64,7 +65,7 @@ export function ScriptureTree({
                   <Button
                     key={scripture.id}
                     variant="ghost"
-                    onClick={() => onSelectScripture(scripture)}
+                    asChild
                     className={cn(
                       "justify-start text-left font-normal h-auto py-1 px-2",
                       selectedScriptureId === scripture.id
@@ -72,7 +73,9 @@ export function ScriptureTree({
                         : "text-foreground/80 hover:bg-primary/10 hover:text-foreground"
                     )}
                   >
-                    {scripture.title}
+                    <Link href={`/scriptures/${scripture.id}`}>
+                      {scripture.title}
+                    </Link>
                   </Button>
                 ))}
               </div>
