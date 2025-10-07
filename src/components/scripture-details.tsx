@@ -6,7 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getScriptureSummaryAction } from "@/app/actions";
 import type { Scripture } from "@/lib/scriptures";
-import { BookOpen, AlertTriangle, Atom } from "lucide-react";
+import { BookOpen, AlertTriangle, Atom, Route } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface ScriptureDetailsProps {
   scripture: Scripture | null;
@@ -99,6 +100,25 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
               <p className="text-foreground/90 leading-relaxed font-body text-base">{summaryData.summary}</p>
             </CardContent>
           </Card>
+          
+          {scripture.roadmap && scripture.roadmap.length > 0 && (
+            <Card className="bg-card/70 border-border/50 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 font-headline text-2xl text-accent/90">
+                  <Route className="w-6 h-6" />
+                  Roadmap
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {scripture.roadmap.map((item, index) => (
+                  <Button key={index} variant="outline" size="sm">
+                    {item}
+                  </Button>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
           <Card className="bg-card/70 border-border/50 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 font-headline text-2xl text-accent/90">
