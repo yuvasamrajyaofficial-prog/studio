@@ -53,7 +53,11 @@ export const scriptures: Scripture[] = [
     title: 'Yajur Veda',
     category: 'Vedas',
     content: 'A compilation of ritual offering formulas (mantras) that were said by a priest while an individual performed ritual actions.',
-    yuga: 'Timeless'
+    yuga: 'Timeless',
+    roadmap: [
+        "Krishna (Black) Yajur Veda",
+        "Shukla (White) Yajur Veda"
+    ]
   },
   {
     id: 'veda-sama',
@@ -872,6 +876,7 @@ export const scriptures: Scripture[] = [
     id: 'jnana-avadhuta-gita',
     title: 'Avadhuta Gita',
     category: 'Advanced Vedanta',
+
     content: 'A text of extreme Advaita, expressing the state of a liberated soul (Avadhuta).',
     yuga: 'Kali'
   },
