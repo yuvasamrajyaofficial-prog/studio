@@ -14,7 +14,13 @@ export type ScriptureCategory =
   | 'Bhakti Texts'
   | 'Yoga & Sadhana'
   | 'Acharya Bhashyas (Commentaries)'
-  | 'Advanced Vedanta';
+  | 'Advanced Vedanta'
+  | 'Veda'
+  | 'Upanishad'
+  | 'Purana'
+  | 'Smriti'
+  | 'Agama'
+  | 'Kali Yuga Texts';
 
 export type Yuga = 'Satya' | 'Treta' | 'Dvapara' | 'Kali' | 'Timeless';
 
@@ -47,96 +53,349 @@ export type Scripture = {
   roadmap?: string[];
 };
 
-// This mock data needs to be updated or replaced with Firestore fetching.
-// For now, I will adapt one entry to the new structure to avoid breaking the UI.
 export const scriptures: Scripture[] = [
-  // 1. SHRUTI – VEDAS (Timeless)
   {
-    id: 'veda-rig',
-    title: 'Rig Veda',
-    slug: 'rig-veda',
-    category: 'Vedas',
-    yuga: 'Timeless',
-    description: 'The Rig Veda is the oldest and most important of the four Vedas, a foundational scripture of Sanatana Dharma. It is a vast collection of 1,028 hymns (sūktas) and 10,600 verses, organized into ten books (maṇḍalas). Composed in Vedic Sanskrit, these hymns are considered divine revelations (Śruti) heard by ancient sages (ṛṣis). They are dedicated to various deities (devas) such as Agni (the fire god), Indra (the king of gods), and Soma (a sacred plant and drink), exploring themes of cosmology, ritual, philosophy, and the nature of reality. It serves as the principal source for understanding the mythology, rituals, and philosophical underpinnings of the early Vedic period.',
-    coverImage: '',
-    chapters: [],
-    references: [],
-    createdAt: null,
-    updatedAt: null,
-    roadmap: [
-      "Mandala 1",
-      "Mandala 2",
-      "Mandala 3",
-      "Mandala 4",
-      "Mandala 5",
-      "Mandala 6",
-      "Mandala 7",
-      "Mandala 8",
-      "Mandala 9",
-      "Mandala 10"
-    ]
-  },
-  // Other scriptures are temporarily simplified to avoid breaking the build.
-  // They will be updated once we fetch from Firestore.
-  {
-    id: 'veda-yajur',
-    title: 'Yajur Veda',
-    category: 'Vedas',
-    description: 'A compilation of ritual offering formulas (mantras) that were said by a priest while an individual performed ritual actions.',
-    yuga: 'Timeless',
-    slug: 'yajur-veda',
-    coverImage: '',
-    chapters: [],
-    references: [],
-    createdAt: null,
-    updatedAt: null,
-    roadmap: [
-        "Krishna (Black) Yajur Veda",
-        "Shukla (White) Yajur Veda"
-    ]
+    id: "rigveda",
+    title: "Rigveda",
+    slug: "rigveda",
+    yuga: "Satya",
+    category: "Veda",
+    description: "The oldest Veda containing hymns to Agni, Indra, Varuna, and cosmic principles.",
+    coverImage: "assets/images/scripture-icons/rigveda.png",
+    chapters: [
+      {
+        id: 1,
+        title: "Mandala 1",
+        sanskrit: "अग्निमीळे पुरोहितं यज्ञस्य देवम् ऋत्विजम् ।",
+        english: "I praise Agni, the household priest, the divine minister of the sacrifice.",
+        hindi: "मैं अग्नि की स्तुति करता हूँ, जो देव पुरोहित है।",
+        kannada: "ನಾನು ಅಗ್ನಿಯನ್ನು ಸ್ತುತಿಸುತ್ತೇನೆ, ಯಜ್ಞದ ದೈವಿಕ ಅರ್ಚಕನು.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: ["sacred-texts.com", "SanskritDocuments.org"],
+    createdAt: 0,
+    updatedAt: 0,
+    roadmap: []
   },
   {
-    id: 'veda-sama',
-    title: 'Sama Veda',
-    category: 'Vedas',
-    description: 'The Veda of melodies and chants, its hymns are meant to be sung during rituals.',
-    yuga: 'Timeless',
-    slug: 'sama-veda',
-    coverImage: '',
-    chapters: [],
+    id: "samaveda",
+    title: "Samaveda",
+    slug: "samaveda",
+    yuga: "Satya",
+    category: "Veda",
+    description: "The Veda of melodies, basis of Indian classical music.",
+    coverImage: "assets/images/scripture-icons/samaveda.png",
+    chapters: [
+      {
+        id: 1,
+        title: "First Song",
+        sanskrit: "अग्ना याहा वीतये गृणानो, हव्यदातये ।",
+        english: "O Agni, come for the offering, praised and invoked.",
+        hindi: "हे अग्नि, आओ और हवि स्वीकार करो।",
+        kannada: "ಅಗ್ನಿಯೇ, ಬಂದು ಹವಿಯನ್ನು ಸ್ವೀಕರಿಸು.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
     references: [],
-    createdAt: null,
-    updatedAt: null,
-    roadmap: [],
+    createdAt: 0,
+    updatedAt: 0,
+    roadmap: []
   },
   {
-    id: 'veda-atharva',
-    title: 'Atharva Veda',
-    category: 'Vedas',
-    description: 'A collection of spells, prayers, charms, and hymns for healing, protection, and daily life.',
-    yuga: 'Timeless',
-    slug: 'atharva-veda',
-    coverImage: '',
+    id: "yajurveda",
+    title: "Yajurveda",
+    slug: "yajurveda",
+    yuga: "Satya",
+    category: "Veda",
+    description: "The Veda of ritual formulas and sacred procedures.",
+    coverImage: "assets/images/scripture-icons/yajurveda.png",
+    chapters: [
+      {
+        id: 1,
+        title: "Kanda 1",
+        sanskrit: "इषे त्वा ऊर्जे त्वा वायवः स्थो देवा वः सेतुं कृण्मि ।",
+        english: "For food I take you, for strength I take you.",
+        hindi: "मैं तुम्हें भोजन और शक्ति के लिए ग्रहण करता हूँ।",
+        kannada: "ಅನ್ನ ಮತ್ತು ಶಕ್ತಿಗಾಗಿ ನಾನು ನಿನ್ನನ್ನು ಸ್ವೀಕರಿಸುತ್ತೇನೆ.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "atharvaveda",
+    title: "Atharvaveda",
+    slug: "atharvaveda",
+    yuga: "Satya",
+    category: "Veda",
+    description: "The Veda of healing, protection, and daily life rituals.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Charm Hymn",
+        sanskrit: "ॐ भूर्भुवः सुवः।",
+        english: "Om, Earth, Sky, Heaven.",
+        hindi: "ॐ भूः भुवः सुवः।",
+        kannada: "ಓಂ ಭೂಃ ಭುವಃ ಸುವಃ.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "isha-upanishad",
+    title: "Isha Upanishad",
+    slug: "isha-upanishad",
+    yuga: "Dvapara",
+    category: "Upanishad",
+    description: "One of the shortest yet most profound Upanishads.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Opening Verse",
+        sanskrit: "ईशावास्यमिदं सर्वं यत्किञ्च जगत्यां जगत् ।",
+        english: "All this—whatsoever moves in the universe—should be covered by the Lord.",
+        hindi: "इस जगत में जो कुछ भी है वह ईश्वर से व्याप्त है।",
+        kannada: "ಈ ಜಗತ್ತಿನಲ್ಲಿರುವ ಎಲ್ಲವೂ ಈಶ್ವರನಿಂದ ಆವೃತವಾಗಿದೆ.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "katha-upanishad",
+    title: "Katha Upanishad",
+    slug: "katha-upanishad",
+    yuga: "Dvapara",
+    category: "Upanishad",
+    description: "Dialogue between Nachiketa and Yama on the nature of the Self.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Nachiketa's Question",
+        sanskrit: "उत्तिष्ठत जाग्रत प्राप्य वरान्निबोधत ।",
+        english: "Arise! Awake! Approach the great and learn.",
+        hindi: "उठो, जागो और श्रेष्ठ लोगों से ज्ञान प्राप्त करो।",
+        kannada: "ಎದ್ದಿಡಿ, ಎಚ್ಚರಿಕೆಯಾಗಿರಿ ಮತ್ತು ಮಹಾನುಭಾವರಿಂದ ಜ್ಞಾನವನ್ನು ಪಡೆಯಿರಿ.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "bhagavad-gita",
+    title: "Bhagavad Gita",
+    slug: "bhagavad-gita",
+    yuga: "Dvapara",
+    category: "Itihasa",
+    description: "The divine song of Lord Krishna spoken in Mahabharata.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Chapter 1",
+        sanskrit: "धर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः ।",
+        english: "On the field of dharma, the field of Kurukshetra...",
+        hindi: "धर्मक्षेत्र कुरुक्षेत्र में युद्धार्थ एकत्र हुए योद्धा...",
+        kannada: "ಧರ್ಮಕ್ಷೇತ್ರ ಕುರುಕ್ಷೇತ್ರದಲ್ಲಿ ಯುದ್ಧಕ್ಕಾಗಿ ಸೇರಿದ ಯೋಧರು...",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "ramayana",
+    title: "Ramayana",
+    slug: "ramayana",
+    yuga: "Treta",
+    category: "Itihasa",
+    description: "The life story of Lord Rama written by Sage Valmiki.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Bala Kanda",
+        sanskrit: "तपःस्वाध्यायनिरतं तपस्वी वाग्विदां वरम् ।",
+        english: "Dedicated to penance and study, the sage shone brightly.",
+        hindi: "तप और स्वाध्याय में लगे हुए उस ऋषि की प्रभा अद्भुत थी।",
+        kannada: "ತಪಸ್ಸು ಮತ್ತು ಸ್ವಾಧ್ಯಾಯದಲ್ಲಿ ನಿರತರಾಗಿದ್ದ ಋಷಿಯ ಪ್ರಭಾ ಅದ್ಭುತವಾಗಿತ್ತು.",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "mahabharata",
+    title: "Mahabharata",
+    slug: "mahabharata",
+    yuga: "Dvapara",
+    category: "Itihasa",
+    description: "The longest epic narrating the Kurukshetra war and Krishna's teachings.",
+    coverImage: "",
+    chapters: [
+      {
+        id: 1,
+        title: "Adi Parva",
+        sanskrit: "नारायणं नमस्कृत्य नरं चैव नरोत्तमम् ।",
+        english: "Having bowed to Narayana and Nara, the supreme humans...",
+        hindi: "नारायण और नर की वंदना करके...",
+        kannada: "ನಾರಾಯಣ ಮತ್ತು ನರರಿಗೆ ನಮಸ್ಕರಿಸಿ...",
+        audio: { en: "", hi: "", kn: "" }
+      }
+    ],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "vishnu-purana",
+    title: "Vishnu Purana",
+    slug: "vishnu-purana",
+    yuga: "Kali",
+    category: "Purana",
+    description: "One of the most important Puranas detailing creation and avatars.",
+    coverImage: "",
     chapters: [],
     references: [],
     createdAt: null,
     updatedAt: null,
-    roadmap: [],
+    roadmap: []
   },
-   {
-    id: 'itihasa-gita',
-    title: 'Bhagavad Gita',
-    category: 'Itihasa',
-    description: 'A 700-verse scripture within the Mahabharata, presenting a dialogue between Krishna and Arjuna on the battlefield.',
-    yuga: 'Dvapara',
-    slug: 'bhagavad-gita',
-    coverImage: '',
+  {
+    id: "shiva-purana",
+    title: "Shiva Purana",
+    slug: "shiva-purana",
+    category: "Purana",
+    yuga: "Kali",
+    description: "Scripture dedicated to Lord Shiva.",
+    coverImage: "",
     chapters: [],
     references: [],
     createdAt: null,
     updatedAt: null,
-    roadmap: [],
+    roadmap: []
   },
+  {
+    id: "devi-bhagavata",
+    title: "Devi Bhagavata Purana",
+    slug: "devi-bhagavata",
+    category: "Purana",
+    yuga: "Kali",
+    description: "Mahapurana describing Devi's glories.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "skanda-purana",
+    title: "Skanda Purana",
+    slug: "skanda-purana",
+    category: "Purana",
+    yuga: "Kali",
+    description: "Largest Purana dedicated to Lord Kartikeya.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "manu-smriti",
+    title: "Manu Smriti",
+    slug: "manu-smriti",
+    category: "Smriti",
+    yuga: "Treta",
+    description: "Ancient law book of humanity.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "narada-smriti",
+    title: "Narada Smriti",
+    slug: "narada-smriti",
+    category: "Smriti",
+    yuga: "Treta",
+    description: "Smriti dedicated to social law and justice.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "agamas",
+    title: "Agamas",
+    slug: "agamas",
+    category: "Agama",
+    yuga: "Kali",
+    description: "Temple ritual manuals of Shaiva, Shakta, Vaishnava traditions.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "tantras",
+    title: "Tantras",
+    slug: "tantras",
+    category: "Agama",
+    yuga: "Kali",
+    description: "Esoteric scriptures related to energy and worship.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  },
+  {
+    id: "modern-texts",
+    title: "Modern Texts",
+    slug: "modern-texts",
+    category: "Kali Yuga Texts",
+    yuga: "Kali",
+    description: "Kaliyuga saints, gurus, mahaans, spiritual literature.",
+    coverImage: "",
+    chapters: [],
+    references: [],
+    createdAt: null,
+    updatedAt: null,
+    roadmap: []
+  }
 ];
 
 export const orderedCategories: ScriptureCategory[] = [
