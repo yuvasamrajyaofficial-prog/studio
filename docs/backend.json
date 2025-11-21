@@ -22,7 +22,11 @@
         "role": {
           "type": "string",
           "description": "The user's role within the application.",
-          "enum": ["guest", "creator", "admin"]
+          "enum": [
+            "guest",
+            "creator",
+            "admin"
+          ]
         },
         "verified": {
           "type": "boolean",
@@ -31,14 +35,18 @@
         "kycStatus": {
           "type": "string",
           "description": "The user's KYC (Know Your Customer) status.",
-          "enum": ["pending", "approved", "rejected"]
+          "enum": [
+            "pending",
+            "approved",
+            "rejected"
+          ]
         },
         "createdVoices": {
-            "type": "array",
-            "description": "A list of voice IDs created by the user.",
-            "items": {
-                "type": "string"
-            }
+          "type": "array",
+          "description": "A list of voice IDs created by the user.",
+          "items": {
+            "type": "string"
+          }
         },
         "createdAt": {
           "type": "string",
@@ -120,7 +128,12 @@
         "status": {
           "type": "string",
           "description": "The current status of the project.",
-          "enum": ["pending", "processing", "completed", "failed"]
+          "enum": [
+            "pending",
+            "processing",
+            "completed",
+            "failed"
+          ]
         },
         "outputUrl": {
           "type": "string",
@@ -145,6 +158,37 @@
         "status",
         "createdAt",
         "updatedAt"
+      ]
+    },
+    "Voice": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Voice",
+      "type": "object",
+      "description": "Represents a user-created voice model for TTS.",
+      "properties": {
+        "ownerUid": {
+          "type": "string",
+          "description": "The UID of the user who owns the voice model."
+        },
+        "sampleUrl": {
+          "type": "string",
+          "description": "URL to the audio sample used for cloning.",
+          "format": "uri"
+        },
+        "embeddingVector": {
+          "type": "string",
+          "description": "A reference or serialized representation of the voice embedding vector."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the voice model was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerUid",
+        "sampleUrl",
+        "createdAt"
       ]
     }
   },
@@ -203,8 +247,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "voices/{voiceId}",
+        "definition": {
+          "entityName": "Voice",
+          "schema": {
+            "$ref": "#/backend/entities/Voice"
+          },
+          "description": "Stores user-generated voice models. Path-based ownership ensures users can only access their own voice data. Creation is restricted to KYC-verified users.",
+          "params": [
+            {
+              "name": "voiceId",
+              "description": "Unique identifier for the voice model."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
+    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. The 'voices' collection stores sensitive voice model data, with strict ownership and KYC-based creation rules. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
   }
 }
