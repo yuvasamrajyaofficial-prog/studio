@@ -8,7 +8,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the user."
+          "description": "Unique identifier for the user, matching the Firebase Auth UID."
         },
         "name": {
           "type": "string",
@@ -21,8 +21,8 @@
         },
         "role": {
           "type": "string",
-          "description": "The user's role within the application (guest, creator, or admin).",
-          "format": "string"
+          "description": "The user's role within the application.",
+          "enum": ["guest", "creator", "admin"]
         },
         "verified": {
           "type": "boolean",
@@ -30,7 +30,15 @@
         },
         "kycStatus": {
           "type": "string",
-          "description": "The user's KYC (Know Your Customer) status (pending, approved, or rejected)."
+          "description": "The user's KYC (Know Your Customer) status.",
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "createdVoices": {
+            "type": "array",
+            "description": "A list of voice IDs created by the user.",
+            "items": {
+                "type": "string"
+            }
         },
         "createdAt": {
           "type": "string",
