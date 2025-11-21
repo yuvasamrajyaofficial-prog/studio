@@ -19,7 +19,6 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { getScriptureSummaryAction } from '@/app/actions';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
-import { useChat } from 'ai/react';
 
 const chatSchema = z.object({
   message: z.string().min(1, 'Message cannot be empty.'),
