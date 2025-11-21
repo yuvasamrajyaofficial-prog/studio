@@ -59,7 +59,7 @@ const scripturesData = {
       "title": "Rigveda",
       "slug": "rigveda",
       "yuga": "Satya",
-      "category": "Veda",
+      "category": "Vedas",
       "description": "The oldest Veda containing hymns to Agni, Indra, Varuna, and cosmic principles.",
       "coverImage": "assets/images/scripture-icons/rigveda.png",
       "chapters": [
@@ -77,15 +77,13 @@ const scripturesData = {
           }
         }
       ],
-      "references": ["sacred-texts.com", "SanskritDocuments.org"],
-      "createdAt": 0,
-      "updatedAt": 0
+      "references": ["sacred-texts.com", "SanskritDocuments.org"]
     },
     "samaveda": {
       "title": "Samaveda",
       "slug": "samaveda",
       "yuga": "Satya",
-      "category": "Veda",
+      "category": "Vedas",
       "description": "The Veda of melodies, basis of Indian classical music.",
       "coverImage": "assets/images/scripture-icons/samaveda.png",
       "chapters": [
@@ -98,16 +96,13 @@ const scripturesData = {
           "kannada": "ಅಗ್ನಿಯೇ, ಬಂದು ಹವಿಯನ್ನು ಸ್ವೀಕರಿಸು.",
           "audio": { "en": "", "hi": "", "kn": "" }
         }
-      ],
-      "references": [],
-      "createdAt": 0,
-      "updatedAt": 0
+      ]
     },
     "yajurveda": {
       "title": "Yajurveda",
       "slug": "yajurveda",
       "yuga": "Satya",
-      "category": "Veda",
+      "category": "Vedas",
       "description": "The Veda of ritual formulas and sacred procedures.",
       "coverImage": "assets/images/scripture-icons/yajurveda.png",
       "chapters": [
@@ -126,7 +121,7 @@ const scripturesData = {
       "title": "Atharvaveda",
       "slug": "atharvaveda",
       "yuga": "Satya",
-      "category": "Veda",
+      "category": "Vedas",
       "description": "The Veda of healing, protection, and daily life rituals.",
       "chapters": [
         {
@@ -144,7 +139,7 @@ const scripturesData = {
       "title": "Isha Upanishad",
       "slug": "isha-upanishad",
       "yuga": "Dvapara",
-      "category": "Upanishad",
+      "category": "Upanishads",
       "description": "One of the shortest yet most profound Upanishads.",
       "chapters": [
         {
@@ -162,7 +157,7 @@ const scripturesData = {
       "title": "Katha Upanishad",
       "slug": "katha-upanishad",
       "yuga": "Dvapara",
-      "category": "Upanishad",
+      "category": "Upanishads",
       "description": "Dialogue between Nachiketa and Yama on the nature of the Self.",
       "chapters": [
         {
@@ -234,14 +229,14 @@ const scripturesData = {
       "title": "Vishnu Purana",
       "slug": "vishnu-purana",
       "yuga": "Kali",
-      "category": "Purana",
+      "category": "Puranas",
       "description": "One of the most important Puranas detailing creation and avatars.",
       "chapters": []
     },
     "shiva-purana": {
       "title": "Shiva Purana",
       "slug": "shiva-purana",
-      "category": "Purana",
+      "category": "Puranas",
       "yuga": "Kali",
       "description": "Scripture dedicated to Lord Shiva.",
       "chapters": []
@@ -249,7 +244,7 @@ const scripturesData = {
     "devi-bhagavata": {
       "title": "Devi Bhagavata Purana",
       "slug": "devi-bhagavata",
-      "category": "Purana",
+      "category": "Puranas",
       "yuga": "Kali",
       "description": "Mahapurana describing Devi's glories.",
       "chapters": []
@@ -257,7 +252,7 @@ const scripturesData = {
     "skanda-purana": {
       "title": "Skanda Purana",
       "slug": "skanda-purana",
-      "category": "Purana",
+      "category": "Puranas",
       "yuga": "Kali",
       "description": "Largest Purana dedicated to Lord Kartikeya.",
       "chapters": []
@@ -265,7 +260,7 @@ const scripturesData = {
     "manu-smriti": {
       "title": "Manu Smriti",
       "slug": "manu-smriti",
-      "category": "Smriti",
+      "category": "Dharma Shastra",
       "yuga": "Treta",
       "description": "Ancient law book of humanity.",
       "chapters": []
@@ -273,7 +268,7 @@ const scripturesData = {
     "narada-smriti": {
       "title": "Narada Smriti",
       "slug": "narada-smriti",
-      "category": "Smriti",
+      "category": "Dharma Shastra",
       "yuga": "Treta",
       "description": "Smriti dedicated to social law and justice.",
       "chapters": []
@@ -281,7 +276,7 @@ const scripturesData = {
     "agamas": {
       "title": "Agamas",
       "slug": "agamas",
-      "category": "Agama",
+      "category": "Agamas & Tantras",
       "yuga": "Kali",
       "description": "Temple ritual manuals of Shaiva, Shakta, Vaishnava traditions.",
       "chapters": []
@@ -289,7 +284,7 @@ const scripturesData = {
     "tantras": {
       "title": "Tantras",
       "slug": "tantras",
-      "category": "Agama",
+      "category": "Agamas & Tantras",
       "yuga": "Kali",
       "description": "Esoteric scriptures related to energy and worship.",
       "chapters": []

@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import type { Scripture } from "@/lib/scriptures";
+import type { Scripture, ScriptureCategory } from "@/lib/scriptures";
 import { orderedCategories } from "@/lib/scriptures";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -32,10 +32,10 @@ export function ScriptureTree({
     acc[scripture.category].push(scripture);
     return acc;
   }, {} as Record<string, Scripture[]>);
+  
+  const availableCategories = orderedCategories.filter(category => scripturesByCategory[category]);
 
-  const defaultOpenCategories = orderedCategories.filter(
-    (category) => scripturesByCategory[category]?.length > 0
-  );
+  const defaultOpenCategories = availableCategories;
 
   if (!scriptures.length) {
     return (
@@ -51,7 +51,7 @@ export function ScriptureTree({
       defaultValue={defaultOpenCategories}
       className="w-full"
     >
-      {orderedCategories.map((category) => {
+      {availableCategories.map((category) => {
         const categoryScriptures = scripturesByCategory[category];
         if (!categoryScriptures || categoryScriptures.length === 0) {
           return null;
