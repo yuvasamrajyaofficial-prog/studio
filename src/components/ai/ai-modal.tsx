@@ -16,7 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useAIState } from './ai-actions';
 import { Bot, Send, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarFallback } from '../ui/avatar';
 import { getScriptureSummaryAction } from '@/app/actions';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
 
@@ -54,12 +54,26 @@ export function AIModal() {
     form.reset();
 
     startTransition(async () => {
-      // For now, let's use a mock response.
-      // We will replace this with a real AI call later.
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Use the summary action to get a response. We'll use a default scripture context for now.
+      const result = await getScriptureSummaryAction({
+        // The user's message becomes the "scripture content" for the AI to summarize/answer.
+        scriptureContent: data.message,
+        // Provide a default context.
+        era: "Kali", 
+        category: "General Inquiry"
+      });
+
+      let botResponse = "I'm sorry, I couldn't process your request. Please try again.";
+      if (result.summary) {
+        // We'll use the summary as the primary response and add the bias context for more detail.
+        botResponse = `${result.summary}\n\nBias Context: ${result.biasContext}`;
+      } else if (result.error) {
+        botResponse = result.error;
+      }
+
       const botMessage: Message = {
         role: 'bot',
-        text: "This is a placeholder response from Lola. We will connect this to a real AI in the next step.",
+        text: botResponse,
       };
       setMessages((prev) => [...prev, botMessage]);
     });
@@ -90,7 +104,7 @@ export function AIModal() {
                 )}
                 <div
                   className={cn(
-                    'p-3 rounded-lg max-w-[80%] break-words',
+                    'p-3 rounded-lg max-w-[80%] break-words whitespace-pre-wrap',
                     msg.role === 'user' ? 'ai-message-user' : 'ai-message-bot'
                   )}
                 >

@@ -12,11 +12,11 @@ export function Footer() {
           <div>
             <h3 className="font-headline text-lg text-primary mb-4">Scriptures & Knowledge</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" className="hover:text-primary transition-colors">Vedas</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Upanishads</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Puranas</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Itihasa</Link></li>
-              <li><Link href="#" className="hover:text-primary transition-colors">Smritis & Agamas</Link></li>
+              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Vedas</Link></li>
+              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Upanishads</Link></li>
+              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Puranas</Link></li>
+              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Itihasa</Link></li>
+              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Smritis & Agamas</Link></li>
               <li><Link href="/scriptures" className="hover:text-primary transition-colors">All Scriptures Archive</Link></li>
             </ul>
           </div>

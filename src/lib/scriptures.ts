@@ -107,6 +107,7 @@ export const scriptures: Scripture[] = [
     references: [],
     createdAt: null,
     updatedAt: null,
+    roadmap: [],
   },
   {
     id: 'veda-atharva',
@@ -120,6 +121,7 @@ export const scriptures: Scripture[] = [
     references: [],
     createdAt: null,
     updatedAt: null,
+    roadmap: [],
   },
    {
     id: 'itihasa-gita',
@@ -133,6 +135,7 @@ export const scriptures: Scripture[] = [
     references: [],
     createdAt: null,
     updatedAt: null,
+    roadmap: [],
   },
 ];
 
