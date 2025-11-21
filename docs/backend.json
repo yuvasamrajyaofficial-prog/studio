@@ -190,6 +190,34 @@
         "sampleUrl",
         "createdAt"
       ]
+    },
+    "AppConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AppConfig",
+      "type": "object",
+      "description": "Represents a global application configuration document.",
+      "properties": {
+        "cosmicTree": {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "string"
+            },
+            "layout": {
+              "type": "string"
+            },
+            "animationSpeed": {
+              "type": "number"
+            }
+          }
+        },
+        "chakraSettings": {
+          "type": "object"
+        },
+        "bannerMessages": {
+          "type": "object"
+        }
+      }
     }
   },
   "auth": {
@@ -263,8 +291,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "appConfig/{configId}",
+        "definition": {
+          "entityName": "AppConfig",
+          "schema": {
+            "$ref": "#/backend/entities/AppConfig"
+          },
+          "description": "Stores global application settings. These documents are publicly readable but only writable by admins.",
+          "params": [
+            {
+              "name": "configId",
+              "description": "The ID for the configuration document (e.g., 'cosmicTree', 'chakraSettings')."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. The 'voices' collection stores sensitive voice model data, with strict ownership and KYC-based creation rules. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
+    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. The 'voices' collection stores sensitive voice model data, with strict ownership and KYC-based creation rules. The 'appConfig' collection stores global settings that are publicly readable but not client-writable. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
   }
 }
