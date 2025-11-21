@@ -15,11 +15,6 @@ export type ScriptureCategory =
   | 'Yoga & Sadhana'
   | 'Acharya Bhashyas (Commentaries)'
   | 'Advanced Vedanta'
-  | 'Veda'
-  | 'Upanishad'
-  | 'Purana'
-  | 'Smriti'
-  | 'Agama'
   | 'Kali Yuga Texts';
 
 export type Yuga = 'Satya' | 'Treta' | 'Dvapara' | 'Kali' | 'Timeless';
@@ -328,5 +323,6 @@ export const orderedCategories: ScriptureCategory[] = [
     'Bhakti Texts',
     'Yoga & Sadhana',
     'Acharya Bhashyas (Commentaries)',
-    'Advanced Vedanta'
+    'Advanced Vedanta',
+    'Kali Yuga Texts',
 ];

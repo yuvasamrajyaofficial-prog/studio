@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { getScriptureSummaryAction } from '@/app/actions';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
+import { useChat } from 'ai/react';
 
 const chatSchema = z.object({
   message: z.string().min(1, 'Message cannot be empty.'),
@@ -33,13 +34,12 @@ type Message = {
 
 export function AIModal() {
   const { open, setOpen } = useAIState();
-  const [messages, setMessages] = useState<Message[]>([
-    {
+  const [messages, setMessages] = React.useState<Message[]>([
+        {
       role: 'bot',
       text: 'Namaste! I am Lola, your guide to cosmic knowledge. Ask me anything about scriptures, philosophy, or spiritual wisdom.',
     },
   ]);
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<ChatInput>({
     resolver: zodResolver(chatSchema),
@@ -48,35 +48,31 @@ export function AIModal() {
     },
   });
 
-  const onSubmit = (data: ChatInput) => {
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (data: ChatInput) => {
     const userMessage: Message = { role: 'user', text: data.message };
     setMessages((prev) => [...prev, userMessage]);
     form.reset();
 
-    startTransition(async () => {
-      // Use the summary action to get a response. We'll use a default scripture context for now.
-      const result = await getScriptureSummaryAction({
-        // The user's message becomes the "scripture content" for the AI to summarize/answer.
-        scriptureContent: data.message,
-        // Provide a default context.
-        era: "Kali", 
-        category: "General Inquiry"
-      });
-
-      let botResponse = "I'm sorry, I couldn't process your request. Please try again.";
-      if (result.summary) {
-        // We'll use the summary as the primary response and add the bias context for more detail.
-        botResponse = `${result.summary}\n\nBias Context: ${result.biasContext}`;
-      } else if (result.error) {
-        botResponse = result.error;
-      }
-
-      const botMessage: Message = {
-        role: 'bot',
-        text: botResponse,
-      };
-      setMessages((prev) => [...prev, botMessage]);
+    const result = await getScriptureSummaryAction({
+      scriptureContent: data.message,
+      era: "Kali", 
+      category: "General Inquiry"
     });
+
+    let botResponse = "I'm sorry, I couldn't process your request. Please try again.";
+    if (result.summary) {
+      botResponse = `${result.summary}\n\nBias Context: ${result.biasContext}`;
+    } else if (result.error) {
+      botResponse = result.error;
+    }
+
+    const botMessage: Message = {
+      role: 'bot',
+      text: botResponse,
+    };
+    setMessages((prev) => [...prev, botMessage]);
   };
 
   return (
@@ -119,7 +115,7 @@ export function AIModal() {
                 )}
               </div>
             ))}
-             {isPending && (
+             {isSubmitting && (
                 <div className="flex items-start gap-3">
                     <Avatar>
                         <AvatarFallback>🌺</AvatarFallback>
@@ -144,14 +140,14 @@ export function AIModal() {
                                 <Input 
                                     placeholder="Ask your question..." 
                                     {...field}
-                                    disabled={isPending}
+                                    disabled={isSubmitting}
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                     />
-                    <Button type="submit" size="icon" disabled={isPending}>
+                    <Button type="submit" size="icon" disabled={isSubmitting}>
                         <Send />
                     </Button>
                 </form>
