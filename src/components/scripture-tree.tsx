@@ -21,7 +21,9 @@ export function ScriptureTree({
   scriptures,
 }: ScriptureTreeProps) {
   const pathname = usePathname();
-  const selectedScriptureId = pathname.split('/').pop() ?? null;
+  const pathSegments = pathname.split('/');
+  const selectedScriptureId = pathSegments.length > 2 ? pathSegments[pathSegments.length - 1] : null;
+
 
   const scripturesByCategory = scriptures.reduce((acc, scripture) => {
     if (!acc[scripture.category]) {

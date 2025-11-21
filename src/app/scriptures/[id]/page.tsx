@@ -25,8 +25,6 @@ export default function ScripturePage({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  const selectedEra = scripture.yuga === 'Timeless' ? 'Kali' : scripture.yuga; // A default for display
-
   return (
     <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -49,7 +47,7 @@ export default function ScripturePage({ params }: { params: { id: string } }) {
                 <ScriptureDetails 
                     key={scripture.id} 
                     scripture={scripture} 
-                    era={selectedEra} 
+                    era={scripture.yuga} 
                 />
              </ScrollArea>
           </section>
