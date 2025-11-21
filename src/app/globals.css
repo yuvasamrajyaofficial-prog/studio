@@ -4,75 +4,65 @@
 
 @layer base {
   :root {
-    --day-bg-start: 207 100% 90%; /* #C9E8FF */
-    --day-bg-end: 51 100% 95%; /* #FFF9E6 */
-    --day-text: 240 6% 10%; /* #1a1a1a */
-    --day-accent: 340 100% 80%; /* Vibrant Pink */
-    --day-gold: 45 81% 50%;
-    --day-header-bg: 0 0% 100% / 0.95;
-    --day-card-bg: 0 0% 100% / 0.9;
-    
-    --night-bg-start: 224 44% 10%; /* #0B1120 */
-    --night-bg-end: 220 50% 21%; /* #1C2B50 */
-    --night-text: 0 0% 91%; /* #E8E8E8 */
-    --night-accent: 340 100% 80%; /* Vibrant Pink */
-    --night-silver: 0 0% 75%; /* #C0C0C0 */
-    --night-header-bg: 220 50% 21% / 0.95;
-    --night-card-bg: 220 50% 21% / 0.7;
+    --background: 275 100% 97%;
+    --foreground: 276 36% 15%;
 
-    --background: var(--day-bg-start);
-    --background-end: var(--day-bg-end);
-    --foreground: var(--day-text);
-    --primary: var(--day-accent);
-    --primary-foreground: 240 6% 10%;
-    --card: var(--day-card-bg);
-    --card-foreground: var(--day-text);
+    --card: 275 100% 97%;
+    --card-foreground: 276 36% 15%;
+ 
+    --popover: 275 100% 97%;
+    --popover-foreground: 276 36% 15%;
+ 
+    --primary: 330 80% 60%;
+    --primary-foreground: 276 36% 15%;
+ 
+    --secondary: 275 60% 90%;
+    --secondary-foreground: 276 36% 15%;
+ 
+    --muted: 275 60% 90%;
+    --muted-foreground: 276 36% 45%;
+ 
+    --accent: 45 93% 50%;
+    --accent-foreground: 276 36% 15%;
+ 
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --popover: var(--day-card-bg);
-    --popover-foreground: var(--day-text);
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 215.4 16.3% 46.9%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: var(--day-accent);
-    --accent-foreground: 240 6% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --border: 275 60% 80%;
+    --input: 275 60% 85%;
+    --ring: 276 36% 15%;
+ 
     --radius: 0.5rem;
   }
-
+ 
   .dark {
-    --background: var(--night-bg-start);
-    --background-end: var(--night-bg-end);
-    --foreground: var(--night-text);
-    --primary: var(--night-accent);
-    --primary-foreground: 240 6% 10%;
-    --card: var(--night-card-bg);
-    --card-foreground: var(--night-text);
-
-    --popover: var(--night-card-bg);
-    --popover-foreground: var(--night-text);
-
-    --secondary: 217 33% 25%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 65%;
-    --accent: var(--night-accent);
-    --accent-foreground: 240 6% 10%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 224 44% 10%;
+    --background: 276 68% 6%; /* Almost black indigo */
+    --foreground: 275 100% 97%;
+ 
+    --card: 276 68% 10%;
+    --card-foreground: 275 100% 97%;
+ 
+    --popover: 276 68% 10%;
+    --popover-foreground: 275 100% 97%;
+ 
+    --primary: 45 100% 50%; /* Golden Yellow */
+    --primary-foreground: 276 36% 15%;
+ 
+    --secondary: 276 68% 15%;
+    --secondary-foreground: 275 100% 97%;
+ 
+    --muted: 276 68% 15%;
+    --muted-foreground: 275 100% 90%;
+ 
+    --accent: 330 80% 60%; /* Pink for Chakra */
+    --accent-foreground: 276 36% 15%;
+ 
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
+ 
+    --border: 276 68% 15%;
+    --input: 276 68% 20%;
+    --ring: 45 100% 50%;
   }
 }
 
@@ -82,7 +72,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background-end)) 100%);
+    background-color: hsl(var(--background));
     transition: background 2s ease, color 0.5s ease;
   }
 
@@ -113,10 +103,7 @@
 
 @layer utilities {
   .bg-header {
-    background-color: hsl(var(--day-header-bg));
-  }
-  .dark .bg-header {
-    background-color: hsl(var(--night-header-bg));
+    background-color: hsl(var(--card) / 0.8);
   }
   .ai-chat-bubble {
     background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
