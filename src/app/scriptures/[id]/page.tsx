@@ -5,7 +5,7 @@ import { Footer } from '@/components/layout/footer';
 import { ScriptureDetails } from '@/components/scripture-details';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Home } from 'lucide-react';
+import { Library } from 'lucide-react';
 import Link from 'next/link';
 
 export async function generateStaticParams() {
@@ -37,8 +37,8 @@ export default function ScripturePage({ params }: { params: { id: string } }) {
         <main className="flex-1 container mx-auto p-4 sm:p-8">
           <div className="mb-8">
             <Button asChild variant="outline">
-              <Link href="/">
-                <Home className="mr-2 h-4 w-4" />
+              <Link href="/library">
+                <Library className="mr-2 h-4 w-4" />
                 Back to Library
               </Link>
             </Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Youtube, Instagram, Twitter, Facebook, Send, Github, Sun, Moon } from "lucide-react";
+import { Youtube, Instagram, Twitter, Facebook, Send, Github } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
