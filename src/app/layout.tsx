@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Poppins, Merriweather } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const fontSans = Poppins({
+const fontBody = Poppins({
   subsets: ["latin"],
   weight: ["400", "600"],
-  variable: "--font-sans",
+  variable: "--font-body",
 });
 
-const fontSerif = Playfair_Display({
+const fontHeadline = Merriweather({
   subsets: ["latin"],
   weight: "700",
-  variable: "--font-serif",
+  variable: "--font-headline",
 });
 
 export const metadata: Metadata = {
@@ -31,8 +31,8 @@ export default function RootLayout({
       <body
         className={cn(
           "min-h-screen bg-background font-body text-foreground antialiased",
-          fontSans.variable,
-          fontSerif.variable
+          fontBody.variable,
+          fontHeadline.variable
         )}
       >
         {children}
