@@ -12,7 +12,7 @@ export default function HomePage() {
       <main className="flex-1">
         <section className="container mx-auto flex flex-col items-center justify-center py-12 text-center md:py-24">
             <div className="w-full max-w-5xl mx-auto flex items-center justify-center py-16">
-                <SudharshanaChakraIcon className="w-64 h-64 animate-spin-slow text-primary drop-shadow-[0_0_10px_hsl(var(--primary))] filter" />
+                <SudharshanaChakraIcon className="w-64 h-64 animate-spin-slow" />
             </div>
              <h1 className="font-headline text-4xl md:text-6xl font-bold">
                 Discover Cosmic Knowledge
