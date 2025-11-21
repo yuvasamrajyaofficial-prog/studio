@@ -7,18 +7,22 @@ import { SudharshanaChakraIcon } from "@/components/icons/sudharshana-chakra";
 export default function HomePage() {
 
   return (
-    <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
-      <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Header />
-
-        <main className="flex-1 container mx-auto p-8 flex flex-col items-center justify-center">
-            <div className="w-full max-w-5xl mx-auto flex items-center justify-center">
-                <SudharshanaChakraIcon className="w-64 h-64 animate-spin-slow" />
+    <div className="relative flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">
+        <section className="container mx-auto flex flex-col items-center justify-center py-12 text-center md:py-24">
+            <div className="w-full max-w-5xl mx-auto flex items-center justify-center py-16">
+                <SudharshanaChakraIcon className="w-64 h-64 animate-spin-slow text-primary drop-shadow-[0_0_10px_hsl(var(--primary))] filter" />
             </div>
-        </main>
-        <Footer />
-      </div>
+             <h1 className="font-headline text-4xl md:text-6xl font-bold">
+                Discover Cosmic Knowledge
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-foreground/80">
+                Explore ancient scriptures, divine wisdom, and educational resources in one unified platform.
+            </p>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 }

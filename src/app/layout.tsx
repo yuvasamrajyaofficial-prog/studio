@@ -1,25 +1,25 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Noto_Serif_Devanagari, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const fontBody = Poppins({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-body",
 });
 
-const fontHeadline = Playfair_Display({
+const fontHeadline = Noto_Serif_Devanagari({
   subsets: ["latin"],
-  weight: "700",
+  weight: ["400", "600", "700"],
   variable: "--font-headline",
 });
 
 export const metadata: Metadata = {
-  title: "Malola Cosmic Scriptures",
-  description: "A digital Sanātana Dharma platform that combines AI, Voice, and Cosmic Visualization.",
+  title: "MALOLA | Cosmic Knowledge and Scriptures Portal",
+  description: "MALOLA - Cosmic Knowledge and Scriptures Portal. Discover Bhagavad Gita, Vedas, Upanishads, and divine wisdom.",
 };
 
 export default function RootLayout({
@@ -38,7 +38,7 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
