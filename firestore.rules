@@ -106,7 +106,8 @@ service cloud.firestore {
      */
     match /projects/{projectId} {
       allow list: if false;
-      allow get, delete, update: if isOwner(resource.data.ownerUid);
+      allow get, delete: if isOwner(resource.data.ownerUid);
+      allow update: if isOwner(resource.data.ownerUid);
       allow create: if isOwner(request.resource.data.ownerUid);
     }
 

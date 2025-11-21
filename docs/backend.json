@@ -227,88 +227,36 @@
     ]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "users/{userId}",
-        "definition": {
-          "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/User"
-          },
-          "description": "Stores user profiles. Path-based ownership enables simple security rules based on `request.auth.uid`. The 'userId' parameter is the Firebase Authentication UID.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The Firebase Authentication UID of the user."
-            }
-          ]
-        }
+    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. The 'voices' collection stores sensitive voice model data, with strict ownership and KYC-based creation rules. The 'appConfig' collection stores global settings that are publicly readable but not client-writable. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements.",
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/backend/entities/User"
       },
-      {
-        "path": "scriptures/{scriptureId}",
-        "definition": {
-          "entityName": "Scripture",
-          "schema": {
-            "$ref": "#/backend/entities/Scripture"
-          },
-          "description": "Stores scripture entries. Each document represents a scripture. Supports secure list operations due to homogeneous security posture.",
-          "params": [
-            {
-              "name": "scriptureId",
-              "description": "Unique identifier for the scripture."
-            }
-          ]
-        }
+      "description": "Stores user profiles. Path-based ownership enables simple security rules based on `request.auth.uid`. The 'userId' parameter is the Firebase Authentication UID."
+    },
+    "/scriptures/{scriptureId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Scripture"
       },
-      {
-        "path": "projects/{projectId}",
-        "definition": {
-          "entityName": "Project",
-          "schema": {
-            "$ref": "#/backend/entities/Project"
-          },
-          "description": "Stores voice and audio projects created by users. Path-based ownership ensures users can only access their own projects.",
-          "params": [
-            {
-              "name": "projectId",
-              "description": "Unique identifier for the project."
-            }
-          ]
-        }
+      "description": "Stores scripture entries. Each document represents a scripture. Supports secure list operations due to homogeneous security posture."
+    },
+    "/projects/{projectId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Project"
       },
-      {
-        "path": "voices/{voiceId}",
-        "definition": {
-          "entityName": "Voice",
-          "schema": {
-            "$ref": "#/backend/entities/Voice"
-          },
-          "description": "Stores user-generated voice models. Path-based ownership ensures users can only access their own voice data. Creation is restricted to KYC-verified users.",
-          "params": [
-            {
-              "name": "voiceId",
-              "description": "Unique identifier for the voice model."
-            }
-          ]
-        }
+      "description": "Stores voice and audio projects created by users. Path-based ownership ensures users can only access their own projects."
+    },
+    "/voices/{voiceId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Voice"
       },
-      {
-        "path": "appConfig/{configId}",
-        "definition": {
-          "entityName": "AppConfig",
-          "schema": {
-            "$ref": "#/backend/entities/AppConfig"
-          },
-          "description": "Stores global application settings. These documents are publicly readable but only writable by admins.",
-          "params": [
-            {
-              "name": "configId",
-              "description": "The ID for the configuration document (e.g., 'cosmicTree', 'chakraSettings')."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. The 'voices' collection stores sensitive voice model data, with strict ownership and KYC-based creation rules. The 'appConfig' collection stores global settings that are publicly readable but not client-writable. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
+      "description": "Stores user-generated voice models. Path-based ownership ensures users can only access their own voice data. Creation is restricted to KYC-verified users."
+    },
+    "/appConfig/{configId}": {
+      "schema": {
+        "$ref": "#/backend/entities/AppConfig"
+      },
+      "description": "Stores global application settings. These documents are publicly readable but only writable by admins."
+    }
   }
 }
