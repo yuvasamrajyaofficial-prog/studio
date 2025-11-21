@@ -4,6 +4,38 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 45 81% 50%;
+    --primary-foreground: 220 65% 10%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 215.4 16.3% 46.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 215.4 16.3% 46.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
     --background: 220 65% 14%; /* Deep cosmic blue */
     --foreground: 210 40% 98%;
 
@@ -13,7 +45,7 @@
     --popover: 220 65% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 45 81% 50%; /* Gold */
+    --primary: 45 90% 55%; /* Brighter Gold */
     --primary-foreground: 220 65% 10%;
 
     --secondary: 217 33% 25%;
@@ -23,38 +55,6 @@
     --muted-foreground: 215 20% 65%;
 
     --accent: 45 81% 55%; /* Brighter Gold */
-    --accent-foreground: 220 65% 10%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 220 65% 24%;
-    --input: 220 65% 18%;
-    --ring: 45 81% 50%;
-    
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 220 65% 14%;
-    --foreground: 210 40% 98%;
-
-    --card: 220 65% 18%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 220 65% 10%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 45 81% 50%;
-    --primary-foreground: 220 65% 10%;
-
-    --secondary: 217 33% 25%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 20%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 45 81% 55%;
     --accent-foreground: 220 65% 10%;
 
     --destructive: 0 63% 31%;

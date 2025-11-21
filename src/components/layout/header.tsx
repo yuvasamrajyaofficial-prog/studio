@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ThemeToggleButton } from "@/components/theme-toggle";
 import Link from "next/link";
 
 export function Header() {
@@ -13,6 +14,7 @@ export function Header() {
         </p>
       </div>
       <div className="flex items-center gap-4">
+        <ThemeToggleButton />
         <Button variant="outline">Login</Button>
         <Button asChild>
             <Link href="/library">Start Cosmic Journey</Link>
