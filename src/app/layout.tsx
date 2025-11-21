@@ -4,6 +4,7 @@ import { Noto_Serif_Devanagari, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AIModal } from "@/components/ai/ai-modal";
 import { AIChatBubble } from "@/components/ai/ai-chat-bubble";
 
 const fontBody = Poppins({
@@ -45,6 +46,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <AIModal />
           <AIChatBubble />
         </ThemeProvider>
       </body>

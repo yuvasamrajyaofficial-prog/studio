@@ -122,4 +122,23 @@
     background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
     box-shadow: 0 4px 20px hsla(var(--primary), 0.4);
   }
+
+  .ai-modal-header-bg {
+    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
+  }
+
+  .ai-modal-overlay {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+  
+  .ai-message-user {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .ai-message-bot {
+    background: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+  }
 }
