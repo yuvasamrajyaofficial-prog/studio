@@ -37,7 +37,7 @@ export default function ScripturePage({ params }: { params: { id: string } }) {
         <main className="flex-1 container mx-auto p-4 sm:p-8">
           <div className="mb-8">
             <Button asChild variant="outline">
-              <Link href="/library">
+              <Link href="/scriptures">
                 <Library className="mr-2 h-4 w-4" />
                 Back to Library
               </Link>

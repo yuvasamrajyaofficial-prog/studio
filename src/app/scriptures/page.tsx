@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 
-export default function LibraryPage() {
+export default function ScripturesPage() {
   const [selectedEra, setSelectedEra] = useState<Yuga>("Kali");
 
   const filteredScriptures = scriptures.filter(

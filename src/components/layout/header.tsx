@@ -16,7 +16,7 @@ export function Header() {
         
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex gap-6">
-            <Link href="/library" className="text-sm font-medium hover:text-primary transition-colors">Scriptures</Link>
+            <Link href="/scriptures" className="text-sm font-medium hover:text-primary transition-colors">Scriptures</Link>
             <Link href="#" className="text-sm font-medium hover:text-primary transition-colors">Education</Link>
             <Link href="#" className="text-sm font-medium hover:text-primary transition-colors">Tools</Link>
           </nav>
@@ -24,7 +24,7 @@ export function Header() {
             <ThemeToggleButton />
             <Button variant="outline" size="sm">Login</Button>
             <Button asChild size="sm">
-                <Link href="/library">Start Journey</Link>
+                <Link href="/scriptures">Start Journey</Link>
             </Button>
           </div>
         </div>
