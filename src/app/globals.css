@@ -7,7 +7,7 @@
     --day-bg-start: 207 100% 90%; /* #C9E8FF */
     --day-bg-end: 51 100% 95%; /* #FFF9E6 */
     --day-text: 240 6% 10%; /* #1a1a1a */
-    --day-accent: 340 82% 52%; /* Vibrant Pink */
+    --day-accent: 340 80% 75%; /* Light Pink */
     --day-gold: 45 81% 50%;
     --day-header-bg: 0 0% 100% / 0.95;
     --day-card-bg: 0 0% 100% / 0.9;
@@ -15,7 +15,7 @@
     --night-bg-start: 224 44% 10%; /* #0B1120 */
     --night-bg-end: 220 50% 21%; /* #1C2B50 */
     --night-text: 0 0% 91%; /* #E8E8E8 */
-    --night-accent: 340 82% 52%; /* Vibrant Pink */
+    --night-accent: 340 80% 75%; /* Light Pink */
     --night-silver: 0 0% 75%; /* #C0C0C0 */
     --night-header-bg: 220 50% 21% / 0.95;
     --night-card-bg: 220 50% 21% / 0.7;
