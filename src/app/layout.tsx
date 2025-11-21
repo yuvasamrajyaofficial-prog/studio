@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins, Merriweather } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -10,7 +10,7 @@ const fontBody = Poppins({
   variable: "--font-body",
 });
 
-const fontHeadline = Merriweather({
+const fontHeadline = Playfair_Display({
   subsets: ["latin"],
   weight: "700",
   variable: "--font-headline",
