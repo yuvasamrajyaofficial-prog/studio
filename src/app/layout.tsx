@@ -4,6 +4,7 @@ import { Noto_Serif_Devanagari, Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AIChatBubble } from "@/components/ai/ai-chat-bubble";
 
 const fontBody = Poppins({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <AIChatBubble />
         </ThemeProvider>
       </body>
     </html>

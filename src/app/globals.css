@@ -118,4 +118,8 @@
   .dark .bg-header {
     background-color: hsl(var(--night-header-bg));
   }
+  .ai-chat-bubble {
+    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
+    box-shadow: 0 4px 20px hsla(var(--primary), 0.4);
+  }
 }
