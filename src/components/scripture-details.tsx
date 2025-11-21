@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
@@ -56,7 +57,7 @@ export function ScriptureDetails({ scripture, era }: ScriptureDetailsProps) {
       startTransition(() => {
         setSummaryData(null);
         getScriptureSummaryAction({
-          scriptureContent: scripture.content,
+          scriptureContent: scripture.description,
           era: era,
           category: scripture.category,
         }).then(setSummaryData);
