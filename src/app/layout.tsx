@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Poppins, Noto_Serif_Devanagari } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -10,7 +10,7 @@ const fontSans = Poppins({
   variable: "--font-sans",
 });
 
-const fontSerif = Noto_Serif_Devanagari({
+const fontSerif = Playfair_Display({
   subsets: ["latin"],
   weight: "700",
   variable: "--font-serif",

@@ -1,29 +1,9 @@
-"use client";
 
-import { useState, useMemo } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { EraSlider } from '@/components/era-slider';
-import { ScriptureTree } from '@/components/scripture-tree';
-import { ScriptureHierarchy } from '@/components/scripture-hierarchy';
-import { scriptures, type Scripture, Yuga } from '@/lib/scriptures';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookMarked, Telescope, BookOpen } from 'lucide-react';
-
-const yugaOrder: Yuga[] = ['Satya', 'Treta', 'Dvapara', 'Kali'];
+import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
 
 export default function Home() {
-  const [selectedEra, setSelectedEra] = useState<string>('Kali');
-
-  const filteredScriptures = useMemo(() => {
-    const currentEraIndex = yugaOrder.indexOf(selectedEra as Yuga);
-    const visibleYugas = yugaOrder.slice(0, currentEraIndex + 1);
-
-    return scriptures.filter(s => s.yuga === 'Timeless' || visibleYugas.includes(s.yuga));
-  }, [selectedEra]);
-
-
   return (
     <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -31,41 +11,12 @@ export default function Home() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         
-        <main className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 p-4 sm:p-8">
-          <aside className="lg:col-span-1 flex flex-col gap-8">
-            <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
-            <Tabs defaultValue="library" className="flex-1 flex flex-col">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="library">
-                  <BookMarked className="mr-2 h-4 w-4" />
-                  Cosmic Library
-                  </TabsTrigger>
-                <TabsTrigger value="hierarchy">
-                  <Telescope className="mr-2 h-4 w-4" />
-                  Hierarchy
-                  </TabsTrigger>
-              </TabsList>
-               <ScrollArea className="mt-4 flex-1 bg-card/50 border border-border rounded-lg h-0 min-h-[400px]">
-                <TabsContent value="library" className="p-2">
-                    <ScriptureTree 
-                      scriptures={filteredScriptures} 
-                    />
-                </TabsContent>
-                <TabsContent value="hierarchy">
-                    <ScriptureHierarchy />
-                </TabsContent>
-              </ScrollArea>
-            </Tabs>
-          </aside>
-          
-          <section className="lg:col-span-2">
-            <div className="h-full flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border/50 text-center p-8 text-foreground/60 bg-card/30">
-                <BookOpen className="w-16 h-16 mb-4 text-accent/50" />
-                <h2 className="font-headline text-2xl text-foreground/80">Select a Scripture</h2>
-                <p className="mt-2 max-w-sm">Choose a text from the cosmic library to reveal its summary and contextual analysis on a dedicated page.</p>
-            </div>
-          </section>
+        <main className="flex-1 flex flex-col items-center justify-center text-center p-4">
+          <div className="relative flex items-center justify-center w-full max-w-lg">
+             <SudharshanaChakraIcon className="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 text-primary animate-spin-slow" />
+          </div>
         </main>
+        
         <Footer />
       </div>
     </div>
