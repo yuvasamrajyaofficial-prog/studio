@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the Cosmic Scriptures Explorer application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address.",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "description": "The user's role within the application (guest, creator, or admin).",
+          "format": "string"
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Indicates whether the user's email has been verified."
+        },
+        "kycStatus": {
+          "type": "string",
+          "description": "The user's KYC (Know Your Customer) status (pending, approved, or rejected)."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the user account was created.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "role",
+        "verified",
+        "kycStatus",
+        "createdAt"
+      ]
+    },
+    "Scripture": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Scripture",
+      "type": "object",
+      "description": "Represents a scripture entry.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the scripture."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the scripture."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the scripture (Ancient Scriptures, Regional Texts, Philosophical Works)."
+        },
+        "era": {
+          "type": "string",
+          "description": "Era in which the scripture was written (Satya, Treta, Dvapara, Kali)."
+        },
+        "summary": {
+          "type": "string",
+          "description": "Concise summary of the scripture content."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "category",
+        "era",
+        "summary"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Path-based ownership enables simple security rules based on `request.auth.uid`. The 'userId' parameter is the Firebase Authentication UID.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "scriptures/{scriptureId}",
+        "definition": {
+          "entityName": "Scripture",
+          "schema": {
+            "$ref": "#/backend/entities/Scripture"
+          },
+          "description": "Stores scripture entries. Each document represents a scripture. Supports secure list operations due to homogeneous security posture.",
+          "params": [
+            {
+              "name": "scriptureId",
+              "description": "Unique identifier for the scripture."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
+  }
+}
