@@ -29,3 +29,15 @@ export const SummarizeScriptureOutputSchema = z.object({
 export type SummarizeScriptureOutput = z.infer<
   typeof SummarizeScriptureOutputSchema
 >;
+
+export const TranslateTextInputSchema = z.object({
+  text: z.string().min(1, { message: 'Text to translate cannot be empty.' }),
+  sourceLang: z.string().min(1, { message: 'Source language cannot be empty.' }),
+  targetLang: z.string().min(1, { message: 'Target language cannot be empty.' }),
+});
+export type TranslateTextInput = z.infer<typeof TranslateTextInputSchema>;
+
+export const TranslateTextOutputSchema = z.object({
+  translatedText: z.string().describe('The translated text.'),
+});
+export type TranslateTextOutput = z.infer<typeof TranslateTextOutputSchema>;

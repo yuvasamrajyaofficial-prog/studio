@@ -1,9 +1,12 @@
 'use server';
 
 import { summarizeScripture } from '@/ai/flows/contextual-scripture-summarization';
+import { translateText } from '@/ai/flows/translate-text-flow';
 import {
   SummarizeScriptureInputSchema,
+  TranslateTextInputSchema,
   type SummarizeScriptureInput,
+  type TranslateTextInput,
 } from '@/ai/schemas';
 import { z } from 'zod';
 
@@ -43,6 +46,36 @@ export async function getScriptureSummaryAction(
       error: 'An unexpected error occurred while generating the summary.',
       summary: null,
       biasContext: null,
+    };
+  }
+}
+
+export async function translateTextAction(input: TranslateTextInput) {
+  try {
+    const validatedInput = TranslateTextInputSchema.parse(input);
+    const result = await translateText(validatedInput);
+
+    if (!result || !result.translatedText) {
+      return {
+        error: 'The AI failed to generate a valid translation.',
+        translatedText: null,
+      };
+    }
+
+    return { error: null, translatedText: result.translatedText };
+  } catch (error) {
+    console.error('Error in translateTextAction:', error);
+
+    if (error instanceof z.ZodError) {
+      return {
+        error: 'Invalid input provided for translation.',
+        translatedText: null,
+      };
+    }
+
+    return {
+      error: 'An unexpected error occurred while translating the text.',
+      translatedText: null,
     };
   }
 }
