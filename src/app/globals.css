@@ -7,7 +7,7 @@
     --day-bg-start: 207 100% 90%; /* #C9E8FF */
     --day-bg-end: 51 100% 95%; /* #FFF9E6 */
     --day-text: 240 6% 10%; /* #1a1a1a */
-    --day-accent: 14 100% 60%; /* #FF6B35 */
+    --day-accent: 350 100% 78%; /* #FF8FA3 */
     --day-gold: 45 81% 50%;
     --day-header-bg: 0 0% 100% / 0.95;
     --day-card-bg: 0 0% 100% / 0.9;
@@ -24,7 +24,7 @@
     --background-end: var(--day-bg-end);
     --foreground: var(--day-text);
     --primary: var(--day-accent);
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 240 6% 10%;
     --card: var(--day-card-bg);
     --card-foreground: var(--day-text);
 
@@ -36,7 +36,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: var(--day-accent);
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 240 6% 10%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
