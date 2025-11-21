@@ -90,6 +90,62 @@
         "era",
         "summary"
       ]
+    },
+    "Project": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Project",
+      "type": "object",
+      "description": "Represents a voice or audio project created by a user.",
+      "properties": {
+        "ownerUid": {
+          "type": "string",
+          "description": "The UID of the user who owns the project."
+        },
+        "inputText": {
+          "type": "string",
+          "description": "The source text for the project."
+        },
+        "inputLanguage": {
+          "type": "string",
+          "description": "The language of the source text."
+        },
+        "targetLanguage": {
+          "type": "string",
+          "description": "The target language for translation or speech synthesis."
+        },
+        "voiceId": {
+          "type": "string",
+          "description": "The ID of the voice model used for the project."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the project.",
+          "enum": ["pending", "processing", "completed", "failed"]
+        },
+        "outputUrl": {
+          "type": "string",
+          "description": "The URL to the generated audio or video file.",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The timestamp when the project was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "The timestamp when the project was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "ownerUid",
+        "inputText",
+        "inputLanguage",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
     }
   },
   "auth": {
@@ -131,8 +187,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "projects/{projectId}",
+        "definition": {
+          "entityName": "Project",
+          "schema": {
+            "$ref": "#/backend/entities/Project"
+          },
+          "description": "Stores voice and audio projects created by users. Path-based ownership ensures users can only access their own projects.",
+          "params": [
+            {
+              "name": "projectId",
+              "description": "Unique identifier for the project."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
+    "reasoning": "The Firestore structure is designed to manage users and scriptures within the Cosmic Scriptures Explorer application. User data is stored in a dedicated `users` collection, with each document representing a user. This ensures path-based ownership and simplifies security rules for user-specific data. Scripture data is stored in a `scriptures` collection, facilitating easy querying and management of scripture entries. The 'projects' collection stores user-generated content with strict ownership rules. This structure avoids hierarchical authorization dependencies, improving security rule simplicity and debuggability. It also supports robust `list` operations for scriptures, as all documents in the `scriptures` collection share the same security requirements."
   }
 }

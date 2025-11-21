@@ -1,18 +1,21 @@
 /**
  * Core Philosophy: This ruleset enforces a strict user-ownership model for user data,
  * ensuring users can only access their own information. Scripture data is treated as public content,
- * readable by anyone.
+ * readable by anyone. Project data is private to the user who created it.
  *
- * Data Structure: The data is organized into two primary top-level collections:
+ * Data Structure: The data is organized into three primary top-level collections:
  *   - /users/{userId}: Stores private user profile data. Access is strictly controlled
  *     based on the authenticated user's ID matching the document ID.
  *   - /scriptures/{scriptureId}: Stores public scripture information, accessible to all clients.
+ *   - /projects/{projectId}: Stores private user-generated project data, accessible only by the owner.
  *
  * Key Security Decisions:
  *   - User Data Privacy: A user can only create, read, update, or delete their own document
  *     within the /users collection.
  *   - User Listing Disabled: To prevent user enumeration and protect privacy, listing
  *     documents in the /users collection is explicitly forbidden.
+ *   - Project Data Privacy: Users can only create projects for themselves and can only access
+ *     projects they own. Listing the entire 'projects' collection is forbidden.
  *   - Public Read-Only Content: The /scriptures collection is publicly readable by anyone,
  *     including unauthenticated users, to facilitate content discovery.
  *   - Secure-by-Default Writes: Writes to the /scriptures collection are currently disabled
@@ -85,6 +88,19 @@ service cloud.firestore {
       allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
       // CRITICAL: Cannot implement owner-only writes. The 'Scripture' entity is missing an 'ownerId' or 'authorId' field.
       allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+    
+    /**
+     * @description Rules for the user projects collection.
+     * @path /projects/{projectId}
+     * @allow (create) An authenticated user can create a project.
+     * @deny (list) Listing all projects is forbidden to protect user privacy.
+     * @principle Enforces strict ownership for all project-related operations.
+     */
+    match /projects/{projectId} {
+      allow list: if false;
+      allow get, delete, update: if isOwner(resource.data.ownerUid);
+      allow create: if isOwner(request.resource.data.ownerUid);
     }
   }
 }
