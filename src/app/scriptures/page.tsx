@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { EraSlider } from "@/components/era-slider";
 import { ScriptureTree } from "@/components/scripture-tree";
 import { ScriptureHierarchy } from "@/components/scripture-hierarchy";
-import { scriptures, type Scripture, type Yuga } from "@/lib/scriptures";
+import { scriptures, type Yuga } from "@/lib/scriptures";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
@@ -15,10 +16,6 @@ import { Home } from "lucide-react";
 
 export default function ScripturesPage() {
   const [selectedEra, setSelectedEra] = useState<Yuga>("Kali");
-
-  const filteredScriptures = scriptures.filter(
-    (s) => s.yuga === selectedEra || s.yuga === "Timeless"
-  );
 
   return (
     <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
@@ -45,7 +42,7 @@ export default function ScripturesPage() {
                 </TabsList>
                 <TabsContent value="library">
                   <ScrollArea className="h-[500px] pr-4">
-                    <ScriptureTree scriptures={filteredScriptures} />
+                    <ScriptureTree scriptures={scriptures} />
                   </ScrollArea>
                 </TabsContent>
                 <TabsContent value="hierarchy">
