@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Playfair_Display, PT_Sans } from "next/font/google";
+import { Poppins, Noto_Serif_Devanagari } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const fontSans = PT_Sans({
+const fontSans = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "600"],
   variable: "--font-sans",
 });
 
-const fontSerif = Playfair_Display({
+const fontSerif = Noto_Serif_Devanagari({
   subsets: ["latin"],
   weight: "700",
   variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
-  title: "Cosmic Scriptures Explorer",
-  description: "Navigate the vast universe of ancient texts and philosophies.",
+  title: "Malola Cosmic Scriptures",
+  description: "A digital Sanātana Dharma platform that combines AI, Voice, and Cosmic Visualization.",
 };
 
 export default function RootLayout({

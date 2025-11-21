@@ -4,46 +4,46 @@
 
 @layer base {
   :root {
-    --background: 224 71% 4%;
+    --background: 225 25% 12%; /* Stone-gray/dark blue */
     --foreground: 210 40% 98%;
-    --card: 224 71% 8%;
+    --card: 225 25% 16%;
     --card-foreground: 210 40% 98%;
-    --popover: 224 71% 4%;
+    --popover: 225 25% 12%;
     --popover-foreground: 210 40% 98%;
-    --primary: 45 96% 51%;
-    --primary-foreground: 224 71% 4%;
+    --primary: 45 96% 51%; /* Gold */
+    --primary-foreground: 225 25% 12%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 45 96% 51%;
-    --accent-foreground: 224 71% 4%;
+    --accent: 45 86% 58%; /* Brighter Gold */
+    --accent-foreground: 225 25% 12%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
+    --border: 225 25% 22%;
     --input: 217 33% 17%;
     --ring: 45 96% 51%;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 224 71% 4%;
+    --background: 225 25% 12%; /* Stone-gray/dark blue */
     --foreground: 210 40% 98%;
-    --card: 224 71% 8%;
+    --card: 225 25% 16%;
     --card-foreground: 210 40% 98%;
-    --popover: 224 71% 4%;
+    --popover: 225 25% 12%;
     --popover-foreground: 210 40% 98%;
-    --primary: 45 96% 51%;
-    --primary-foreground: 224 71% 4%;
+    --primary: 45 96% 51%; /* Gold */
+    --primary-foreground: 225 25% 12%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 45 96% 51%;
-    --accent-foreground: 224 71% 4%;
+    --accent: 45 86% 58%; /* Brighter Gold */
+    --accent-foreground: 225 25% 12%;
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 17%;
+    --border: 225 25% 22%;
     --input: 217 33% 17%;
     --ring: 45 96% 51%;
   }
