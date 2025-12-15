@@ -1,66 +1,73 @@
+import { ScriptureCard } from "@/components/scripture/scripture-card";
+import { Scripture } from "@/types/scripture";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
-"use client";
+// Mock Data - In real app, fetch from Firestore
+const MOCK_SCRIPTURES: Scripture[] = [
+  {
+    id: "bhagavad-gita",
+    title: "Srimad Bhagavad Gita",
+    author: "Vyasa",
+    region: "India",
+    religion: "Hinduism",
+    era: "DVAPARA_YUGA",
+    language: "Sanskrit",
+    description: "The divine conversation between Lord Krishna and Arjuna on the battlefield of Kurukshetra, revealing the essence of Vedic wisdom.",
+    coverImageUrl: "https://images.unsplash.com/photo-1623345805780-8f01f714e65f?q=80&w=800&auto=format&fit=crop",
+    tags: ["Yoga", "Dharma", "Karma"],
+    chapters: [],
+    isPublic: true
+  },
+  {
+    id: "yoga-sutras",
+    title: "Patanjali Yoga Sutras",
+    author: "Patanjali",
+    region: "India",
+    religion: "Hinduism",
+    era: "UNKNOWN",
+    language: "Sanskrit",
+    description: "The foundational text of Yoga philosophy, outlining the eight limbs of yoga for spiritual liberation.",
+    tags: ["Meditation", "Mind", "Philosophy"],
+    chapters: [],
+    isPublic: true
+  },
+  {
+    id: "dhammapada",
+    title: "The Dhammapada",
+    region: "India",
+    religion: "Buddhism",
+    era: "UNKNOWN",
+    language: "Pali",
+    description: "A collection of sayings of the Buddha in verse form and one of the most widely read and best known Buddhist scriptures.",
+    tags: ["Buddhism", "Ethics", "Mindfulness"],
+    chapters: [],
+    isPublic: true
+  }
+];
 
-import { useState } from "react";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { EraSlider } from "@/components/era-slider";
-import { ScriptureTree } from "@/components/scripture-tree";
-import { ScriptureHierarchy } from "@/components/scripture-hierarchy";
-import { scriptures, type Yuga } from "@/lib/scriptures";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Home } from "lucide-react";
-
-export default function ScripturesPage() {
-  const [selectedEra, setSelectedEra] = useState<Yuga>("Kali");
-
+export default function ScriptureLibraryPage() {
   return (
-    <div className="min-h-screen bg-background font-body text-foreground bg-grid-white/[0.02] relative">
-      <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Header />
+    <div className="container mx-auto py-12 px-4">
+      <div className="flex flex-col items-center text-center mb-12 space-y-4">
+        <h1 className="text-4xl font-bold font-headline">Scripture Library</h1>
+        <p className="text-muted-foreground max-w-2xl">
+          Explore the timeless wisdom of ancient texts. Read, listen, and reflect on verses that have guided civilizations for millennia.
+        </p>
+        
+        <div className="relative w-full max-w-md mt-6">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input 
+            placeholder="Search scriptures, authors, or topics..." 
+            className="pl-10"
+          />
+        </div>
+      </div>
 
-        <main className="flex-1 container mx-auto p-4 sm:p-8">
-            <div className="mb-4">
-                <Button asChild variant="outline">
-                    <Link href="/">
-                        <Home className="mr-2 h-4 w-4" />
-                        Back to Home
-                    </Link>
-                </Button>
-            </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="md:col-span-1 space-y-8">
-              <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
-              <Tabs defaultValue="library" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="library">Cosmic Library</TabsTrigger>
-                  <TabsTrigger value="hierarchy">Hierarchy</TabsTrigger>
-                </TabsList>
-                <TabsContent value="library">
-                  <ScrollArea className="h-[500px] pr-4">
-                    <ScriptureTree scriptures={scriptures} />
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="hierarchy">
-                   <ScrollArea className="h-[500px] pr-4">
-                      <ScriptureHierarchy />
-                   </ScrollArea>
-                </TabsContent>
-              </Tabs>
-            </div>
-            <div className="md:col-span-3">
-              {/* The content for the selected scripture will be shown on a different page */}
-              <div className="flex flex-col items-center justify-center h-full text-center p-8 text-foreground/60 rounded-lg bg-card/30 border border-border">
-                <p>Select a scripture from the library to begin your journey.</p>
-              </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {MOCK_SCRIPTURES.map((scripture) => (
+          <ScriptureCard key={scripture.id} scripture={scripture} />
+        ))}
       </div>
     </div>
   );
