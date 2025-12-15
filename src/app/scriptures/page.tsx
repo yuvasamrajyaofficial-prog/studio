@@ -7,7 +7,7 @@ import { ScriptureTree } from "@/components/scripture-tree";
 import { Header } from "@/components/layout/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { scriptures } from "@/lib/scriptures";
-import { SudharshanaChakraIcon } from "@/components/icons/sudharshana-chakra";
+
 
 export default function ScriptureLibraryPage() {
   const [selectedEra, setSelectedEra] = useState("Kali");
@@ -24,10 +24,7 @@ export default function ScriptureLibraryPage() {
         <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-8rem)]">
           {/* Sidebar */}
           <aside className="w-full lg:w-80 flex flex-col gap-6 shrink-0">
-            <div className="flex items-center gap-2 px-2">
-              <SudharshanaChakraIcon className="h-6 w-6 text-primary" />
-              <span className="font-headline font-bold text-lg">Back to Home</span>
-            </div>
+
 
             <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
 
