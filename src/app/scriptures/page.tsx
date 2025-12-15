@@ -4,7 +4,6 @@ import { useState } from "react";
 import { EraSlider } from "@/components/era-slider";
 import { ScriptureHierarchy } from "@/components/scripture-hierarchy";
 import { ScriptureTree } from "@/components/scripture-tree";
-import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { scriptures } from "@/lib/scriptures";
@@ -63,7 +62,6 @@ export default function ScriptureLibraryPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }
