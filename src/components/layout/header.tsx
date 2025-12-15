@@ -42,7 +42,7 @@ export function Header() {
               <Home className="h-4 w-4" /> Home
             </Link>
             <Link href="/scriptures" className="text-sm font-medium hover:text-primary transition-colors">Scriptures</Link>
-            <Link href="/onboarding" className="text-sm font-medium hover:text-primary transition-colors">Onboarding</Link>
+            <Link href="/blogs" className="text-sm font-medium hover:text-primary transition-colors">Blogs</Link>
           </nav>
           
           <div className="flex items-center gap-2">
