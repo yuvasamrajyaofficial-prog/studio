@@ -25,7 +25,7 @@ export default function HomePage() {
               <SudharshanaChakraIcon className="w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 text-primary animate-spin-slow relative z-10" />
             </div>
             
-            <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
+            <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
               Global Cultural & <br className="hidden md:block" />
               <span className="text-primary">Spiritual Intelligence</span>
             </h1>
