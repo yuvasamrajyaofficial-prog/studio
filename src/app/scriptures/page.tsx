@@ -1,74 +1,69 @@
-import { ScriptureCard } from "@/components/scripture/scripture-card";
-import { Scripture } from "@/types/scripture";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+"use client";
 
-// Mock Data - In real app, fetch from Firestore
-const MOCK_SCRIPTURES: Scripture[] = [
-  {
-    id: "bhagavad-gita",
-    title: "Srimad Bhagavad Gita",
-    author: "Vyasa",
-    region: "India",
-    religion: "Hinduism",
-    era: "DVAPARA_YUGA",
-    language: "Sanskrit",
-    description: "The divine conversation between Lord Krishna and Arjuna on the battlefield of Kurukshetra, revealing the essence of Vedic wisdom.",
-    coverImageUrl: "https://images.unsplash.com/photo-1623345805780-8f01f714e65f?q=80&w=800&auto=format&fit=crop",
-    tags: ["Yoga", "Dharma", "Karma"],
-    chapters: [],
-    isPublic: true
-  },
-  {
-    id: "yoga-sutras",
-    title: "Patanjali Yoga Sutras",
-    author: "Patanjali",
-    region: "India",
-    religion: "Hinduism",
-    era: "UNKNOWN",
-    language: "Sanskrit",
-    description: "The foundational text of Yoga philosophy, outlining the eight limbs of yoga for spiritual liberation.",
-    tags: ["Meditation", "Mind", "Philosophy"],
-    chapters: [],
-    isPublic: true
-  },
-  {
-    id: "dhammapada",
-    title: "The Dhammapada",
-    region: "India",
-    religion: "Buddhism",
-    era: "UNKNOWN",
-    language: "Pali",
-    description: "A collection of sayings of the Buddha in verse form and one of the most widely read and best known Buddhist scriptures.",
-    tags: ["Buddhism", "Ethics", "Mindfulness"],
-    chapters: [],
-    isPublic: true
-  }
-];
+import { useState } from "react";
+import { EraSlider } from "@/components/era-slider";
+import { ScriptureHierarchy } from "@/components/scripture-hierarchy";
+import { ScriptureTree } from "@/components/scripture-tree";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { scriptures } from "@/lib/scriptures";
+import { SudharshanaChakraIcon } from "@/components/icons/sudharshana-chakra";
 
 export default function ScriptureLibraryPage() {
-  return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="flex flex-col items-center text-center mb-12 space-y-4">
-        <h1 className="text-4xl font-bold font-headline">Scripture Library</h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Explore the timeless wisdom of ancient texts. Read, listen, and reflect on verses that have guided civilizations for millennia.
-        </p>
-        
-        <div className="relative w-full max-w-md mt-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search scriptures, authors, or topics..." 
-            className="pl-10"
-          />
-        </div>
-      </div>
+  const [selectedEra, setSelectedEra] = useState("Kali");
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {MOCK_SCRIPTURES.map((scripture) => (
-          <ScriptureCard key={scripture.id} scripture={scripture} />
-        ))}
-      </div>
+  // Filter scriptures based on selected Era (mock logic for now)
+  // In a real app, we would filter `scriptures` by `yuga`
+  const filteredScriptures = scriptures; 
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-8rem)]">
+          {/* Sidebar */}
+          <aside className="w-full lg:w-80 flex flex-col gap-6 shrink-0">
+            <div className="flex items-center gap-2 px-2">
+              <SudharshanaChakraIcon className="h-6 w-6 text-primary" />
+              <span className="font-headline font-bold text-lg">Back to Home</span>
+            </div>
+
+            <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
+
+            <Tabs defaultValue="library" className="flex-1 flex flex-col">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="library">Cosmic Library</TabsTrigger>
+                <TabsTrigger value="hierarchy">Hierarchy</TabsTrigger>
+              </TabsList>
+              
+              <div className="flex-1 overflow-y-auto mt-2 border rounded-lg bg-card/30 p-2">
+                <TabsContent value="library" className="mt-0 h-full">
+                  <ScriptureTree scriptures={filteredScriptures} />
+                </TabsContent>
+                <TabsContent value="hierarchy" className="mt-0 h-full">
+                  <ScriptureHierarchy />
+                </TabsContent>
+              </div>
+            </Tabs>
+          </aside>
+
+          {/* Main Content Area */}
+          <section className="flex-1 rounded-xl border border-border/50 bg-card/20 relative overflow-hidden flex flex-col items-center justify-center text-center p-8">
+            {/* Background decorative elements could go here */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+            
+            <div className="max-w-md space-y-4 z-10">
+              <p className="text-muted-foreground text-lg">
+                Select a scripture from the library to begin your journey.
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

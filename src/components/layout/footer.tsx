@@ -1,30 +1,32 @@
-"use client";
-
-import { Youtube, Instagram, Twitter, Facebook, Send, Github } from "lucide-react";
 import Link from "next/link";
+import { SudharshanaChakraIcon } from "../icons/sudharshana-chakra";
+import { Youtube, Instagram, Twitter, Facebook, Send, Flag } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-background/80 text-foreground/80 border-t border-primary/20 mt-16 py-8 px-4 sm:px-8">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Column 1: Scriptures & Knowledge */}
-          <div>
-            <h3 className="font-headline text-lg text-primary mb-4">Scriptures & Knowledge</h3>
-            <ul className="space-y-2 text-sm">
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Vedas</Link></li>
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Upanishads</Link></li>
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Puranas</Link></li>
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Itihasa</Link></li>
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">Smritis & Agamas</Link></li>
-              <li><Link href="/scriptures" className="hover:text-primary transition-colors">All Scriptures Archive</Link></li>
+    <footer className="bg-background border-t border-border/50 pt-16 pb-8">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          {/* Column 1 */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 mb-6">
+              <SudharshanaChakraIcon className="h-6 w-6 text-primary/80" />
+            </div>
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Scriptures & Knowledge</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#" className="hover:text-primary transition-colors">Vedas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Upanishads</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Puranas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Itihasa</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Smritis & Agamas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">All Scriptures Archive</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: Cosmos & Yugas */}
-          <div>
-            <h3 className="font-headline text-lg text-primary mb-4">Cosmos & Yugas</h3>
-            <ul className="space-y-2 text-sm">
+          {/* Column 2 */}
+          <div className="space-y-4">
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Cosmos & Yugas</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="#" className="hover:text-primary transition-colors">Kālacakra (Cosmic Wheel)</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Yuga Timeline</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Lokas & Cosmic Map</Link></li>
@@ -33,10 +35,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Creator & AI Tools */}
-          <div>
-            <h3 className="font-headline text-lg text-primary mb-4">Creator & AI Tools</h3>
-            <ul className="space-y-2 text-sm">
+          {/* Column 3 */}
+          <div className="space-y-4">
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Creator & AI Tools</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="#" className="hover:text-primary transition-colors">AI Voice Studio</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Voice Cloning</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Text-to-Voice (Multilingual)</Link></li>
@@ -44,10 +46,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: About & Legal */}
-          <div>
-            <h3 className="font-headline text-lg text-primary mb-4">About & Legal</h3>
-            <ul className="space-y-2 text-sm">
+          {/* Column 4 */}
+          <div className="space-y-4">
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">About & Legal</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li><Link href="#" className="hover:text-primary transition-colors">About Malola Project</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Ethical AI Policy</Link></li>
               <li><Link href="#" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
@@ -57,23 +59,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center my-8">
-            <div className="flex space-x-6 mb-4">
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Youtube className="w-6 h-6" /></Link>
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Instagram className="w-6 h-6" /></Link>
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Twitter className="w-6 h-6" /></Link>
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Facebook className="w-6 h-6" /></Link>
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Send className="w-6 h-6" /></Link>
-                <Link href="#" className="text-primary/70 hover:text-primary transition-colors"><Github className="w-6 h-6" /></Link>
-            </div>
-             <p className="font-headline text-xl text-primary/90 tracking-wider">
-                ॐ सर्वे भवन्तु सुखिनः
-            </p>
-        </div>
+        {/* Social Icons & Mantra */}
+        <div className="flex flex-col items-center justify-center space-y-6 border-t border-border/30 pt-8">
+          <div className="flex gap-6">
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Youtube className="h-5 w-5" /></Link>
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Instagram className="h-5 w-5" /></Link>
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Twitter className="h-5 w-5" /></Link>
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Facebook className="h-5 w-5" /></Link>
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Send className="h-5 w-5" /></Link>
+            <Link href="#" className="text-primary hover:text-primary/80 transition-colors"><Flag className="h-5 w-5" /></Link>
+          </div>
+          
+          <div className="text-center space-y-2">
+            <p className="font-headline text-2xl text-primary">ॐ सर्वे भवन्तु सुखिनः</p>
+          </div>
 
-        <div className="text-center text-xs text-foreground/50 border-t border-primary/20 pt-6">
-          <p>&copy; {new Date().getFullYear()} Malola Cosmic Scriptures. All Rights Reserved.</p>
-          <p className="mt-1">Inspired by the timeless wisdom of Sanatana Dharma.</p>
+          <div className="text-center text-xs text-muted-foreground/60">
+            <p>© 2025 Malola Cosmic Scriptures. All Rights Reserved.</p>
+            <p>Inspired by the timeless wisdom of Sanatana Dharma.</p>
+          </div>
         </div>
       </div>
     </footer>

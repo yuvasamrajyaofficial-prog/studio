@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 const religions: { value: Religion; label: string }[] = [
   { value: 'HINDUISM', label: 'Hinduism (Sanātana Dharma)' },
@@ -35,10 +36,12 @@ export function StepCulture() {
     setStep 
   } = useOnboardingStore();
 
+  const router = useRouter();
+
   const handleComplete = () => {
     // In a real app, we would save to Firestore here
     console.log("Onboarding Complete");
-    // Navigate to dashboard or show success
+    router.push("/scriptures");
   };
 
   return (
