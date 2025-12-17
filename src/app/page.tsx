@@ -92,6 +92,54 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Cosmic & Lineage Section */}
+        <section className="py-24 bg-black text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900/20 via-black to-black pointer-events-none" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-amber-200 to-yellow-500">
+                Cosmic Wisdom & Lineage
+              </h2>
+              <p className="text-slate-400 text-lg">
+                Explore the cyclical nature of time, the structure of the universe, and the divine lineages that guide humanity.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <CosmicCard 
+                title="Kālacakra" 
+                desc="The Eternal Wheel of Time" 
+                href="/kalacakra" 
+                color="border-blue-500/50 hover:bg-blue-900/20"
+              />
+              <CosmicCard 
+                title="Yuga Timeline" 
+                desc="The Four Ages of Dharma" 
+                href="/yuga-timeline" 
+                color="border-yellow-500/50 hover:bg-yellow-900/20"
+              />
+              <CosmicCard 
+                title="14 Lokas" 
+                desc="The Cosmic Map of Worlds" 
+                href="/lokas" 
+                color="border-purple-500/50 hover:bg-purple-900/20"
+              />
+              <CosmicCard 
+                title="Rishi Lineage" 
+                desc="The Saptarishis & Sages" 
+                href="/rishis" 
+                color="border-orange-500/50 hover:bg-orange-900/20"
+              />
+              <CosmicCard 
+                title="Dashavatara" 
+                desc="The Ten Incarnations" 
+                href="/avatars" 
+                color="border-red-500/50 hover:bg-red-900/20"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Global Vision Section */}
         <section className="py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-950 via-background to-background opacity-50 pointer-events-none" />
@@ -157,5 +205,14 @@ function CheckItem({ text }: { text: string }) {
       </div>
       <span className="font-medium">{text}</span>
     </div>
+  );
+}
+
+function CosmicCard({ title, desc, href, color }: { title: string, desc: string, href: string, color: string }) {
+  return (
+    <Link href={href} className={`block p-6 rounded-xl border ${color} backdrop-blur-sm transition-all duration-300 group`}>
+      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">{title}</h3>
+      <p className="text-slate-400 text-sm">{desc}</p>
+    </Link>
   );
 }
