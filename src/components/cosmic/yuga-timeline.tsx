@@ -77,9 +77,12 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
 
       {/* Content Card */}
       <div className="w-full md:w-[calc(50%-2rem)] ml-12 md:ml-0">
-        <div className={`p-6 rounded-2xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-md border border-white/10 shadow-2xl group hover:scale-105 transition-transform duration-300`}>
-          <div className="flex justify-between items-start mb-4">
-            <div className="text-4xl">{yuga.icon}</div>
+        <div className={`p-6 rounded-2xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-md border border-white/10 shadow-2xl group hover:scale-105 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] relative overflow-hidden`}>
+          {/* Shimmer Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
+          
+          <div className="flex justify-between items-start mb-4 relative z-10">
+            <div className="text-4xl filter drop-shadow-lg">{yuga.icon}</div>
             <div className="text-right">
               <h3 className="text-2xl font-bold text-white drop-shadow-md">{yuga.name}</h3>
               <span className="text-xs font-mono text-white/80 uppercase tracking-widest">
@@ -88,17 +91,19 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
             </div>
           </div>
           
-          <p className="text-white/90 text-sm leading-relaxed mb-4">
+          <p className="text-white/90 text-sm leading-relaxed mb-4 relative z-10">
             {yuga.desc}
           </p>
 
-          <div className="w-full bg-black/30 h-2 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-white/80" 
-              style={{ width: yuga.virtue.split('%')[0] + '%' }}
+          <div className="w-full bg-black/30 h-2 rounded-full overflow-hidden relative z-10">
+            <motion.div 
+              initial={{ width: 0 }}
+              whileInView={{ width: yuga.virtue.split('%')[0] + '%' }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="h-full bg-white/80 shadow-[0_0_10px_white]" 
             />
           </div>
-          <div className="flex justify-between text-[10px] mt-1 text-white/60 uppercase font-bold">
+          <div className="flex justify-between text-[10px] mt-1 text-white/60 uppercase font-bold relative z-10">
             <span>Virtue (Dharma)</span>
             <span>{yuga.virtue}</span>
           </div>
