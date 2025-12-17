@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 interface CosmicLayoutProps {
   children: React.ReactNode;
@@ -20,7 +20,15 @@ export function CosmicLayout({ children, title, subtitle }: CosmicLayoutProps) {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-8 min-h-screen flex flex-col">
-        <header className="mb-12 text-center">
+        <header className="mb-12 text-center relative">
+          <Link 
+            href="/" 
+            className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors group"
+            title="Back to Home"
+          >
+            <ArrowLeft className="w-6 h-6 text-white group-hover:-translate-x-1 transition-transform" />
+          </Link>
+
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
