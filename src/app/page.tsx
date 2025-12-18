@@ -6,6 +6,7 @@ import { SudharshanaChakraIcon } from "@/components/icons/sudharshana-chakra";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BookOpen, Headphones, Sparkles, Globe, Heart, Shield } from "lucide-react";
+import { RotatingGlobe } from "@/components/home/rotating-globe";
 
 export default function HomePage() {
   return (
@@ -157,16 +158,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="lg:w-1/2 flex justify-center">
-                <div className="relative w-full max-w-md aspect-square rounded-full border border-primary/20 flex items-center justify-center bg-background/50 backdrop-blur-sm shadow-2xl">
-                  <div className="absolute inset-0 rounded-full border border-primary/10 animate-ping-slow" />
-                  <div className="text-center space-y-2 p-8">
-                    <div className="text-4xl font-bold text-primary">10+</div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-widest">Countries</div>
-                    <div className="h-px w-12 bg-border mx-auto my-4" />
-                    <div className="text-4xl font-bold text-primary">1000+</div>
-                    <div className="text-sm text-muted-foreground uppercase tracking-widest">Scriptures</div>
-                  </div>
-                </div>
+                <RotatingGlobe />
               </div>
             </div>
           </div>
