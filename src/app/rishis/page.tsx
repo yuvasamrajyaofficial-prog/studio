@@ -25,25 +25,47 @@ export default function RishisPage() {
         title="Rishi Lineage"
         subtitle="The Saptarishis & Sages. The seven great sages who form the foundation of Vedic knowledge."
       >
-        <div className="w-full max-w-3xl mx-auto px-4 space-y-4">
-          {RISHIS.map((rishi, index) => (
-            <RishiCard
-              key={rishi.name}
-              rishi={rishi}
-              index={index}
-              isSelected={selected === index}
-              onClick={() => setSelected(selected === index ? null : index)}
-            />
-          ))}
+        <div className="w-full max-w-5xl mx-auto px-4 relative">
+          {/* Constellation Background */}
+          <div className="absolute inset-0 pointer-events-none opacity-30">
+            <svg className="w-full h-full">
+              <defs>
+                <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(251, 191, 36, 0)" />
+                  <stop offset="50%" stopColor="rgba(251, 191, 36, 0.5)" />
+                  <stop offset="100%" stopColor="rgba(251, 191, 36, 0)" />
+                </linearGradient>
+              </defs>
+              {/* Connecting Lines */}
+              <path d="M100,100 L300,200 L500,100 L700,300 L500,500 L300,400 L100,500 Z" fill="none" stroke="url(#line-gradient)" strokeWidth="2" className="animate-pulse-slow" />
+            </svg>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-12 relative z-10">
+            {RISHIS.map((rishi, index) => (
+              <RishiCard
+                key={rishi.name}
+                rishi={rishi}
+                index={index}
+                isSelected={selected === index}
+                onClick={() => setSelected(selected === index ? null : index)}
+              />
+            ))}
+          </div>
 
           {/* Explanation */}
-          <div className="mt-8 p-6 rounded-2xl bg-purple-500/10 border border-purple-500/20">
-            <h3 className="text-xl font-bold text-amber-300 mb-3">The Seven Sages</h3>
-            <p className="text-slate-300 text-sm leading-relaxed">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12 p-8 rounded-3xl bg-gradient-to-br from-purple-900/40 to-indigo-900/40 border border-purple-500/30 backdrop-blur-md shadow-2xl"
+          >
+            <h3 className="text-2xl font-bold text-amber-300 mb-4">The Seven Sages</h3>
+            <p className="text-slate-200 text-base leading-relaxed">
               The Saptarishis are eternal cosmic beings appearing in every age. They hold the position of the seven stars of Ursa Major, 
-              forever circling the celestial pole. These mind-born sons of Brahma established the Guru-Shishya tradition.
+              forever circling the celestial pole. These mind-born sons of Brahma established the Guru-Shishya tradition and revealed the Vedas to humanity.
             </p>
-          </div>
+          </motion.div>
         </div>
       </CosmicLayout>
     </>
@@ -58,31 +80,33 @@ function RishiCard({ rishi, index, isSelected, onClick }: {
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      layout
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
       onClick={onClick}
-      className={`p-5 rounded-xl bg-gradient-to-br ${rishi.color} bg-opacity-15 border border-white/20 cursor-pointer hover:border-white/40 transition-all`}
+      whileHover={{ scale: 1.03, y: -5 }}
+      className={`p-6 rounded-2xl bg-gradient-to-br ${rishi.color} bg-opacity-20 border border-white/20 cursor-pointer hover:border-white/40 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-all backdrop-blur-md`}
     >
-      <div className="flex items-start gap-3">
-        <div className="text-3xl">🧘</div>
+      <div className="flex items-start gap-4">
+        <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-2xl shadow-inner">🧘</div>
         <div className="flex-1">
-          <h3 className="text-xl font-bold text-white">{rishi.name}</h3>
-          <p className="text-base text-amber-300">{rishi.title}</p>
-          <p className="text-sm text-white/80 mt-2">{rishi.desc}</p>
+          <h3 className="text-2xl font-bold text-white">{rishi.name}</h3>
+          <p className="text-base text-amber-100 font-medium">{rishi.title}</p>
+          <p className="text-sm text-slate-100 mt-2 leading-relaxed">{rishi.desc}</p>
           
-          {isSelected && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              className="mt-3 pt-3 border-t border-white/20"
-            >
-              <p className="text-xs text-white/70">
+          <motion.div
+            initial={false}
+            animate={{ height: isSelected ? "auto" : 0, opacity: isSelected ? 1 : 0 }}
+            className="overflow-hidden"
+          >
+            <div className="mt-4 pt-4 border-t border-white/20">
+              <p className="text-sm text-white">
                 <span className="font-bold text-amber-300">Contribution:</span> {rishi.contribution}
               </p>
-            </motion.div>
-          )}
+            </div>
+          </motion.div>
         </div>
       </div>
     </motion.div>

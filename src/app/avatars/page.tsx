@@ -15,8 +15,8 @@ const AVATARS = [
     image: "/images/avatars/matsya.png",
     era: "Satya Yuga", 
     purpose: "Saved Vedas from the great deluge", 
-    bg: "bg-gradient-to-br from-blue-900/70 to-cyan-900/70", 
-    border: "border-blue-500/40" 
+    bg: "bg-gradient-to-br from-blue-900/80 to-cyan-900/80", 
+    border: "border-blue-500/50" 
   },
   { 
     name: "Kurma", 
@@ -25,8 +25,8 @@ const AVATARS = [
     image: "/images/avatars/kurma.png",
     era: "Satya Yuga", 
     purpose: "Supported Mount Mandara during ocean churning", 
-    bg: "bg-gradient-to-br from-green-900/70 to-emerald-900/70", 
-    border: "border-green-500/40" 
+    bg: "bg-gradient-to-br from-green-900/80 to-emerald-900/80", 
+    border: "border-green-500/50" 
   },
   { 
     name: "Varaha", 
@@ -35,8 +35,8 @@ const AVATARS = [
     image: "/images/avatars/varaha.png",
     era: "Satya Yuga", 
     purpose: "Rescued Earth from the cosmic ocean", 
-    bg: "bg-gradient-to-br from-amber-900/70 to-orange-900/70", 
-    border: "border-amber-500/40" 
+    bg: "bg-gradient-to-br from-amber-900/80 to-orange-900/80", 
+    border: "border-amber-500/50" 
   },
   { 
     name: "Narasimha", 
@@ -45,8 +45,8 @@ const AVATARS = [
     image: "/images/avatars/narasimha.png",
     era: "Satya Yuga", 
     purpose: "Destroyed Hiranyakashipu, protected Prahlada", 
-    bg: "bg-gradient-to-br from-orange-900/70 to-red-900/70", 
-    border: "border-orange-500/40" 
+    bg: "bg-gradient-to-br from-orange-900/80 to-red-900/80", 
+    border: "border-orange-500/50" 
   },
   { 
     name: "Vamana", 
@@ -55,8 +55,8 @@ const AVATARS = [
     image: "/images/avatars/vamana.png",
     era: "Treta Yuga", 
     purpose: "Subdued King Bali, restored cosmic balance", 
-    bg: "bg-gradient-to-br from-yellow-900/70 to-amber-900/70", 
-    border: "border-yellow-500/40" 
+    bg: "bg-gradient-to-br from-yellow-900/80 to-amber-900/80", 
+    border: "border-yellow-500/50" 
   },
   { 
     name: "Parashurama", 
@@ -65,8 +65,8 @@ const AVATARS = [
     image: "/images/avatars/parashurama.png",
     era: "Treta Yuga", 
     purpose: "Destroyed corrupt Kshatriyas 21 times", 
-    bg: "bg-gradient-to-br from-red-900/70 to-rose-900/70", 
-    border: "border-red-500/40" 
+    bg: "bg-gradient-to-br from-red-900/80 to-rose-900/80", 
+    border: "border-red-500/50" 
   },
   { 
     name: "Rama", 
@@ -75,8 +75,8 @@ const AVATARS = [
     image: null,
     era: "Treta Yuga", 
     purpose: "Defeated Ravana, established Rama Rajya", 
-    bg: "bg-gradient-to-br from-blue-900/70 to-indigo-900/70", 
-    border: "border-blue-500/40" 
+    bg: "bg-gradient-to-br from-blue-900/80 to-indigo-900/80", 
+    border: "border-blue-500/50" 
   },
   { 
     name: "Krishna", 
@@ -85,8 +85,8 @@ const AVATARS = [
     image: null,
     era: "Dwapara Yuga", 
     purpose: "Delivered Bhagavad Gita, restored Dharma", 
-    bg: "bg-gradient-to-br from-indigo-900/70 to-purple-900/70", 
-    border: "border-indigo-500/40" 
+    bg: "bg-gradient-to-br from-indigo-900/80 to-purple-900/80", 
+    border: "border-indigo-500/50" 
   },
   { 
     name: "Buddha", 
@@ -95,8 +95,8 @@ const AVATARS = [
     image: null,
     era: "Kali Yuga", 
     purpose: "Taught compassion, ended animal sacrifices", 
-    bg: "bg-gradient-to-br from-orange-900/70 to-amber-900/70", 
-    border: "border-orange-400/40" 
+    bg: "bg-gradient-to-br from-orange-900/80 to-amber-900/80", 
+    border: "border-orange-400/50" 
   },
   { 
     name: "Kalki", 
@@ -105,8 +105,8 @@ const AVATARS = [
     image: "/images/avatars/kalki.png",
     era: "Future", 
     purpose: "Will destroy evil, initiate new Satya Yuga", 
-    bg: "bg-gradient-to-br from-slate-800/80 to-gray-800/80", 
-    border: "border-slate-400/50" 
+    bg: "bg-gradient-to-br from-slate-800/90 to-gray-800/90", 
+    border: "border-slate-400/60" 
   },
 ];
 
@@ -125,60 +125,65 @@ export default function AvatarsPage() {
         title="Dashavatara"
         subtitle="The Ten Incarnations. Divine descents to restore Dharma through the ages."
       >
-        <div className="w-full max-w-3xl mx-auto px-4">
-          {/* Carousel */}
-          <div className="relative mb-8">
+        <div className="w-full max-w-4xl mx-auto px-4">
+          {/* 3D Carousel */}
+          <div className="relative mb-12 perspective-1000">
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className={`p-6 rounded-2xl ${AVATARS[index].bg} border ${AVATARS[index].border} backdrop-blur-sm`}
+                initial={{ opacity: 0, rotateY: 90, scale: 0.8 }}
+                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+                exit={{ opacity: 0, rotateY: -90, scale: 0.8 }}
+                transition={{ duration: 0.5 }}
+                className={`p-8 rounded-3xl ${AVATARS[index].bg} border ${AVATARS[index].border} backdrop-blur-md shadow-[0_0_50px_rgba(0,0,0,0.5)] transform-style-3d`}
               >
-                <div className="flex items-start gap-4 mb-4">
-                  {/* Avatar Image or Icon */}
-                  <div className="w-20 h-20 flex-shrink-0 rounded-xl bg-black/30 flex items-center justify-center overflow-hidden">
+                <div className="flex flex-col md:flex-row items-center gap-8 mb-6">
+                  {/* Avatar Image Frame */}
+                  <div className="relative w-40 h-40 md:w-56 md:h-56 flex-shrink-0 rounded-2xl bg-black/40 border-2 border-white/20 flex items-center justify-center overflow-hidden shadow-2xl">
                     {AVATARS[index].image && !imageErrors.has(index) ? (
                       <Image
                         src={AVATARS[index].image!}
                         alt={AVATARS[index].name}
-                        width={80}
-                        height={80}
-                        className="w-full h-full object-cover"
+                        width={224}
+                        height={224}
+                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                         onError={() => handleImageError(index)}
                       />
                     ) : (
-                      <span className="text-5xl">{AVATARS[index].symbol}</span>
+                      <span className="text-8xl">{AVATARS[index].symbol}</span>
                     )}
+                    
+                    {/* Shine Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
                   </div>
                   
-                  <div className="flex-1">
-                    <div className="text-xs text-slate-400 mb-1">Avatar {index + 1} of 10 • {AVATARS[index].era}</div>
-                    <h3 className="text-2xl font-bold text-white">{AVATARS[index].name}</h3>
-                    <p className="text-lg text-slate-200">{AVATARS[index].title}</p>
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="text-sm text-amber-300 font-bold tracking-widest uppercase mb-2">Avatar {index + 1} of 10 • {AVATARS[index].era}</div>
+                    <h3 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">{AVATARS[index].name}</h3>
+                    <p className="text-2xl text-slate-200 font-light italic">{AVATARS[index].title}</p>
+                    <div className="h-1 w-20 bg-white/30 rounded-full my-4 mx-auto md:mx-0" />
+                    <p className="text-slate-100 text-lg leading-relaxed">{AVATARS[index].purpose}</p>
                   </div>
                 </div>
-                <p className="text-slate-200 text-sm leading-relaxed">{AVATARS[index].purpose}</p>
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-4">
+            {/* Navigation Controls */}
+            <div className="flex items-center justify-between mt-8 px-4">
               <button
                 onClick={() => setIndex((index - 1 + AVATARS.length) % AVATARS.length)}
-                className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-white/20 backdrop-blur-sm"
+                className="p-4 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-white/20 backdrop-blur-sm shadow-lg transition-all hover:scale-110"
               >
-                <ChevronLeft className="w-5 h-5 text-white" />
+                <ChevronLeft className="w-6 h-6 text-white" />
               </button>
               
-              <div className="flex gap-1.5">
+              <div className="flex gap-2">
                 {AVATARS.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setIndex(i)}
-                    className={`h-1.5 rounded-full transition-all ${
-                      i === index ? "w-6 bg-amber-400" : "w-1.5 bg-slate-600"
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === index ? "w-8 bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)]" : "w-2 bg-slate-600 hover:bg-slate-500"
                     }`}
                   />
                 ))}
@@ -186,57 +191,46 @@ export default function AvatarsPage() {
 
               <button
                 onClick={() => setIndex((index + 1) % AVATARS.length)}
-                className="p-2 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-white/20 backdrop-blur-sm"
+                className="p-4 rounded-full bg-slate-800/80 hover:bg-slate-700/80 border border-white/20 backdrop-blur-sm shadow-lg transition-all hover:scale-110"
               >
-                <ChevronRight className="w-5 h-5 text-white" />
+                <ChevronRight className="w-6 h-6 text-white" />
               </button>
             </div>
           </div>
 
-          {/* All Avatars Grid */}
-          <div className="grid grid-cols-2 gap-3 mb-8">
+          {/* All Avatars Grid - Miniatures */}
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
             {AVATARS.map((avatar, i) => (
               <button
                 key={avatar.name}
                 onClick={() => setIndex(i)}
-                className={`p-3 rounded-xl text-left transition-all ${avatar.bg} ${avatar.border} backdrop-blur-sm ${
+                className={`p-3 rounded-xl text-center transition-all duration-300 ${avatar.bg} ${avatar.border} backdrop-blur-sm ${
                   i === index
-                    ? "ring-2 ring-amber-400/50"
-                    : "opacity-80 hover:opacity-100"
+                    ? "ring-2 ring-amber-400/80 scale-105 shadow-lg z-10"
+                    : "opacity-60 hover:opacity-100 hover:scale-105"
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-12 h-12 rounded-lg bg-black/30 flex items-center justify-center overflow-hidden flex-shrink-0">
-                    {avatar.image && !imageErrors.has(i) ? (
-                      <Image
-                        src={avatar.image}
-                        alt={avatar.name}
-                        width={48}
-                        height={48}
-                        className="w-full h-full object-cover"
-                        onError={() => handleImageError(i)}
-                      />
-                    ) : (
-                      <span className="text-2xl">{avatar.symbol}</span>
-                    )}
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-white">{avatar.name}</div>
-                    <div className="text-xs text-slate-300">{avatar.title}</div>
-                  </div>
-                </div>
+                <div className="text-3xl mb-1">{avatar.symbol}</div>
+                <div className="text-xs font-bold text-white truncate">{avatar.name}</div>
               </button>
             ))}
           </div>
 
           {/* Explanation */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-900/40 to-purple-900/40 border border-amber-500/30 backdrop-blur-sm">
-            <h3 className="text-xl font-bold text-amber-300 mb-3">Divine Descents</h3>
-            <p className="text-slate-200 text-sm leading-relaxed">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="p-8 rounded-3xl bg-gradient-to-br from-amber-900/40 to-purple-900/40 border border-amber-500/30 backdrop-blur-md shadow-2xl"
+          >
+            <h3 className="text-2xl font-bold text-amber-300 mb-4">Divine Descents</h3>
+            <p className="text-slate-200 text-base leading-relaxed">
               The Dashavatara represent the ten primary incarnations of Vishnu, descending whenever Dharma declines. 
-              The sequence mirrors evolution: aquatic, amphibian, land animal, half-animal, to human forms.
+              The sequence mirrors biological evolution: aquatic (Matsya), amphibian (Kurma), land animal (Varaha), 
+              half-animal (Narasimha), dwarf human (Vamana), warrior (Parashurama), ideal king (Rama), 
+              statesman (Krishna), sage (Buddha), and future cosmic warrior (Kalki).
             </p>
-          </div>
+          </motion.div>
         </div>
       </CosmicLayout>
     </>
