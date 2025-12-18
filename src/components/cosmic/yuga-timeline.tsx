@@ -44,11 +44,11 @@ const YUGAS = [
 
 export function YugaTimeline() {
   return (
-    <div className="w-full max-w-5xl mx-auto py-12 relative">
+    <div className="w-full max-w-5xl mx-auto py-12 px-4 relative">
       {/* Central Line */}
       <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-500 via-gray-400 to-slate-800 -translate-x-1/2 opacity-30" />
 
-      <div className="space-y-24">
+      <div className="space-y-12 md:space-y-24">
         {YUGAS.map((yuga, index) => (
           <YugaCard key={yuga.id} yuga={yuga} index={index} />
         ))}
@@ -68,7 +68,7 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
       transition={{ duration: 0.8 }}
       className={`relative flex flex-col md:flex-row items-center gap-8 ${
         isEven ? "md:flex-row-reverse" : ""
-      }`}
+      } pl-8 md:pl-0`}
     >
       {/* Timeline Node */}
       <div className="absolute left-4 md:left-1/2 w-8 h-8 rounded-full bg-black border-4 border-white z-10 -translate-x-1/2 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.5)]">
@@ -76,7 +76,7 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
       </div>
 
       {/* Content Card */}
-      <div className="w-full md:w-[calc(50%-2rem)] ml-12 md:ml-0">
+      <div className="w-full md:w-[calc(50%-2rem)]">
         <div className={`p-6 rounded-2xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-md border border-white/10 shadow-2xl group hover:scale-105 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] relative overflow-hidden`}>
           {/* Shimmer Effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
@@ -110,7 +110,7 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
         </div>
       </div>
 
-      {/* Empty space for the other side */}
+      {/* Empty space for the other side - visible only on desktop */}
       <div className="hidden md:block w-[calc(50%-2rem)]" />
     </motion.div>
   );

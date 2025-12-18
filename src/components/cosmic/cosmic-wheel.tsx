@@ -14,7 +14,7 @@ export function CosmicWheel() {
   const [activeLayer, setActiveLayer] = useState<string | null>(null);
 
   return (
-    <div className="relative w-[600px] h-[600px] flex items-center justify-center">
+    <div className="relative w-full max-w-[600px] aspect-square mx-auto flex items-center justify-center">
       {/* Center Sun/Core */}
       <div className="absolute z-50 w-24 h-24 rounded-full bg-gradient-to-br from-yellow-300 via-amber-500 to-orange-600 shadow-[0_0_50px_rgba(255,165,0,0.6)] flex items-center justify-center">
         <span className="text-black font-bold text-xl">KAALA</span>

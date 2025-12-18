@@ -25,7 +25,7 @@ const ADHO_LOKAS = [
 
 export function LokaStack() {
   return (
-    <div className="w-full max-w-2xl mx-auto py-12 flex flex-col items-center gap-1">
+    <div className="w-full max-w-2xl mx-auto py-12 flex flex-col items-center gap-1 px-4">
       {/* Upper Worlds */}
       <div className="w-full flex flex-col-reverse items-center gap-1">
         {URDHVA_LOKAS.map((loka, index) => (

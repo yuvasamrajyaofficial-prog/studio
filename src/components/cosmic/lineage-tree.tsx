@@ -15,7 +15,7 @@ const SAPTARISHIS = [
 
 export function LineageTree() {
   return (
-    <div className="relative w-full max-w-4xl mx-auto h-[600px] bg-slate-900/50 rounded-3xl border border-white/10 backdrop-blur-sm overflow-hidden">
+    <div className="relative w-full max-w-4xl mx-auto aspect-[4/3] bg-slate-900/50 rounded-3xl border border-white/10 backdrop-blur-sm overflow-hidden">
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
 

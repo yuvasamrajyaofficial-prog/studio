@@ -29,7 +29,7 @@ export function AvatarCarousel() {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto h-[500px] flex items-center justify-center">
+    <div className="relative w-full max-w-5xl mx-auto min-h-[600px] md:h-[500px] flex items-center justify-center px-4">
       {/* Navigation Buttons */}
       <button 
         onClick={prevAvatar}
