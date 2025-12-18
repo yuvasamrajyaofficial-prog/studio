@@ -14,29 +14,29 @@ export default function HomePage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden py-20 bg-[#0f0518]">
+        <section className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-12 md:py-0 bg-[#0f0518]">
           {/* Background Effects */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-[#0f0518] to-[#0f0518] pointer-events-none" />
           
           <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-            <div className="mb-12 relative">
+            <div className="mb-8 md:mb-10 relative">
               <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full animate-pulse" />
-              <SudharshanaChakraIcon className="w-48 h-48 md:w-64 md:h-64 text-amber-400 animate-spin-slow relative z-10" />
+              <SudharshanaChakraIcon className="w-40 h-40 md:w-56 md:h-56 text-amber-400 animate-spin-slow relative z-10" />
             </div>
             
-            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-slate-200">
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-slate-200">
               Global Cultural & <br className="hidden md:block" />
               <span className="text-amber-400">Spiritual Intelligence</span>
             </h1>
             
-            <p className="max-w-2xl text-lg md:text-xl text-slate-400 mb-12 leading-relaxed font-light">
+            <p className="max-w-2xl text-base md:text-lg text-slate-400 mb-10 leading-relaxed font-light px-4">
               Explore ancient scriptures, divine wisdom, and educational resources through a culture-aware, ethically governed AI platform.
             </p>
             
             {/* Floating Flower Action Button */}
-            <div className="fixed bottom-8 right-8 z-50">
-              <Button size="icon" className="h-14 w-14 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 animate-bounce-slow">
-                <Sparkles className="h-6 w-6 text-white" />
+            <div className="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8">
+              <Button size="icon" className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 animate-bounce-slow">
+                <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-white" />
               </Button>
             </div>
           </div>

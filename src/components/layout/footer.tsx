@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="bg-background border-t border-border/50 pt-16 pb-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12 md:mb-16 text-center md:text-left">
           {/* Column 1: Cosmos & Yugas */}
           <div className="space-y-4">
             <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">Cosmos & Yugas</h3>
