@@ -72,7 +72,7 @@ const AVATARS = [
     name: "Rama", 
     title: "The Ideal King", 
     symbol: "🏹", 
-    image: null,
+    image: "/images/avatars/rama.png",
     era: "Treta Yuga", 
     purpose: "Defeated Ravana, established Rama Rajya", 
     bg: "bg-gradient-to-br from-blue-900/80 to-indigo-900/80", 
