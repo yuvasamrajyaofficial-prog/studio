@@ -25,7 +25,7 @@ const ADHO_LOKAS = [
 
 export function LokaStack() {
   return (
-    <div className="w-full max-w-2xl mx-auto py-12 flex flex-col items-center gap-1 px-4">
+    <div className="w-full max-w-4xl mx-auto py-20 flex flex-col items-center gap-2 px-4">
       {/* Upper Worlds */}
       <div className="w-full flex flex-col-reverse items-center gap-1">
         {URDHVA_LOKAS.map((loka, index) => (
@@ -53,7 +53,7 @@ function LokaCard({ loka, type, index }: { loka: any; type: "upper" | "lower"; i
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1 }}
-      className={`relative w-full p-4 rounded-lg backdrop-blur-sm border border-white/10 overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer`}
+      className={`relative w-full p-6 md:p-8 rounded-xl backdrop-blur-md border border-white/10 overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg`}
       style={{
         backgroundColor: type === "upper" 
           ? `rgba(255, 255, 255, ${0.05 + index * 0.02})` 
@@ -64,12 +64,12 @@ function LokaCard({ loka, type, index }: { loka: any; type: "upper" | "lower"; i
       
       <div className="relative z-10 flex justify-between items-center">
         <div>
-          <h3 className={`text-xl font-bold ${type === "upper" ? "text-amber-200" : "text-red-300"}`}>
+          <h3 className={`text-2xl md:text-3xl font-bold ${type === "upper" ? "text-amber-200" : "text-red-300"} mb-1`}>
             {loka.name}
           </h3>
-          <p className="text-sm text-slate-300">{loka.desc}</p>
+          <p className="text-base md:text-lg text-slate-300">{loka.desc}</p>
         </div>
-        <div className="text-2xl opacity-50">
+        <div className="text-3xl md:text-4xl opacity-50">
           {type === "upper" ? "⬆️" : "⬇️"}
         </div>
       </div>

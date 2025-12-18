@@ -44,11 +44,11 @@ const YUGAS = [
 
 export function YugaTimeline() {
   return (
-    <div className="w-full max-w-5xl mx-auto py-12 px-4 relative">
+    <div className="w-full max-w-7xl mx-auto py-20 px-4 relative">
       {/* Central Line */}
       <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-500 via-gray-400 to-slate-800 -translate-x-1/2 opacity-30" />
 
-      <div className="space-y-12 md:space-y-24">
+      <div className="space-y-32 md:space-y-48">
         {YUGAS.map((yuga, index) => (
           <YugaCard key={yuga.id} yuga={yuga} index={index} />
         ))}
@@ -66,44 +66,44 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8 }}
-      className={`relative flex flex-col md:flex-row items-center gap-8 ${
+      className={`relative flex flex-col md:flex-row items-center gap-12 md:gap-24 ${
         isEven ? "md:flex-row-reverse" : ""
-      } pl-8 md:pl-0`}
+      } pl-12 md:pl-0`}
     >
       {/* Timeline Node */}
-      <div className="absolute left-4 md:left-1/2 w-8 h-8 rounded-full bg-black border-4 border-white z-10 -translate-x-1/2 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.5)]">
-        <span className="text-xs">{index + 1}</span>
+      <div className="absolute left-4 md:left-1/2 w-12 h-12 rounded-full bg-black border-4 border-white z-10 -translate-x-1/2 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.6)]">
+        <span className="text-sm font-bold">{index + 1}</span>
       </div>
 
       {/* Content Card */}
-      <div className="w-full md:w-[calc(50%-2rem)]">
-        <div className={`p-6 rounded-2xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-md border border-white/10 shadow-2xl group hover:scale-105 transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] relative overflow-hidden`}>
+      <div className="w-full md:w-[calc(50%-3rem)]">
+        <div className={`p-8 md:p-10 rounded-3xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-xl border border-white/10 shadow-2xl group hover:scale-105 transition-all duration-500 hover:shadow-[0_0_50px_rgba(255,255,255,0.15)] relative overflow-hidden`}>
           {/* Shimmer Effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
           
-          <div className="flex justify-between items-start mb-4 relative z-10">
-            <div className="text-4xl filter drop-shadow-lg">{yuga.icon}</div>
+          <div className="flex justify-between items-start mb-6 relative z-10">
+            <div className="text-5xl md:text-6xl filter drop-shadow-lg">{yuga.icon}</div>
             <div className="text-right">
-              <h3 className="text-2xl font-bold text-white drop-shadow-md">{yuga.name}</h3>
-              <span className="text-xs font-mono text-white/80 uppercase tracking-widest">
+              <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md font-serif">{yuga.name}</h3>
+              <span className="text-sm md:text-base font-mono text-white/80 uppercase tracking-widest mt-2 block">
                 {yuga.duration}
               </span>
             </div>
           </div>
           
-          <p className="text-white/90 text-sm leading-relaxed mb-4 relative z-10">
+          <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8 relative z-10">
             {yuga.desc}
           </p>
 
-          <div className="w-full bg-black/30 h-2 rounded-full overflow-hidden relative z-10">
+          <div className="w-full bg-black/30 h-3 rounded-full overflow-hidden relative z-10">
             <motion.div 
               initial={{ width: 0 }}
               whileInView={{ width: yuga.virtue.split('%')[0] + '%' }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="h-full bg-white/80 shadow-[0_0_10px_white]" 
+              className="h-full bg-white/90 shadow-[0_0_15px_white]" 
             />
           </div>
-          <div className="flex justify-between text-[10px] mt-1 text-white/60 uppercase font-bold relative z-10">
+          <div className="flex justify-between text-xs md:text-sm mt-2 text-white/70 uppercase font-bold relative z-10">
             <span>Virtue (Dharma)</span>
             <span>{yuga.virtue}</span>
           </div>
@@ -111,7 +111,7 @@ function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
       </div>
 
       {/* Empty space for the other side - visible only on desktop */}
-      <div className="hidden md:block w-[calc(50%-2rem)]" />
+      <div className="hidden md:block w-[calc(50%-3rem)]" />
     </motion.div>
   );
 }

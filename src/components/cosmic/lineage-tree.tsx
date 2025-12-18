@@ -15,7 +15,7 @@ const SAPTARISHIS = [
 
 export function LineageTree() {
   return (
-    <div className="relative w-full max-w-4xl mx-auto aspect-[4/3] bg-slate-900/50 rounded-3xl border border-white/10 backdrop-blur-sm overflow-hidden">
+    <div className="relative w-full max-w-6xl mx-auto aspect-[4/3] md:aspect-[16/9] bg-slate-900/50 rounded-3xl border border-white/10 backdrop-blur-sm overflow-hidden my-12">
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
 
@@ -56,9 +56,9 @@ function RishiNode({ rishi, index }: { rishi: any; index: number }) {
       transition={{ delay: index * 0.2, type: "spring" }}
     >
       {/* Node Circle */}
-      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 p-1 shadow-[0_0_30px_rgba(251,191,36,0.4)] group-hover:shadow-[0_0_50px_rgba(251,191,36,0.8)] transition-shadow duration-300">
+      <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 p-1 shadow-[0_0_30px_rgba(251,191,36,0.4)] group-hover:shadow-[0_0_50px_rgba(251,191,36,0.8)] transition-shadow duration-300">
         <div className="w-full h-full rounded-full bg-black flex items-center justify-center border border-white/20">
-          <span className="text-2xl">🧘</span>
+          <span className="text-3xl md:text-4xl">🧘</span>
         </div>
       </div>
 

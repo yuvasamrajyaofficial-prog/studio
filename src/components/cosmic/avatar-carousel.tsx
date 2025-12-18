@@ -29,7 +29,7 @@ export function AvatarCarousel() {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto min-h-[600px] md:h-[500px] flex items-center justify-center px-4">
+    <div className="relative w-full max-w-7xl mx-auto min-h-[700px] md:h-[600px] flex items-center justify-center px-4 py-12">
       {/* Navigation Buttons */}
       <button 
         onClick={prevAvatar}
@@ -53,7 +53,7 @@ export function AvatarCarousel() {
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: -100 }}
             transition={{ duration: 0.5, type: "spring" }}
-            className="w-full max-w-2xl bg-slate-900/60 border border-white/10 rounded-3xl p-8 backdrop-blur-xl shadow-2xl flex flex-col md:flex-row items-center gap-8"
+            className="w-full max-w-5xl bg-slate-900/60 border border-white/10 rounded-3xl p-8 md:p-16 backdrop-blur-xl shadow-2xl flex flex-col md:flex-row items-center gap-12"
           >
             {/* Avatar Visual */}
             <div className={`w-48 h-48 md:w-64 md:h-64 rounded-2xl bg-gradient-to-br ${AVATARS[currentIndex].color} flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.2)] shrink-0`}>
