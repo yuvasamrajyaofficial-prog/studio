@@ -21,7 +21,7 @@ export function CosmicLayout({ children, title, subtitle }: CosmicLayoutProps) {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-8 min-h-screen flex flex-col">
-        <header className="mb-12 text-center relative">
+        <header className="mb-8 md:mb-12 text-center relative">
           <Link 
             href="/" 
             className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors group"

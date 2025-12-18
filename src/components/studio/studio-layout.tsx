@@ -47,9 +47,9 @@ export function StudioLayout({ children, title, subtitle }: StudioLayoutProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto mb-16"
+            className="text-center max-w-4xl mx-auto mb-10 md:mb-16"
           >
-            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-500 mb-6 tracking-tight">
               {title}
             </h1>
             {subtitle && (
