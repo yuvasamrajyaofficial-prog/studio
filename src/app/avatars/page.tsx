@@ -5,22 +5,118 @@ import { EnhancedStarfield } from "@/components/cosmic/enhanced-starfield";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 const AVATARS = [
-  { name: "Matsya", title: "The Fish", symbol: "🐟", era: "Satya Yuga", purpose: "Saved Vedas from the great deluge", bg: "bg-gradient-to-br from-blue-900/70 to-cyan-900/70", border: "border-blue-500/40" },
-  { name: "Kurma", title: "The Tortoise", symbol: "🐢", era: "Satya Yuga", purpose: "Supported Mount Mandara during ocean churning", bg: "bg-gradient-to-br from-green-900/70 to-emerald-900/70", border: "border-green-500/40" },
-  { name: "Varaha", title: "The Boar", symbol: "🐗", era: "Satya Yuga", purpose: "Rescued Earth from the cosmic ocean", bg: "bg-gradient-to-br from-amber-900/70 to-orange-900/70", border: "border-amber-500/40" },
-  { name: "Narasimha", title: "The Man-Lion", symbol: "🦁", era: "Satya Yuga", purpose: "Destroyed Hiranyakashipu, protected Prahlada", bg: "bg-gradient-to-br from-orange-900/70 to-red-900/70", border: "border-orange-500/40" },
-  { name: "Vamana", title: "The Dwarf", symbol: "☂️", era: "Treta Yuga", purpose: "Subdued King Bali, restored cosmic balance", bg: "bg-gradient-to-br from-yellow-900/70 to-amber-900/70", border: "border-yellow-500/40" },
-  { name: "Parashurama", title: "Rama with Axe", symbol: "🪓", era: "Treta Yuga", purpose: "Destroyed corrupt Kshatriyas 21 times", bg: "bg-gradient-to-br from-red-900/70 to-rose-900/70", border: "border-red-500/40" },
-  { name: "Rama", title: "The Ideal King", symbol: "🏹", era: "Treta Yuga", purpose: "Defeated Ravana, established Rama Rajya", bg: "bg-gradient-to-br from-blue-900/70 to-indigo-900/70", border: "border-blue-500/40" },
-  { name: "Krishna", title: "Divine Statesman", symbol: "🪈", era: "Dwapara Yuga", purpose: "Delivered Bhagavad Gita, restored Dharma", bg: "bg-gradient-to-br from-indigo-900/70 to-purple-900/70", border: "border-indigo-500/40" },
-  { name: "Buddha", title: "The Enlightened", symbol: "🧘", era: "Kali Yuga", purpose: "Taught compassion, ended animal sacrifices", bg: "bg-gradient-to-br from-orange-900/70 to-amber-900/70", border: "border-orange-400/40" },
-  { name: "Kalki", title: "The Destroyer", symbol: "🐎", era: "Future", purpose: "Will destroy evil, initiate new Satya Yuga", bg: "bg-gradient-to-br from-slate-800/80 to-gray-800/80", border: "border-slate-400/50" },
+  { 
+    name: "Matsya", 
+    title: "The Fish", 
+    symbol: "🐟", 
+    image: "/images/avatars/matsya.png",
+    era: "Satya Yuga", 
+    purpose: "Saved Vedas from the great deluge", 
+    bg: "bg-gradient-to-br from-blue-900/70 to-cyan-900/70", 
+    border: "border-blue-500/40" 
+  },
+  { 
+    name: "Kurma", 
+    title: "The Tortoise", 
+    symbol: "🐢", 
+    image: "/images/avatars/kurma.png",
+    era: "Satya Yuga", 
+    purpose: "Supported Mount Mandara during ocean churning", 
+    bg: "bg-gradient-to-br from-green-900/70 to-emerald-900/70", 
+    border: "border-green-500/40" 
+  },
+  { 
+    name: "Varaha", 
+    title: "The Boar", 
+    symbol: "🐗", 
+    image: "/images/avatars/varaha.png",
+    era: "Satya Yuga", 
+    purpose: "Rescued Earth from the cosmic ocean", 
+    bg: "bg-gradient-to-br from-amber-900/70 to-orange-900/70", 
+    border: "border-amber-500/40" 
+  },
+  { 
+    name: "Narasimha", 
+    title: "The Man-Lion", 
+    symbol: "🦁", 
+    image: "/images/avatars/narasimha.png",
+    era: "Satya Yuga", 
+    purpose: "Destroyed Hiranyakashipu, protected Prahlada", 
+    bg: "bg-gradient-to-br from-orange-900/70 to-red-900/70", 
+    border: "border-orange-500/40" 
+  },
+  { 
+    name: "Vamana", 
+    title: "The Dwarf", 
+    symbol: "☂️", 
+    image: "/images/avatars/vamana.png",
+    era: "Treta Yuga", 
+    purpose: "Subdued King Bali, restored cosmic balance", 
+    bg: "bg-gradient-to-br from-yellow-900/70 to-amber-900/70", 
+    border: "border-yellow-500/40" 
+  },
+  { 
+    name: "Parashurama", 
+    title: "Rama with Axe", 
+    symbol: "🪓", 
+    image: "/images/avatars/parashurama.png",
+    era: "Treta Yuga", 
+    purpose: "Destroyed corrupt Kshatriyas 21 times", 
+    bg: "bg-gradient-to-br from-red-900/70 to-rose-900/70", 
+    border: "border-red-500/40" 
+  },
+  { 
+    name: "Rama", 
+    title: "The Ideal King", 
+    symbol: "🏹", 
+    image: null,
+    era: "Treta Yuga", 
+    purpose: "Defeated Ravana, established Rama Rajya", 
+    bg: "bg-gradient-to-br from-blue-900/70 to-indigo-900/70", 
+    border: "border-blue-500/40" 
+  },
+  { 
+    name: "Krishna", 
+    title: "Divine Statesman", 
+    symbol: "🪈", 
+    image: null,
+    era: "Dwapara Yuga", 
+    purpose: "Delivered Bhagavad Gita, restored Dharma", 
+    bg: "bg-gradient-to-br from-indigo-900/70 to-purple-900/70", 
+    border: "border-indigo-500/40" 
+  },
+  { 
+    name: "Buddha", 
+    title: "The Enlightened", 
+    symbol: "🧘", 
+    image: null,
+    era: "Kali Yuga", 
+    purpose: "Taught compassion, ended animal sacrifices", 
+    bg: "bg-gradient-to-br from-orange-900/70 to-amber-900/70", 
+    border: "border-orange-400/40" 
+  },
+  { 
+    name: "Kalki", 
+    title: "The Destroyer", 
+    symbol: "🐎", 
+    image: "/images/avatars/kalki.png",
+    era: "Future", 
+    purpose: "Will destroy evil, initiate new Satya Yuga", 
+    bg: "bg-gradient-to-br from-slate-800/80 to-gray-800/80", 
+    border: "border-slate-400/50" 
+  },
 ];
 
 export default function AvatarsPage() {
   const [index, setIndex] = useState(0);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  const handleImageError = (idx: number) => {
+    setImageErrors(prev => new Set(prev).add(idx));
+  };
 
   return (
     <>
@@ -41,7 +137,22 @@ export default function AvatarsPage() {
                 className={`p-6 rounded-2xl ${AVATARS[index].bg} border ${AVATARS[index].border} backdrop-blur-sm`}
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="text-5xl">{AVATARS[index].symbol}</div>
+                  {/* Avatar Image or Icon */}
+                  <div className="w-20 h-20 flex-shrink-0 rounded-xl bg-black/30 flex items-center justify-center overflow-hidden">
+                    {AVATARS[index].image && !imageErrors.has(index) ? (
+                      <Image
+                        src={AVATARS[index].image!}
+                        alt={AVATARS[index].name}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                        onError={() => handleImageError(index)}
+                      />
+                    ) : (
+                      <span className="text-5xl">{AVATARS[index].symbol}</span>
+                    )}
+                  </div>
+                  
                   <div className="flex-1">
                     <div className="text-xs text-slate-400 mb-1">Avatar {index + 1} of 10 • {AVATARS[index].era}</div>
                     <h3 className="text-2xl font-bold text-white">{AVATARS[index].name}</h3>
@@ -95,7 +206,20 @@ export default function AvatarsPage() {
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">{avatar.symbol}</span>
+                  <div className="w-12 h-12 rounded-lg bg-black/30 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    {avatar.image && !imageErrors.has(i) ? (
+                      <Image
+                        src={avatar.image}
+                        alt={avatar.name}
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover"
+                        onError={() => handleImageError(i)}
+                      />
+                    ) : (
+                      <span className="text-2xl">{avatar.symbol}</span>
+                    )}
+                  </div>
                   <div>
                     <div className="text-sm font-bold text-white">{avatar.name}</div>
                     <div className="text-xs text-slate-300">{avatar.title}</div>
