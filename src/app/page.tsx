@@ -14,32 +14,29 @@ export default function HomePage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden py-20">
+        <section className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden py-20 bg-[#0f0518]">
           {/* Background Effects */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl pointer-events-none animate-pulse-slow" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-[#0f0518] to-[#0f0518] pointer-events-none" />
           
           <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-            <div className="mb-8 relative">
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse" />
-              <SudharshanaChakraIcon className="w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 text-primary animate-spin-slow relative z-10" />
+            <div className="mb-12 relative">
+              <div className="absolute inset-0 bg-amber-500/20 blur-3xl rounded-full animate-pulse" />
+              <SudharshanaChakraIcon className="w-48 h-48 md:w-64 md:h-64 text-amber-400 animate-spin-slow relative z-10" />
             </div>
             
-            <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70">
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-slate-200">
               Global Cultural & <br className="hidden md:block" />
-              <span className="text-primary">Spiritual Intelligence</span>
+              <span className="text-amber-400">Spiritual Intelligence</span>
             </h1>
             
-            <p className="max-w-2xl text-lg md:text-xl text-muted-foreground mb-10 leading-relaxed">
+            <p className="max-w-2xl text-lg md:text-xl text-slate-400 mb-12 leading-relaxed font-light">
               Explore ancient scriptures, divine wisdom, and educational resources through a culture-aware, ethically governed AI platform.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Button asChild size="lg" className="text-lg px-8 h-12 rounded-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">
-                <Link href="/onboarding">Start Your Journey</Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 h-12 rounded-full border-primary/20 hover:bg-primary/5">
-                <Link href="/scriptures">Browse Library</Link>
+            {/* Floating Flower Action Button */}
+            <div className="fixed bottom-8 right-8 z-50">
+              <Button size="icon" className="h-14 w-14 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 animate-bounce-slow">
+                <Sparkles className="h-6 w-6 text-white" />
               </Button>
             </div>
           </div>
