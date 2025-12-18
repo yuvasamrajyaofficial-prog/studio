@@ -66,10 +66,9 @@ interface WheelLayerProps {
   onHover: () => void;
   onLeave: () => void;
   label: string;
-  hasSpokes?: boolean;
 }
 
-function WheelLayer({ radius, speed, color, segments, isActive, onHover, onLeave, label, hasSpokes }: WheelLayerProps) {
+function WheelLayer({ radius, speed, color, segments, isActive, onHover, onLeave, label }: WheelLayerProps) {
   return (
     <motion.div
       className={`absolute rounded-full border ${color} ${isActive ? "border-opacity-100 shadow-[0_0_30px_rgba(255,255,255,0.4)] bg-white/5" : "border-opacity-30"}`}
@@ -91,20 +90,13 @@ function WheelLayer({ radius, speed, color, segments, isActive, onHover, onLeave
         <div className="absolute inset-0 rounded-full shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]" />
       )}
 
-      {/* Segments/Ticks/Spokes */}
+      {/* Segments/Ticks */}
       {Array.from({ length: segments }).map((_, i) => (
         <div
           key={i}
-          className={`absolute top-0 left-1/2 -translate-x-1/2 origin-bottom transition-all duration-300 ${
-            hasSpokes 
-              ? `w-0.5 ${isActive ? "bg-amber-200/80 shadow-[0_0_8px_gold]" : "bg-amber-500/30"}` 
-              : `w-0.5 bg-current ${isActive ? "h-3 bg-white shadow-[0_0_5px_white]" : "h-2 bg-white/20"}`
-          }`}
+          className={`absolute top-0 left-1/2 w-0.5 bg-current -translate-x-1/2 origin-bottom transition-all duration-300 ${isActive ? "h-3 bg-white shadow-[0_0_5px_white]" : "h-2 bg-white/20"}`}
           style={{
-            height: hasSpokes ? radius : undefined,
-            transform: `rotate(${(360 / segments) * i}deg) ${hasSpokes ? "translateY(0)" : `translateY(-${radius - (isActive ? 6 : 4)}px)`}`,
-            transformOrigin: hasSpokes ? "bottom center" : "bottom center",
-            bottom: hasSpokes ? "50%" : undefined,
+            transform: `rotate(${(360 / segments) * i}deg) translateY(-${radius - (isActive ? 6 : 4)}px)`,
           }}
         />
       ))}

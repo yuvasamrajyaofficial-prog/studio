@@ -6,39 +6,55 @@ export function Footer() {
   return (
     <footer className="bg-background border-t border-border/50 pt-16 pb-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-          {/* Column 1: Cosmos & Yugas */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          {/* Column 1 */}
           <div className="space-y-4">
-            <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">Cosmos & Yugas</h3>
-            <ul className="space-y-3 text-sm text-slate-300">
-              <li><Link href="/kalacakra" className="hover:text-amber-300 transition-colors">Kālacakra (Cosmic Wheel)</Link></li>
-              <li><Link href="/yuga-timeline" className="hover:text-amber-300 transition-colors">Yuga Timeline</Link></li>
-              <li><Link href="/lokas" className="hover:text-amber-300 transition-colors">Lokas & Cosmic Map</Link></li>
-              <li><Link href="/rishis" className="hover:text-amber-300 transition-colors">Lineage of Rishis</Link></li>
-              <li><Link href="/avatars" className="hover:text-amber-300 transition-colors">Avatar Timeline</Link></li>
+            <div className="flex items-center gap-2 mb-6">
+              <SudharshanaChakraIcon className="h-6 w-6 text-primary/80" />
+            </div>
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Scriptures & Knowledge</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#" className="hover:text-primary transition-colors">Vedas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Upanishads</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Puranas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Itihasa</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Smritis & Agamas</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">All Scriptures Archive</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: Creator & AI Tools */}
+          {/* Column 2 */}
           <div className="space-y-4">
-            <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">Creator & AI Tools</h3>
-            <ul className="space-y-3 text-sm text-slate-300">
-              <li><Link href="/studio/voice" className="hover:text-amber-300 transition-colors">AI Voice Studio</Link></li>
-              <li><Link href="/studio/clone" className="hover:text-amber-300 transition-colors">Voice Cloning</Link></li>
-              <li><Link href="/studio/tts" className="hover:text-amber-300 transition-colors">Text-to-Voice (Multilingual)</Link></li>
-              <li><Link href="/dashboard" className="hover:text-amber-300 transition-colors">Creator Dashboard</Link></li>
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Cosmos & Yugas</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#" className="hover:text-primary transition-colors">Kālacakra (Cosmic Wheel)</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Yuga Timeline</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Lokas & Cosmic Map</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Lineage of Rishis</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Avatar Timeline</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: About & Legal */}
+          {/* Column 3 */}
           <div className="space-y-4">
-            <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">About & Legal</h3>
-            <ul className="space-y-3 text-sm text-slate-300">
-              <li><Link href="/about" className="hover:text-amber-300 transition-colors">About Malola Project</Link></li>
-              <li><Link href="/legal/ethical-ai" className="hover:text-amber-300 transition-colors">Ethical AI Policy</Link></li>
-              <li><Link href="/legal/terms" className="hover:text-amber-300 transition-colors">Terms & Conditions</Link></li>
-              <li><Link href="/legal/privacy" className="hover:text-amber-300 transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/contact" className="hover:text-amber-300 transition-colors">Contact Us</Link></li>
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">Creator & AI Tools</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#" className="hover:text-primary transition-colors">AI Voice Studio</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Voice Cloning</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Text-to-Voice (Multilingual)</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Creator Dashboard</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4 */}
+          <div className="space-y-4">
+            <h3 className="font-headline text-lg font-bold text-primary mb-4">About & Legal</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="#" className="hover:text-primary transition-colors">About Malola Project</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Ethical AI Policy</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Terms & Conditions</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover:text-primary transition-colors">Contact Us</Link></li>
             </ul>
           </div>
         </div>
