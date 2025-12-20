@@ -24,5 +24,5 @@ export const ResizableHandle = ({
         <GripVertical className="h-3 w-3 text-white/50" />
       </div>
     )}
-  </ResizablePrimitive.PanelResizeHandle>
+  </PanelResizeHandle>
 );
