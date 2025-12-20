@@ -65,6 +65,14 @@ export default function SoulIDPage() {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl" />
 
       <div className="relative z-10 w-full max-w-2xl">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link href="/register" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+            <span>Back to Registration</span>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-3 mb-6">

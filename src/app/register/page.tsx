@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card } from '@/components/ui/card';
-import { Calendar as CalendarIcon, Clock, MapPin, Globe, Languages, Sparkles, ChevronRight } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Globe, Languages, Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
@@ -98,6 +98,14 @@ export default function RegisterPage() {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl" />
       
       <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Header with Back Button */}
+        <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="mb-8 text-center">
           <Link href="/" className="inline-flex items-center gap-3 mb-6">
