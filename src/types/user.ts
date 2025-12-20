@@ -39,12 +39,14 @@ export interface AstrologyData {
 }
 
 export interface PsychologyData {
+  dominantGuna: 'Sattva' | 'Rajas' | 'Tamas';
   gunaBalance: {
     sattva: number;
     rajas: number;
     tamas: number;
   };
-  dosha: {
+  dosha: 'Vata' | 'Pitta' | 'Kapha';
+  doshaBalance: {
     vata: number;
     pitta: number;
     kapha: number;
