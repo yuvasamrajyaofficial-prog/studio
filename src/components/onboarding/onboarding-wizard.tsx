@@ -29,7 +29,7 @@ export function OnboardingWizard() {
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
+       <AnimatePresence mode="wait">
         <motion.div
           key={step}
           initial={{ opacity: 0, x: 20 }}
@@ -40,9 +40,6 @@ export function OnboardingWizard() {
           {step === 1 && <StepCountry />}
           {step === 2 && <StepLanguage />}
           {step === 3 && <StepCulture />}
-          {step === 4 && <StepAstrology onComplete={() => useOnboardingStore.getState().setStep(5)} />}
-          {step === 5 && <StepPsychology onComplete={() => useOnboardingStore.getState().setStep(6)} />}
-          {step === 6 && <SoulIDCard />}
           {step === 4 && <StepAstrology onComplete={() => useOnboardingStore.getState().setStep(5)} />}
           {step === 5 && <StepPsychology onComplete={() => useOnboardingStore.getState().setStep(6)} />}
           {step === 6 && <SoulIDCard />}

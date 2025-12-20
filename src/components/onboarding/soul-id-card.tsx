@@ -2,12 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useOnboardingStore } from '@/store/onboarding-store';
 import { calculateSoulID, getKarmicGlowColor } from '@/lib/soul-id-calculator';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Sparkles, ShieldCheck, Zap, Moon, Sun } from 'lucide-react';
 
 export default function SoulIDCard() {
+  const router = useRouter();
   const { astrologyData, psychologyData, setSoulID, soulID } = useOnboardingStore();
   const [isRevealing, setIsRevealing] = useState(true);
 
@@ -131,7 +134,10 @@ export default function SoulIDCard() {
         <p className="text-gray-400 text-sm max-w-xs">
           Your Soul ID is now encrypted and stored in the cosmic ledger.
         </p>
-        <Button className="bg-white text-black hover:bg-gray-200 px-12 h-12 rounded-full font-bold">
+        <Button 
+          onClick={() => router.push('/dashboard')}
+          className="bg-white text-black hover:bg-gray-200 px-12 h-12 rounded-full font-bold"
+        >
           Enter the Cosmos
         </Button>
       </motion.div>

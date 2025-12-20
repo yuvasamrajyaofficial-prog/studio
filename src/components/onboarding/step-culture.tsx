@@ -39,9 +39,8 @@ export function StepCulture() {
   const router = useRouter();
 
   const handleComplete = () => {
-    // In a real app, we would save to Firestore here
-    console.log("Onboarding Complete");
-    router.push("/dashboard");
+    // Move to next step in onboarding (Astrology)
+    setStep(4);
   };
 
   return (
