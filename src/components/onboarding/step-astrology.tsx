@@ -139,52 +139,78 @@ export default function StepAstrology({ onComplete }: StepAstrologyProps) {
           <FormField
             control={form.control}
             name="timeOfBirth"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-300 flex items-center gap-2 text-sm font-medium">
-                  <Clock className="w-4 h-4 text-yellow-500" />
-                  Time of Birth
-                </FormLabel>
-                <div className="grid grid-cols-3 gap-2">
-                  <Select value={hour} onValueChange={setHour}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
-                      <SelectValue placeholder="Hour" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-white/10">
-                      {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
-                        <SelectItem key={h} value={h.toString().padStart(2, '0')} className="text-white hover:bg-white/10">
-                          {h.toString().padStart(2, '0')}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  
-                  <Select value={minute} onValueChange={setMinute}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
-                      <SelectValue placeholder="Min" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-white/10 max-h-[200px]">
-                      {Array.from({ length: 60 }, (_, i) => i).map((m) => (
-                        <SelectItem key={m} value={m.toString().padStart(2, '0')} className="text-white hover:bg-white/10">
-                          {m.toString().padStart(2, '0')}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  
-                  <Select value={period} onValueChange={setPeriod}>
-                    <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-900 border-white/10">
-                      <SelectItem value="AM" className="text-white hover:bg-white/10">AM</SelectItem>
-                      <SelectItem value="PM" className="text-white hover:bg-white/10">PM</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              // Update form field whenever time changes
+              const updateTime = (h: string, m: string, p: string) => {
+                const timeString = `${h}:${m} ${p}`;
+                field.onChange(timeString);
+              };
+
+              return (
+                <FormItem>
+                  <FormLabel className="text-gray-300 flex items-center gap-2 text-sm font-medium">
+                    <Clock className="w-4 h-4 text-yellow-500" />
+                    Time of Birth
+                  </FormLabel>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Select 
+                      value={hour} 
+                      onValueChange={(val) => {
+                        setHour(val);
+                        updateTime(val, minute, period);
+                      }}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
+                        <SelectValue placeholder="Hour" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-white/10">
+                        {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
+                          <SelectItem key={h} value={h.toString().padStart(2, '0')} className="text-white hover:bg-white/10">
+                            {h.toString().padStart(2, '0')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    <Select 
+                      value={minute} 
+                      onValueChange={(val) => {
+                        setMinute(val);
+                        updateTime(hour, val, period);
+                      }}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
+                        <SelectValue placeholder="Min" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-white/10 max-h-[200px]">
+                        {Array.from({ length: 60 }, (_, i) => i).map((m) => (
+                          <SelectItem key={m} value={m.toString().padStart(2, '0')} className="text-white hover:bg-white/10">
+                            {m.toString().padStart(2, '0')}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    <Select 
+                      value={period} 
+                      onValueChange={(val) => {
+                        setPeriod(val);
+                        updateTime(hour, minute, val);
+                      }}
+                    >
+                      <SelectTrigger className="bg-white/5 border-white/10 text-white h-12 hover:bg-white/10">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-900 border-white/10">
+                        <SelectItem value="AM" className="text-white hover:bg-white/10">AM</SelectItem>
+                        <SelectItem value="PM" className="text-white hover:bg-white/10">PM</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
 
           {/* Place of Birth */}
