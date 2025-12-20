@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CountryCode, CulturalContext, Religion, UserInterest } from '@/types/user';
+import { AstrologyData, CountryCode, CulturalContext, PsychologyData, Religion, SoulID, UserInterest } from '@/types/user';
 
 interface OnboardingState {
   step: number;
@@ -16,6 +16,11 @@ interface OnboardingState {
     dataCollection: boolean;
   };
   
+  // Soul ID Data
+  astrologyData: AstrologyData | null;
+  psychologyData: PsychologyData | null;
+  soulID: SoulID | null;
+  
   // Actions
   setStep: (step: number) => void;
   setCountry: (country: CountryCode) => void;
@@ -24,6 +29,9 @@ interface OnboardingState {
   setCulturalBackground: (bg: string) => void;
   toggleInterest: (interest: UserInterest) => void;
   toggleConsent: (key: keyof OnboardingState['consentFlags']) => void;
+  setAstrologyData: (data: AstrologyData) => void;
+  setPsychologyData: (data: PsychologyData) => void;
+  setSoulID: (id: SoulID) => void;
   reset: () => void;
   
   // Computed
@@ -45,6 +53,9 @@ export const useOnboardingStore = create<OnboardingState>()(
         aiCounseling: false,
         dataCollection: false,
       },
+      astrologyData: null,
+      psychologyData: null,
+      soulID: null,
 
       setStep: (step) => set({ step }),
       setCountry: (country) => set({ country }),
@@ -72,6 +83,9 @@ export const useOnboardingStore = create<OnboardingState>()(
           [key]: !state.consentFlags[key]
         }
       })),
+      setAstrologyData: (astrologyData) => set({ astrologyData }),
+      setPsychologyData: (psychologyData) => set({ psychologyData }),
+      setSoulID: (soulID) => set({ soulID }),
       reset: () => set({
         step: 1,
         country: null,
@@ -84,7 +98,10 @@ export const useOnboardingStore = create<OnboardingState>()(
           relationshipMatching: false,
           aiCounseling: false,
           dataCollection: false,
-        }
+        },
+        astrologyData: null,
+        psychologyData: null,
+        soulID: null,
       }),
 
       getCulturalContext: () => {

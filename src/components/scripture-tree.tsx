@@ -48,7 +48,6 @@ export function ScriptureTree({
   return (
     <Accordion
       type="multiple"
-      defaultValue={defaultOpenCategories}
       className="w-full"
     >
       {availableCategories.map((category) => {

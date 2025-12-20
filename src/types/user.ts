@@ -27,12 +27,50 @@ export interface CulturalContext {
   consentFlags: ConsentFlags;
 }
 
+export interface AstrologyData {
+  dateOfBirth: string;
+  timeOfBirth: string;
+  placeOfBirth: string;
+  lat?: number;
+  lng?: number;
+  lagna?: string;
+  rashi?: string;
+  nakshatra?: string;
+}
+
+export interface PsychologyData {
+  gunaBalance: {
+    sattva: number;
+    rajas: number;
+    tamas: number;
+  };
+  dosha: {
+    vata: number;
+    pitta: number;
+    kapha: number;
+  };
+  personalityTraits: string[];
+}
+
+export interface SoulID {
+  astrology: AstrologyData;
+  psychology: PsychologyData;
+  karmicSignature: number;
+  signatureHash: string;
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
   displayName?: string;
   photoURL?: string;
   culturalContext: CulturalContext;
+  soulID?: SoulID;
+  karmaMeter: {
+    points: number;
+    level: number;
+    glowColor: string;
+  };
   createdAt: Date;
   updatedAt: Date;
   isCreator?: boolean;
