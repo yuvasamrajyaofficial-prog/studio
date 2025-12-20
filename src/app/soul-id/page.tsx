@@ -182,12 +182,12 @@ export default function SoulIDPage() {
               Your Soul ID has been generated and stored in the cosmic ledger. You can now explore ancient wisdom and connect with your spiritual path.
             </p>
             <Button 
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/cosmos')}
               size="lg"
               className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-12"
             >
               <Home className="w-5 h-5 mr-2" />
-              Enter MALOLA
+              Enter the Cosmos
             </Button>
           </motion.div>
         </div>

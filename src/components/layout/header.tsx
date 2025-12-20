@@ -57,7 +57,7 @@ export function Header() {
             <ThemeToggleButton />
             {hasSoulID ? (
               <Button asChild size="sm" className="bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700 text-white font-semibold">
-                <Link href="/">Enter the Cosmos</Link>
+                <Link href="/cosmos">Enter the Cosmos</Link>
               </Button>
             ) : (
               <Button asChild size="sm" className="bg-amber-500 hover:bg-amber-600 text-black font-semibold">
