@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Header } from '@/components/layout/header';
-import { ResizablePanelGroup, ResizablePanel } from 'react-resizable-panels';
+import { PanelGroup, Panel } from 'react-resizable-panels';
 import { ResizableHandle } from '@/components/ui/resizable-handle';
 import { EraSlider } from '@/components/era-slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -28,9 +28,9 @@ export default function ScriptureLayout({
       <Header />
       
       <main className="flex-1 flex flex-col h-[calc(100vh-4rem)]">
-        <ResizablePanelGroup direction="horizontal" className="flex-1">
+        <PanelGroup direction="horizontal" className="flex-1">
           {/* Sidebar Panel */}
-          <ResizablePanel 
+          <Panel 
             defaultSize={25} 
             minSize={20} 
             maxSize={40}
@@ -53,12 +53,12 @@ export default function ScriptureLayout({
                 </TabsContent>
               </div>
             </Tabs>
-          </ResizablePanel>
+          </Panel>
 
           <ResizableHandle withHandle />
 
           {/* Main Content Panel */}
-          <ResizablePanel defaultSize={75} className="relative">
+          <Panel defaultSize={75} className="relative">
             <div className="absolute inset-0 bg-[#050505] overflow-y-auto">
               {/* Background decorative elements */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-900/10 pointer-events-none" />
@@ -76,8 +76,8 @@ export default function ScriptureLayout({
                 </motion.div>
               </AnimatePresence>
             </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+          </Panel>
+        </PanelGroup>
       </main>
     </div>
   );
