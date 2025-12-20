@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/badge"; // Using badge for tags
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, BookOpen, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
@@ -38,17 +38,11 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Button variant="ghost" asChild className="mb-8 pl-0 hover:pl-2 transition-all">
-        <Link href="/scriptures">
-          <ChevronLeft className="mr-2 h-4 w-4" /> Back to Library
-        </Link>
-      </Button>
-
+    <div className="p-8 lg:p-12 max-w-5xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Sidebar / Info */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="relative aspect-[3/4] w-full rounded-lg overflow-hidden shadow-xl">
+          <div className="relative aspect-[3/4] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/10">
             {scripture.coverImageUrl ? (
               <Image
                 src={scripture.coverImageUrl}
@@ -57,8 +51,8 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-muted flex items-center justify-center">
-                <BookOpen className="h-16 w-16 text-muted-foreground" />
+              <div className="w-full h-full bg-white/5 flex items-center justify-center">
+                <BookOpen className="h-16 w-16 text-white/20" />
               </div>
             )}
           </div>
@@ -66,52 +60,57 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
           <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {scripture.tags.map(tag => (
-                <Badge key={tag} variant="secondary">{tag}</Badge>
+                <Badge key={tag} variant="outline" className="bg-white/5 border-white/10 text-gray-400">{tag}</Badge>
               ))}
             </div>
             
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" /> {scripture.region}
+            <div className="space-y-3 text-sm text-gray-500">
+              <div className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-yellow-500/50" /> {scripture.region}
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" /> {scripture.era?.replace('_', ' ')}
+              <div className="flex items-center gap-3">
+                <Clock className="h-4 w-4 text-yellow-500/50" /> {scripture.era?.replace('_', ' ')}
               </div>
-              <div className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4" /> {scripture.language}
+              <div className="flex items-center gap-3">
+                <BookOpen className="h-4 w-4 text-yellow-500/50" /> {scripture.language}
               </div>
             </div>
           </div>
         </div>
 
         {/* Content */}
-        <div className="lg:col-span-2 space-y-8">
-          <div>
-            <h1 className="text-4xl font-bold font-headline mb-4">{scripture.title}</h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+        <div className="lg:col-span-2 space-y-10">
+          <div className="space-y-4">
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
+              {scripture.title}
+            </h1>
+            <p className="text-xl text-gray-400 leading-relaxed">
               {scripture.description}
             </p>
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-2xl font-semibold font-headline">Chapters</h2>
-            <div className="grid gap-4">
+          <div className="space-y-6">
+            <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
+              <div className="w-8 h-px bg-yellow-500/50" />
+              Chapters
+            </h2>
+            <div className="grid gap-3">
               {scripture.chapters.map((chapter) => (
                 <Link 
                   key={chapter.id} 
                   href={`/scriptures/${scripture.id}/chapter/${chapter.id}`}
                   className="block group"
                 >
-                  <div className="border rounded-lg p-4 hover:bg-accent transition-colors flex items-center justify-between">
-                    <div>
-                      <div className="font-medium group-hover:text-primary transition-colors">
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-between">
+                    <div className="space-y-1">
+                      <div className="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">
                         Chapter {chapter.number}: {chapter.title}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-gray-500">
                         {chapter.description}
                       </div>
                     </div>
-                    <ChevronLeft className="h-5 w-5 rotate-180 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <ChevronLeft className="h-5 w-5 rotate-180 text-gray-600 group-hover:text-yellow-500 transition-all transform group-hover:translate-x-1" />
                   </div>
                 </Link>
               ))}

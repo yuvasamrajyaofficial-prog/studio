@@ -49,9 +49,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="p-8 lg:p-12 max-w-5xl mx-auto">
       <div className="mb-8">
-        <Button variant="ghost" asChild className="pl-0 hover:pl-2 transition-all">
+        <Button variant="ghost" asChild className="pl-0 hover:pl-2 transition-all text-gray-500 hover:text-white">
           <Link href={`/scriptures/${id}`}>
             <ChevronLeft className="mr-2 h-4 w-4" /> Back to Book
           </Link>

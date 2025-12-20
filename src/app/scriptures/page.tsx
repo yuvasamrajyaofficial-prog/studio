@@ -1,64 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { EraSlider } from "@/components/era-slider";
-import { ScriptureHierarchy } from "@/components/scripture-hierarchy";
-import { ScriptureTree } from "@/components/scripture-tree";
-import { Header } from "@/components/layout/header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { scriptures } from "@/lib/scriptures";
-
+import { motion } from "framer-motion";
 
 export default function ScriptureLibraryPage() {
-  const [selectedEra, setSelectedEra] = useState("Kali");
-
-  // Filter scriptures based on selected Era (mock logic for now)
-  // In a real app, we would filter `scriptures` by `yuga`
-  const filteredScriptures = scriptures; 
-
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8 h-[calc(100vh-8rem)]">
-          {/* Sidebar */}
-          <aside className="w-full lg:w-80 flex flex-col gap-6 shrink-0">
-
-
-            <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
-
-            <Tabs defaultValue="library" className="flex-1 flex flex-col">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="library">Cosmic Library</TabsTrigger>
-                <TabsTrigger value="hierarchy">Hierarchy</TabsTrigger>
-              </TabsList>
-              
-              <div className="flex-1 overflow-y-auto mt-2 border rounded-lg bg-card/30 p-2">
-                <TabsContent value="library" className="mt-0 h-full">
-                  <ScriptureTree scriptures={filteredScriptures} />
-                </TabsContent>
-                <TabsContent value="hierarchy" className="mt-0 h-full">
-                  <ScriptureHierarchy />
-                </TabsContent>
-              </div>
-            </Tabs>
-          </aside>
-
-          {/* Main Content Area */}
-          <section className="flex-1 rounded-xl border border-border/50 bg-card/20 relative overflow-hidden flex flex-col items-center justify-center text-center p-8">
-            {/* Background decorative elements could go here */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
-            
-            <div className="max-w-md space-y-4 z-10">
-              <p className="text-muted-foreground text-lg">
-                Select a scripture from the library to begin your journey.
-              </p>
-            </div>
-          </section>
+    <div className="h-full w-full flex flex-col items-center justify-center text-center p-12">
+      <div className="max-w-2xl space-y-8 z-10">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="w-24 h-24 mx-auto rounded-full bg-gradient-to-b from-yellow-500/20 to-transparent border border-yellow-500/30 flex items-center justify-center"
+        >
+          <div className="w-12 h-12 rounded-full bg-yellow-500/40 blur-xl animate-pulse" />
+        </motion.div>
+        
+        <div className="space-y-4">
+          <h2 className="text-4xl font-bold tracking-tight bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
+            Begin Your Cosmic Journey
+          </h2>
+          <p className="text-gray-400 text-xl leading-relaxed">
+            Select a sacred text from the library to unlock ancient wisdom and explore the depths of consciousness.
+          </p>
         </div>
-      </main>
 
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="pt-8"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-500">
+            <span className="w-2 h-2 rounded-full bg-yellow-500 animate-ping" />
+            Awaiting your selection...
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
