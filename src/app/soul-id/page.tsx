@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { calculateSoulID, getKarmicGlowColor } from '@/lib/soul-id-calculator';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, ShieldCheck, Zap, Moon, Sun, Home } from 'lucide-react';
+import { Sparkles, ShieldCheck, Zap, Moon, Sun, Home, ChevronLeft } from 'lucide-react';
 import type { SoulID } from '@/types/user';
 import Link from 'next/link';
 import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
