@@ -92,29 +92,44 @@ export default function StepAstrology({ onComplete }: StepAstrologyProps) {
                   <CalendarIcon className="w-4 h-4 text-yellow-500" />
                   Date of Birth
                 </FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-left font-normal bg-white/5 border-white/10 text-white h-12 hover:bg-white/10 hover:border-white/20"
-                      >
-                        {field.value ? format(field.value, 'PPP') : <span className="text-gray-500">Pick a date</span>}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 bg-gray-900 border-white/10" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
-                      initialFocus
-                      className="bg-gray-900 text-white"
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      type="date"
+                      value={field.value ? format(field.value, 'yyyy-MM-dd') : ''}
+                      onChange={(e) => {
+                        const date = e.target.value ? new Date(e.target.value) : undefined;
+                        field.onChange(date);
+                      }}
+                      max={format(new Date(), 'yyyy-MM-dd')}
+                      min="1900-01-01"
+                      className="bg-white/5 border-white/10 text-white h-12 focus:ring-yellow-500/50 pr-10"
                     />
-                  </PopoverContent>
-                </Popover>
+                  </FormControl>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 hover:bg-white/10"
+                      >
+                        <CalendarIcon className="h-5 w-5 text-gray-400" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-gray-900 border-white/10" align="end">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                        initialFocus
+                        className="bg-gray-900 text-white"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">Type manually or click calendar icon</p>
                 <FormMessage />
               </FormItem>
             )}
