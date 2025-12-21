@@ -121,10 +121,13 @@ export default function SoulIDPage() {
       <div className="relative z-10 w-full max-w-2xl">
         {/* Back Button */}
         <div className="mb-6">
-          <Link href="/register" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <button 
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          >
             <ChevronLeft className="w-5 h-5" />
-            <span>Back to Registration</span>
-          </Link>
+            <span>Back</span>
+          </button>
         </div>
 
         {/* Header */}
