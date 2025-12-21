@@ -104,7 +104,7 @@ export default function CosmosPage() {
                 icon={Sparkles}
                 title="AI Spiritual Guide"
                 description="Converse with your personalized AI guru"
-                href="/studio"
+                href="/ai-guide"
                 gradient="from-purple-500/20 to-pink-500/20"
                 borderColor="border-purple-500/30"
               />
