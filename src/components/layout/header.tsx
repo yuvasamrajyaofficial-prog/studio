@@ -12,6 +12,7 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === "/";
+  const isCosmos = pathname === "/cosmos";
   const [hasSoulID, setHasSoulID] = useState(false);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full bg-[#0f0518]/80 backdrop-blur-md border-b border-white/5">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          {!isHome && (
+          {!isHome && !isCosmos && (
             <Button 
               variant="ghost" 
               size="icon" 
