@@ -42,61 +42,39 @@ export function calculateSoulID(
   const karmicGlowColor = getKarmicGlowColor(psychology);
 
   return {
+    astrology,
+    psychology: psychology || ({
+      gunaBalance: { sattva: 50, rajas: 30, tamas: 20 },
+      doshaBalance: { vata: 33, pitta: 33, kapha: 34 },
+      dosha: 'Balanced',
+      dominantGuna: 'SATTVA',
+      personalityTraits: ['Balanced', 'Harmonious']
+    }),
     karmicSignature,
     signatureHash, // Long hash for legacy/backup
     shortId: shortId || '', // Short human-readable ID like @username_1234
-    karmicGlowColor,
-    astrology: {
-      lagna: astrology.lagna,
-      rashi: astrology.rashi,
-      nakshatra: astrology.nakshatra,
-    },
-    psychology: psychology || null,
-  };
-}
-    tob: astrology.timeOfBirth,
-    pob: astrology.placeOfBirth,
-    ...(psychology && {
-      guna: psychology.gunaBalance,
-      dosha: psychology.dosha,
-      traits: psychology.personalityTraits.sort()
-    })
-  });
-  
-  const signatureHash = sha256(rawData);
-
-  // 3. Mock some astrological details  if not provided
-  const enrichedAstrology: AstrologyData = {
-    ...astrology,
-    lagna: astrology.lagna || 'Taurus',
-    rashi: astrology.rashi || 'Leo',
-    nakshatra: astrology.nakshatra || 'Magha'
-  };
-
-  // 4. Provide default psychology if not present
-  const enrichedPsychology: PsychologyData = psychology || {
-    dominantGuna: 'Sattva',
-    gunaBalance: { sattva: 33, rajas: 33, tamas: 34 },
-    dosha: 'Vata',
-    doshaBalance: { vata: 33, pitta: 33, kapha: 34 },
-    personalityTraits: []
-  };
-
-  return {
-    astrology: enrichedAstrology,
-    psychology: enrichedPsychology,
-    karmicSignature,
-    signatureHash
   };
 }
 
 /**
- * Determines the "Glow Color" based on the dominant Guna.
+ * Determines the karmic glow color based on psychological profile.
+ * Returns appropriate color for user's dominant guna.
  */
-export function getKarmicGlowColor(psychology: PsychologyData): string {
+export function getKarmicGlowColor(psychology?: PsychologyData | null): string {
+  if (!psychology) {
+    return '#4ECDC4'; // Default teal for new users
+  }
+
   const { sattva, rajas, tamas } = psychology.gunaBalance;
-  
-  if (sattva >= rajas && sattva >= tamas) return '#FFD700'; // Gold (Sattva)
-  if (rajas >= sattva && rajas >= tamas) return '#FF4500'; // Orange/Red (Rajas)
-  return '#4B0082'; // Indigo/Dark (Tamas)
+
+  // Determine dominant guna
+  const max = Math.max(sattva, rajas, tamas);
+
+  if (sattva === max) {
+    return '#FFD700'; // Gold for Sattva (purity, wisdom)
+  } else if (rajas === max) {
+    return '#FF6B6B'; // Red for Rajas (passion, activity)
+  } else {
+    return '#9B59B6'; // Purple for Tamas (inertia, ignorance)
+  }
 }
