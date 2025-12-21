@@ -6,6 +6,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AIModal } from "@/components/ai/ai-modal";
 import { AIChatBubble } from "@/components/ai/ai-chat-bubble";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const fontBody = PT_Sans({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ const fontHeadline = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Cosmic Scriptures Explorer",
+  title: "MALOLA - Global Cultural & Spiritual Intelligence",
   description: "Navigate the vast universe of ancient scriptures with an interactive guide.",
 };
 
@@ -44,10 +45,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
-          <AIModal />
-          <AIChatBubble />
+          <AuthProvider>
+            {children}
+            <Toaster />
+            <AIModal />
+            <AIChatBubble />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
