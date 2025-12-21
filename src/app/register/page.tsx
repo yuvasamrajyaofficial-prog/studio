@@ -551,8 +551,9 @@ export default function RegisterPage() {
                 type="submit"
                 size="lg"
                 className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-12 text-lg"
+                disabled={isSubmitting}
               >
-                Generate My Soul ID
+                {isSubmitting ? 'Creating Account...' : 'Generate My Soul ID'}
                 <ChevronRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
