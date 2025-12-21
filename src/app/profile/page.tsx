@@ -40,12 +40,53 @@ export default function ProfilePage() {
       }
 
       try {
-        const userProfile = await getUserProfile(user.uid);
+        console.log('[Profile] Loading profile for:', user.uid);
+        let userProfile = await getUserProfile(user.uid);
+        
+        // If profile doesn't exist, create it now
+        if (!userProfile) {
+          console.log('[Profile] Profile not found, creating...');
+          
+          const { createUserProfile } = await import('@/lib/firebase/firestore');
+          await createUserProfile(user.uid, {
+            uid: user.uid,
+            email: user.email!,
+            displayName: user.displayName || null,
+            photoURL: user.photoURL || null,
+            karmaMeter: {
+              points: 0,
+              level: 1,
+              glowColor: '#4ECDC4',
+              activities: [],
+            },
+            stats: {
+              scripturesRead: 0,
+              totalReadingTime: 0,
+              aiChatSessions: 0,
+              favoriteScriptures: [],
+              communitiesJoined: [],
+            },
+            preferences: {
+              theme: 'dark' as const,
+              language: 'English',
+              notifications: {
+                email: true,
+                push: false,
+                dailyWisdom: true,
+              },
+            },
+          });
+          
+          console.log('[Profile] Profile created successfully');
+          // Fetch again
+          userProfile = await getUserProfile(user.uid);
+        }
+        
         if (userProfile) {
           setProfile(userProfile);
         }
       } catch (error) {
-        console.error('Error loading profile:', error);
+        console.error('[Profile] Error loading/creating profile:', error);
       } finally {
         setIsLoading(false);
       }
