@@ -41,6 +41,13 @@ export default function AIGuidePage() {
     }
   }, [user, router]);
 
+  // Auto-create new chat on mount if no chats exist
+  useEffect(() => {
+    if (user && chats.length === 0 && !activeChat) {
+      handleNewChat();
+    }
+  }, [user]); // Only run once on mount
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
