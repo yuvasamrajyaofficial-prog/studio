@@ -88,46 +88,67 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
+    let authUser = null;
     
     try {
       const formattedDate = format(values.dateOfBirth, 'yyyy-MM-dd');
       const formattedTime = `${hour}:${minute} ${period}`;
       
-      // Create Firebase auth account
-      const user = await signUp(values.email, values.password);
+      // Step 1: Create Firebase auth account
+      console.log('[Registration] Creating auth account...');
+      authUser = await signUp(values.email, values.password);
+      console.log('[Registration] Auth account created:', authUser.uid);
       
-      // Prepare registration data (without password)
-      const registrationData = {
-        country: values.country,
-        language: values.language,
-        religion: values.religion,
-        interests: values.interests,
-        consentAstrology: values.consentAstrology,
-        consentMatching: values.consentMatching,
-        dateOfBirth: formattedDate,
-        timeOfBirth: formattedTime,
-        placeOfBirth: values.placeOfBirth,
-        registeredAt: new Date().toISOString(),
-      };
-      
-      // Save registration data to Firestore immediately
-      const { saveRegistrationData } = await import('@/lib/firebase/firestore');
-      await saveRegistrationData(user.uid, registrationData);
-      
-      // Also save to localStorage temporarily (for migration)
-      localStorage.setItem('malola_registration', JSON.stringify(registrationData));
+      // Step 2: Save full registration data
+      try {
+        const registrationData = {
+          country: values.country,
+          language: values.language,
+          religion: values.religion,
+          interests: values.interests,
+          consentAstrology: values.consentAstrology,
+          consentMatching: values.consentMatching,
+          dateOfBirth: formattedDate,
+          timeOfBirth: formattedTime,
+          placeOfBirth: values.placeOfBirth,
+          registeredAt: new Date().toISOString(),
+        };
+        
+        console.log('[Registration] Saving to Firestore...');
+        const { saveRegistrationData } = await import('@/lib/firebase/firestore');
+        await saveRegistrationData(authUser.uid, registrationData);
+        console.log('[Registration] Firestore save successful');
+        
+        // Also save to localStorage
+        localStorage.setItem('malola_registration', JSON.stringify(registrationData));
+      } catch (firestoreError) {
+        console.error('[Registration] Firestore save failed:', firestoreError);
+        // Don't fail the whole registration if just Firestore fails
+      }
       
       toast({
-        title: 'Account created successfully!',
+        title: '✨ Account created successfully!',
         description: 'Generating your Soul ID...',
       });
       
-      // Navigate to Soul ID generation page
+      // Navigate to Soul ID generation
       router.push('/soul-id');
       
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.error('[Registration] Error:', error);
       
+      // If auth succeeded but something else failed, still proceed
+      if (authUser) {
+        console.log('[Registration] Auth succeeded, proceeding to Soul ID...');
+        toast({
+          title: 'Account created!',
+          description: 'Complete your profile setup.',
+        });
+        router.push('/soul-id');
+        return;
+      }
+      
+      // Auth failed completely
       let errorMessage = 'Failed to create account. Please try again.';
       
       if (error.code === 'auth/email-already-in-use') {
