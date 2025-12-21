@@ -32,10 +32,10 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
  */
 export async function updateSoulID(userId: string, soulID: SoulID) {
   const userRef = doc(db, 'users', userId);
-  await updateDoc(userRef, {
+  await setDoc(userRef, {
     soulID,
     updatedAt: serverTimestamp(),
-  });
+  }, { merge: true });
 }
 
 /**
@@ -43,10 +43,10 @@ export async function updateSoulID(userId: string, soulID: SoulID) {
  */
 export async function saveRegistrationData(userId: string, registrationData: any) {
   const userRef = doc(db, 'users', userId);
-  await updateDoc(userRef, {
+  await setDoc(userRef, {
     registration: registrationData,
     updatedAt: serverTimestamp(),
-  });
+  }, { merge: true });
 }
 
 /**
