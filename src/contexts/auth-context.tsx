@@ -47,27 +47,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await updateProfile(user, { displayName });
     }
 
-    // Create user profile in Firestore
+    // Create user profile in Firestore with ALL required fields
     await createUserProfile(user.uid, {
       uid: user.uid,
       email: user.email!,
       displayName: displayName || null,
       photoURL: null,
-      culturalContext: {
-        country: '',
-        language: '',
-        religion: 'HINDUISM',
-        interests: [],
-        consentAstrology: false,
-        consentMatching: false,
-      },
       karmaMeter: {
         points: 0,
         level: 1,
         glowColor: '#4ECDC4',
+        activities: [],
       },
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      stats: {
+        scripturesRead: 0,
+        totalReadingTime: 0,
+        aiChatSessions: 0,
+        favoriteScriptures: [],
+        communitiesJoined: [],
+      },
+      preferences: {
+        theme: 'dark' as const,
+        language: 'English',
+        notifications: {
+          email: true,
+          push: false,
+          dailyWisdom: true,
+        },
+      },
     });
 
     return user;
