@@ -70,19 +70,21 @@ export function ChatSidebar({
         {/* Header */}
         <div className="p-4 border-b border-white/10">
           <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={onToggle}
-              className="lg:hidden text-gray-400 hover:text-white transition-colors"
+            <Link
+              href="/cosmos"
+              className="text-gray-400 hover:text-white transition-colors"
+              title="Back to Cosmos"
             >
               <ChevronLeft className="w-5 h-5" />
-            </button>
+            </Link>
             <h2 className="text-lg font-bold text-white">Spiritual Guide</h2>
-            <button
-              onClick={() => router.push('/cosmos')}
+            <Link
+              href="/settings/ai"
               className="text-gray-400 hover:text-white transition-colors"
+              title="AI Settings"
             >
               <Settings className="w-5 h-5" />
-            </button>
+            </Link>
           </div>
 
           {/* New Chat Button */}
