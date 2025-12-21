@@ -8,6 +8,10 @@ import { ChatMessages } from './components/chat-messages';
 import { ChatInput } from './components/chat-input';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { generateAIResponse } from '@/lib/ai/client';
+import { createSystemMessage } from '@/lib/ai/spiritual-context';
+import { loadUserChats, createChat, saveMessage, updateChatTitle, deleteChat as deleteFirestoreChat } from '@/lib/ai/chat-storage';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
@@ -27,17 +31,21 @@ interface Chat {
 export default function AIGuidePage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { toast } = useToast();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [streamingMessage, setStreamingMessage] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Redirect if not authenticated
   useEffect(() => {
     if (!user) {
       router.push('/login');
+    } else {
+      loadChats();
     }
   }, [user, router]);
 
@@ -51,23 +59,37 @@ export default function AIGuidePage() {
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, streamingMessage]);
+
+  //Load chats from Firestore
+  const loadChats = async () => {
+    if (!user) return;
+    try {
+      const loadedChats = await loadUserChats(user.uid);
+      setChats(loadedChats);
+    } catch (error) {
+      console.error('Failed to load chats:', error);
+    }
+  };
 
   // Create new chat
-  const handleNewChat = () => {
-    const newChatId = `chat_${Date.now()}`;
-    const newChat: Chat = {
-      id: newChatId,
-      title: 'New Conversation',
-      preview: 'Start a new spiritual conversation',
-      updatedAt: new Date(),
-      messages: [],
-    };
+  const handleNewChat = async () => {
+    if (!user) return;
     
-    setChats([newChat, ...chats]);
-    setActiveChat(newChatId);
-    setMessages([]);
-    setIsSidebarOpen(false);
+    try {
+      const newChat = await createChat(user.uid, 'gemini'); // Default to Gemini
+      setChats([newChat, ...chats]);
+      setActiveChat(newChat.id);
+      setMessages([]);
+      setIsSidebarOpen(false);
+    } catch (error) {
+      console.error('Failed to create chat:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to create new chat',
+        variant: 'destructive',
+      });
+    }
   };
 
   // Select chat
@@ -81,16 +103,25 @@ export default function AIGuidePage() {
   };
 
   // Delete chat
-  const handleDeleteChat = (chatId: string) => {
-    setChats(chats.filter((c) => c.id !== chatId));
-    if (activeChat === chatId) {
-      setActiveChat(null);
-      setMessages([]);
+  const handleDeleteChat = async (chatId: string) => {
+    if (!user) return;
+    
+    try {
+      await deleteFirestoreChat(user.uid, chatId);
+      setChats(chats.filter((c) => c.id !== chatId));
+      if (activeChat === chatId) {
+        setActiveChat(null);
+        setMessages([]);
+      }
+    } catch (error) {
+      console.error('Failed to delete chat:', error);
     }
   };
 
-  // Send message (mock for now)
+  // Send message with REAL AI
   const handleSendMessage = async (content: string) => {
+    if (!user || !activeChat) return;
+
     const userMessage: Message = {
       id: `msg_${Date.now()}`,
       role: 'user',
@@ -98,51 +129,109 @@ export default function AIGuidePage() {
       timestamp: new Date(),
     };
 
-    setMessages([...messages, userMessage]);
+    // Add user message immediately
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setIsLoading(true);
+    setStreamingMessage('');
 
-    // Mock AI response (replace with actual AI API call)
-    setTimeout(() => {
-      const aiMessage: Message = {
-        id: `msg_${Date.now() + 1}`,
-        role: 'assistant',
-        content: `Thank you for sharing that with me. As your spiritual guide, I'm here to help you explore deeper wisdom and find clarity on your path.\n\nremember:\n- Every journey begins with intention\n- Wisdom comes from within\n- You are exactly where you need to be\n\nHow can I support you further on your spiritual journey?`,
-        timestamp: new Date(),
-      };
+    try {
+      // Save user message to Firestore
+      await saveMessage(user.uid, activeChat, userMessage);
 
-      const newMessages = [...messages, userMessage, aiMessage];
-      setMessages(newMessages);
+      // Build spiritual context
+      const systemMessage = await createSystemMessage(user.uid);
+
+      // Prepare messages for AI
+      const aiMessages = [
+        systemMessage,
+        ...updatedMessages.map(m => ({
+          role: m.role,
+          content: m.content,
+        })),
+      ];
+
+      let fullResponse = '';
+
+      // Generate AI response with streaming
+      await generateAIResponse(user.uid, aiMessages, {
+        onToken: (token) => {
+          fullResponse += token;
+          setStreamingMessage(fullResponse);
+        },
+        onComplete: async () => {
+          const aiMessage: Message = {
+            id: `msg_${Date.now()}`,
+            role: 'assistant',
+            content: fullResponse,
+            timestamp: new Date(),
+          };
+
+          const finalMessages = [...updatedMessages, aiMessage];
+          setMessages(finalMessages);
+          setStreamingMessage('');
+          setIsLoading(false);
+
+          // Save AI message to Firestore
+          await saveMessage(user.uid, activeChat, aiMessage);
+
+          // Update chat title from first message
+          if (messages.length === 0) {
+            await updateChatTitle(
+              user.uid,
+              activeChat,
+              content.slice(0, 50) + (content.length > 50 ? '...' : ''),
+              content.slice(0, 100) + (content.length > 100 ? '...' : '')
+            );
+          }
+
+          // Reload chats to update sidebar
+          await loadChats();
+        },
+        onError: (error) => {
+          setIsLoading(false);
+          setStreamingMessage('');
+          toast({
+            title: 'AI Error',
+            description: error,
+            variant: 'destructive',
+          });
+        },
+      });
+    } catch (error: any) {
       setIsLoading(false);
-
-      // Update chat with new messages
-      if (activeChat) {
-        setChats(
-          chats.map((chat) =>
-            chat.id === activeChat
-              ? {
-                  ...chat,
-                  messages: newMessages,
-                  title: messages.length === 0 ? content.slice(0, 30) + '...' : chat.title,
-                  preview: content.slice(0, 50) + '...',
-                  updatedAt: new Date(),
-                }
-              : chat
-          )
-        );
-      }
-    }, 1500);
+      setStreamingMessage('');
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to send message',
+        variant: 'destructive',
+      });
+    }
   };
 
   // Copy message
   const handleCopy = (content: string) => {
     navigator.clipboard.writeText(content);
-    // TODO: Add toast notification
+    toast({
+      title: 'Copied',
+      description: 'Message copied to clipboard',
+    });
   };
 
   // Regenerate response
-  const handleRegenerate = (messageId: string) => {
-    // TODO: Implement regeneration
-    console.log('Regenerate:', messageId);
+  const handleRegenerate = async (messageId: string) => {
+    // Find the message and get all messages before it
+    const messageIndex = messages.findIndex(m => m.id === messageId);
+    if (messageIndex === -1) return;
+
+    const messagesToKeep = messages.slice(0, messageIndex);
+    setMessages(messagesToKeep);
+
+    // Get the last user message
+    const lastUserMessage = messagesToKeep.reverse().find(m => m.role === 'user');
+    if (lastUserMessage) {
+      await handleSendMessage(lastUserMessage.content);
+    }
   };
 
   // Message feedback
@@ -154,6 +243,19 @@ export default function AIGuidePage() {
   if (!user) {
     return null; // Will redirect
   }
+
+  // Combine regular messages with streaming message
+  const displayMessages = streamingMessage
+    ? [
+        ...messages,
+        {
+          id: 'streaming',
+          role: 'assistant' as const,
+          content: streamingMessage,
+          timestamp: new Date(),
+        },
+      ]
+    : messages;
 
   return (
     <div className="h-screen flex bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] overflow-hidden">
@@ -186,7 +288,7 @@ export default function AIGuidePage() {
         {/* Messages */}
         <div className="flex-1 overflow-hidden flex flex-col">
           <ChatMessages
-            messages={messages}
+            messages={displayMessages}
             isLoading={isLoading}
             onCopy={handleCopy}
             onRegenerate={handleRegenerate}
@@ -199,7 +301,7 @@ export default function AIGuidePage() {
         <ChatInput
           onSend={handleSendMessage}
           isLoading={isLoading}
-          disabled={!activeChat && messages.length === 0}
+          disabled={!activeChat}
         />
       </div>
     </div>
