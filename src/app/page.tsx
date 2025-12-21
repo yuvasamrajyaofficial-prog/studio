@@ -35,9 +35,18 @@ export default function HomePage() {
             </p>
             
             {/* CTA Button */}
-            <Button asChild size="lg" className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-10 text-lg shadow-lg shadow-orange-500/30">
-              <Link href="/register">Start Your Journey</Link>
-            </Button>
+            <div className="flex flex-col items-center gap-4">
+              <Button asChild size="lg" className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-10 text-lg shadow-lg shadow-orange-500/30">
+                <Link href="/register">Start Your Journey</Link>
+              </Button>
+              
+              <p className="text-gray-400 text-sm">
+                Already have an account?{' '}
+                <Link href="/login" className="text-amber-400 hover:text-amber-300 font-semibold underline">
+                  Log in here
+                </Link>
+              </p>
+            </div>
             
             {/* Floating Flower Action Button */}
             <div className="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8">
