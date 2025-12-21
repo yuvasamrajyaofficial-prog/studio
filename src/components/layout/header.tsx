@@ -60,9 +60,14 @@ export function Header() {
                 <Link href="/cosmos">Enter the Cosmos</Link>
               </Button>
             ) : (
-              <Button asChild size="sm" className="bg-amber-500 hover:bg-amber-600 text-black font-semibold">
-                <Link href="/register">Start Journey</Link>
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10 hidden sm:flex">
+                  <Link href="/login">Log In</Link>
+                </Button>
+                <Button asChild size="sm" className="bg-amber-500 hover:bg-amber-600 text-black font-semibold">
+                  <Link href="/register">Start Journey</Link>
+                </Button>
+              </div>
             )}
           </div>
         </div>
