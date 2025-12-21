@@ -10,42 +10,96 @@ import { Sparkles, ShieldCheck, Zap, Moon, Sun, Home, ChevronLeft } from 'lucide
 import type { SoulID } from '@/types/user';
 import Link from 'next/link';
 import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
+import { useAuth } from '@/contexts/auth-context';
+import { getUserProfile, updateSoulID, saveRegistrationData } from '@/lib/firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 export default function SoulIDPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [soulID, setSoulID] = useState<SoulID | null>(null);
   const [isRevealing, setIsRevealing] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Get registration data from localStorage
-    const registrationData = localStorage.getItem('malola_registration');
-    
-    if (!registrationData) {
-      // No registration data, redirect to register
-      router.push('/register');
-      return;
-    }
+    const generateAndSaveSoulID = async () => {
+      try {
+        // Check if user is authenticated
+        if (!user) {
+          router.push('/login');
+          return;
+        }
 
-    const data = JSON.parse(registrationData);
-    
-    // Generate Soul ID
-    const astrologyData = {
-      dateOfBirth: data.dateOfBirth,
-      timeOfBirth: data.timeOfBirth,
-      placeOfBirth: data.placeOfBirth,
-      lagna: 'Taurus', // Mock data - would be calculated
-      rashi: 'Leo',
-      nakshatra: 'Magha',
+        // Try to get existing Soul ID from Firestore first
+        const profile = await getUserProfile(user.uid);
+        
+        if (profile?.soulID) {
+          // Soul ID already exists, just display it
+          setSoulID(profile.soulID);
+          setIsLoading(false);
+          setTimeout(() => setIsRevealing(false), 2000);
+          return;
+        }
+
+        // Get registration data from Firestore
+        if (!profile?.registration) {
+          // Try localStorage as fallback (for migration)
+          const localData = localStorage.getItem('malola_registration');
+          
+          if (!localData) {
+            router.push('/register');
+            return;
+          }
+
+          const data = JSON.parse(localData);
+          
+          // Save registration data to Firestore
+          await saveRegistrationData(user.uid, data);
+        }
+
+        // Generate Soul ID from registration data
+        const registrationData = profile?.registration || JSON.parse(localStorage.getItem('malola_registration') || '{}');
+        
+        const astrologyData = {
+          dateOfBirth: registrationData.dateOfBirth,
+          timeOfBirth: registrationData.timeOfBirth,
+          placeOfBirth: registrationData.placeOfBirth,
+          lagna: 'Taurus', // Mock - would calculate from actual astrology API
+          rashi: 'Leo',
+          nakshatra: 'Magha',
+        };
+
+        const generatedSoulID = calculateSoulID(astrologyData);
+        setSoulID(generatedSoulID);
+        
+        // Save Soul ID to Firestore
+        await updateSoulID(user.uid, generatedSoulID);
+        
+        // Also save to localStorage (for migration/fallback)
+        localStorage.setItem('malola_soul_id', JSON.stringify(generatedSoulID));
+        
+        setIsLoading(false);
+        setTimeout(() => setIsRevealing(false), 2000);
+
+        toast({
+          title: 'Soul ID Created!',
+          description: 'Your cosmic identity has been generated.',
+        });
+
+      } catch (error) {
+        console.error('Error generating Soul ID:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to generate Soul ID. Please try again.',
+          variant: 'destructive',
+        });
+        setIsLoading(false);
+      }
     };
 
-    const generatedSoulID = calculateSoulID(astrologyData);
-    setSoulID(generatedSoulID);
-    
-    // Store Soul ID in localStorage
-    localStorage.setItem('malola_soul_id', JSON.stringify(generatedSoulID));
-    
-    setTimeout(() => setIsRevealing(false), 2000);
-  }, [router]);
+    generateAndSaveSoulID();
+  }, [user, router, toast]);
 
   if (!soulID) {
     return (

@@ -110,6 +110,10 @@ export default function RegisterPage() {
         registeredAt: new Date().toISOString(),
       };
       
+      // Save registration data to Firestore immediately
+      const { saveRegistrationData } = await import('@/lib/firebase/firestore');
+      await saveRegistrationData(user.uid, registrationData);
+      
       // Also save to localStorage temporarily (for migration)
       localStorage.setItem('malola_registration', JSON.stringify(registrationData));
       
