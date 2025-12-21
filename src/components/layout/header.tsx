@@ -51,14 +51,22 @@ export function Header() {
             </Link>
             <Link href="/scriptures" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Scriptures</Link>
             <Link href="/blogs" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Blogs</Link>
+            {hasSoulID && (
+              <Link href="/profile" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Profile</Link>
+            )}
           </nav>
           
           <div className="flex items-center gap-3">
             <ThemeToggleButton />
             {hasSoulID ? (
-              <Button asChild size="sm" className="bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700 text-white font-semibold">
-                <Link href="/cosmos">Enter the Cosmos</Link>
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                  <Link href="/profile">Profile</Link>
+                </Button>
+                <Button asChild size="sm" className="bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700 text-white font-semibold">
+                  <Link href="/cosmos">Enter the Cosmos</Link>
+                </Button>
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10 hidden sm:flex">
