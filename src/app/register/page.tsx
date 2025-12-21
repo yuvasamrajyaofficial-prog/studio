@@ -12,21 +12,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card } from '@/components/ui/card';
-import { Calendar as CalendarIcon, Clock, MapPin, Globe, Languages, Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Globe, Languages, Sparkles, ChevronRight, ChevronLeft, Mail, Lock } from 'lucide-react';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import Link from 'next/link';
 import { Religion, UserInterest } from '@/types/user';
 import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
+import { useAuth } from '@/contexts/auth-context';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
+  // Authentication fields
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  
+  // Profile fields
   country: z.string().min(1, 'Country is required'),
   language: z.string().min(1, 'Language is required'),
   religion: z.string().min(1, 'Spiritual path is required'),
   interests: z.array(z.string()).min(1, 'Select at least one interest'),
   consentAstrology: z.boolean(),
   consentMatching: z.boolean(),
+  
+  // Birth details for Soul ID
   dateOfBirth: z.date({ required_error: 'Date of birth is required' }),
   timeOfBirth: z.string().min(1, 'Time of birth is required'),
   placeOfBirth: z.string().min(1, 'Place of birth is required'),
@@ -53,6 +62,9 @@ const interests: { value: UserInterest; label: string }[] = [
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { signUp } = useAuth();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [hour, setHour] = useState<string>('12');
   const [minute, setMinute] = useState<string>('00');
   const [period, setPeriod] = useState<string>('AM');
@@ -60,6 +72,8 @@ export default function RegisterPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      email: '',
+      password: '',
       country: '',
       language: '',
       religion: '',
@@ -72,22 +86,62 @@ export default function RegisterPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const formattedDate = format(values.dateOfBirth, 'yyyy-MM-dd');
-    const formattedTime = `${hour}:${minute} ${period}`;
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     
-    // Store registration data in localStorage
-    const registrationData = {
-      ...values,
-      dateOfBirth: formattedDate,
-      timeOfBirth: formattedTime,
-      registeredAt: new Date().toISOString(),
-    };
-    
-    localStorage.setItem('malola_registration', JSON.stringify(registrationData));
-    
-    // Navigate to Soul ID generation page
-    router.push('/soul-id');
+    try {
+      const formattedDate = format(values.dateOfBirth, 'yyyy-MM-dd');
+      const formattedTime = `${hour}:${minute} ${period}`;
+      
+      // Create Firebase auth account
+      const user = await signUp(values.email, values.password);
+      
+      // Prepare registration data (without password)
+      const registrationData = {
+        country: values.country,
+        language: values.language,
+        religion: values.religion,
+        interests: values.interests,
+        consentAstrology: values.consentAstrology,
+        consentMatching: values.consentMatching,
+        dateOfBirth: formattedDate,
+        timeOfBirth: formattedTime,
+        placeOfBirth: values.placeOfBirth,
+        registeredAt: new Date().toISOString(),
+      };
+      
+      // Also save to localStorage temporarily (for migration)
+      localStorage.setItem('malola_registration', JSON.stringify(registrationData));
+      
+      toast({
+        title: 'Account created successfully!',
+        description: 'Generating your Soul ID...',
+      });
+      
+      // Navigate to Soul ID generation page
+      router.push('/soul-id');
+      
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      
+      let errorMessage = 'Failed to create account. Please try again.';
+      
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email is already registered. Try logging in instead.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Please enter a valid email address.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'Password is too weak. Please use at least 6 characters.';
+      }
+      
+      toast({
+        title: 'Registration failed',
+        description: errorMessage,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -118,6 +172,57 @@ export default function RegisterPage() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-4xl mx-auto space-y-8">
+            {/* Section 0: Account (NEW) */}
+            <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                  <Mail className="w-6 h-6 text-amber-400" />
+                  Create Account
+                </h2>
+                <p className="text-gray-400 text-sm mt-1">Sign up to begin your spiritual journey</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-300">Email</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="email"
+                          placeholder="your@email.com" 
+                          className="bg-white/5 border-white/10 text-white h-12 placeholder:text-gray-500"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-gray-300">Password</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="password"
+                          placeholder="At least 6 characters" 
+                          className="bg-white/5 border-white/10 text-white h-12 placeholder:text-gray-500"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </Card>
+
             {/* Section 1: Region & Language */}
             <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
               <div className="mb-6">
