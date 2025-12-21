@@ -59,6 +59,7 @@ export interface SoulID {
   psychology: PsychologyData;
   karmicSignature: number;
   signatureHash: string;
+  shortId?: string; // Short ID like @username_1234
 }
 
 export interface UserProfile {

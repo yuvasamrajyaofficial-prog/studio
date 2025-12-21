@@ -7,7 +7,8 @@ import { sha256 } from 'js-sha256';
  */
 export function calculateSoulID(
   astrology: AstrologyData,
-  psychology?: PsychologyData
+  psychology?: PsychologyData,
+  shortId?: string // Optional short ID like @username_1234
 ): SoulID {
   // 1. Calculate Karmic Signature (0-1000)
   let karmicSignature: number;
@@ -22,12 +23,37 @@ export function calculateSoulID(
     const match = astrology.timeOfBirth.match(/(\d+):(\d+)/);
     const hour = match ? parseInt(match[1]) : 12;
     const minute = match ? parseInt(match[2]) : 0;
-    karmicSignature = (hour * 100 + minute) % 10000;
+    karmicSignature = (hour * 100 + minute) % 1000;
   }
 
-  // 2. Generate a unique hash for the Soul ID
+  // 2. Generate a unique hash for the Soul ID (legacy support)
   const rawData = JSON.stringify({
     dob: astrology.dateOfBirth,
+    time: astrology.timeOfBirth,
+    place: astrology.placeOfBirth,
+    lagna: astrology.lagna,
+    rashi: astrology.rashi,
+    nakshatra: astrology.nakshatra,
+  });
+  
+  const signatureHash = sha256(rawData);
+  
+  // 3. Determine karmic glow color
+  const karmicGlowColor = getKarmicGlowColor(psychology);
+
+  return {
+    karmicSignature,
+    signatureHash, // Long hash for legacy/backup
+    shortId: shortId || '', // Short human-readable ID like @username_1234
+    karmicGlowColor,
+    astrology: {
+      lagna: astrology.lagna,
+      rashi: astrology.rashi,
+      nakshatra: astrology.nakshatra,
+    },
+    psychology: psychology || null,
+  };
+}
     tob: astrology.timeOfBirth,
     pob: astrology.placeOfBirth,
     ...(psychology && {
