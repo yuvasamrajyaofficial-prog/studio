@@ -51,9 +51,6 @@ export function Header() {
             </Link>
             <Link href="/scriptures" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Scriptures</Link>
             <Link href="/blogs" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Blogs</Link>
-            {hasSoulID && (
-              <Link href="/profile" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Profile</Link>
-            )}
           </nav>
           
           <div className="flex items-center gap-3">
