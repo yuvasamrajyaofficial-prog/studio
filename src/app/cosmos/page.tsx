@@ -10,36 +10,49 @@ import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
 import { BookOpen, Sparkles, Heart, Users, Star, Zap } from 'lucide-react';
 import Link from 'next/link';
 import type { SoulID } from '@/types/user';
+import { useAuth } from '@/contexts/auth-context';
+import { getUserProfile } from '@/lib/firebase/firestore';
 
 export default function CosmosPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const [soulID, setSoulID] = useState<SoulID | null>(null);
   const [username, setUsername] = useState<string>('Seeker');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user has Soul ID
-    const storedSoulID = localStorage.getItem('malola_soul_id');
-    const registrationData = localStorage.getItem('malola_registration');
-    
-    if (!storedSoulID) {
-      // No Soul ID, redirect to register
-      router.push('/register');
+    // Redirect to login if not authenticated
+    if (!user) {
+      router.push('/login');
       return;
     }
 
-    setSoulID(JSON.parse(storedSoulID));
-    
-    // Get user's name from registration if available
-    if (registrationData) {
-      const data = JSON.parse(registrationData);
-      setUsername(data.country || 'Seeker'); // Can enhance with actual name field
-    }
-  }, [router]);
+    // Load user data from Firestore
+    loadUserData();
+  }, [user, router]);
 
-  if (!soulID) {
+  const loadUserData = async () => {
+    if (!user) return;
+
+    try {
+      const profile = await getUserProfile(user.uid);
+      if (profile) {
+        if (profile.soulID) {
+          setSoulID(profile.soulID);
+        }
+        setUsername(profile.displayName || profile.email?.split('@')[0] || 'Seeker');
+      }
+    } catch (error) {
+      console.error('Failed to load user data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading || !user) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] flex items-center justify-center">
-        <div className="text-white text-xl">Verifying your cosmic credentials...</div>
+        <div className="text-white text-xl">Loading your cosmos...</div>
       </div>
     );
   }
