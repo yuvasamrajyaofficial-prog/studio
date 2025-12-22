@@ -11,34 +11,17 @@ import { Search, Book, ChevronRight, Star, Filter } from 'lucide-react';
 import { MOCK_SCRIPTURES } from '@/lib/scriptures/data';
 import Link from 'next/link';
 
-const CATEGORIES = [
-  'All Scriptures',
-  'Vedas',
-  'Upanishads',
-  'Vedanga',
-  'Dharma Shastra',
-  'Itihasa',
-  'Puranas',
-  'Upapuranas',
-  'Agamas',
-  'Darshanas',
-];
+
 
 export default function ScripturesPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All Scriptures');
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredScriptures = MOCK_SCRIPTURES.filter((scripture) => {
-    const matchesCategory =
-      selectedCategory === 'All Scriptures' ||
-      scripture.tags.includes(selectedCategory) || // Simple tag matching for now
-      scripture.tradition === selectedCategory;
-    
     const matchesSearch =
       scripture.title.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
       scripture.description.en.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return matchesCategory && matchesSearch;
+    return matchesSearch;
   });
 
   return (
@@ -46,37 +29,7 @@ export default function ScripturesPage() {
       <Header />
 
       <div className="flex h-[calc(100vh-64px)]">
-        {/* Sidebar */}
-        <aside className="w-64 hidden lg:flex flex-col border-r border-white/10 bg-[#0f0518]/50 backdrop-blur-xl">
-          <div className="p-6 border-b border-white/10">
-            <h2 className="text-xl font-serif font-bold text-amber-400 flex items-center gap-2">
-              <Book className="w-5 h-5" />
-              Cosmic Library
-            </h2>
-            <p className="text-xs text-gray-400 mt-1">Select a category to explore</p>
-          </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
-            {CATEGORIES.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all duration-200 flex items-center justify-between group ${
-                  selectedCategory === category
-                    ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                    : 'text-gray-400 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                {category}
-                {selectedCategory === category && (
-                  <motion.div layoutId="active-indicator">
-                    <ChevronRight className="w-4 h-4" />
-                  </motion.div>
-                )}
-              </button>
-            ))}
-          </div>
-        </aside>
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-6 lg:p-10 relative">
