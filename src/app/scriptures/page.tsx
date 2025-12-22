@@ -27,11 +27,11 @@ export default function ScripturesPage() {
   return (
     <div className="min-h-screen bg-[#0a0118] text-white font-sans selection:bg-amber-500/30">
       
-      <div className="flex h-[calc(100vh-64px)]">
+      <div className="flex min-h-[calc(100vh-64px)]">
 
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-6 lg:p-10 relative">
+        <main className="flex-1 p-6 lg:p-10 relative">
           {/* Background Elements */}
           <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
           
