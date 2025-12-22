@@ -13,8 +13,12 @@ import Link from 'next/link';
 
 
 
+import { ScriptureReader } from './components/scripture-reader';
+import { Scripture } from '@/types/scripture';
+
 export default function ScripturesPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeScripture, setActiveScripture] = useState<Scripture | null>(null);
 
   const filteredScriptures = MOCK_SCRIPTURES.filter((scripture) => {
     const matchesSearch =
@@ -23,6 +27,16 @@ export default function ScripturesPage() {
 
     return matchesSearch;
   });
+
+  // If a scripture is selected, show the Reader Dashboard
+  if (activeScripture) {
+    return (
+      <ScriptureReader 
+        scripture={activeScripture} 
+        onClose={() => setActiveScripture(null)} 
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0118] text-white font-sans selection:bg-amber-500/30">
@@ -93,7 +107,7 @@ export default function ScripturesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 + 0.3 }}
                 >
-                  <Link href={`/scriptures/${scripture.slug}`}>
+                  <div onClick={() => setActiveScripture(scripture)} className="cursor-pointer h-full">
                     <Card className="h-full bg-white/5 border-white/10 hover:border-amber-500/30 hover:bg-white/10 transition-all duration-300 group overflow-hidden relative">
                       {/* Image Overlay */}
                       <div className="h-48 overflow-hidden relative">
@@ -132,7 +146,7 @@ export default function ScripturesPage() {
                         </div>
                       </div>
                     </Card>
-                  </Link>
+                  </div>
                 </motion.div>
               ))}
             </div>
