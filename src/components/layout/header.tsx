@@ -8,18 +8,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { ChevronLeft, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { useAuth } from "@/contexts/auth-context";
+
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
   const isHome = pathname === "/";
   const isCosmos = pathname === "/cosmos";
-  const [hasSoulID, setHasSoulID] = useState(false);
 
-  useEffect(() => {
-    // Check if user has Soul ID in localStorage
-    const soulID = localStorage.getItem('malola_soul_id');
-    setHasSoulID(!!soulID);
-  }, [pathname]); // Re-check when pathname changes
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#0f0518]/80 backdrop-blur-md border-b border-white/5">
@@ -56,7 +53,7 @@ export function Header() {
           
           <div className="flex items-center gap-3">
             <ThemeToggleButton />
-            {hasSoulID ? (
+            {user ? (
               <div className="flex items-center gap-2">
                 <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
                   <Link href="/profile">Profile</Link>
