@@ -26,8 +26,7 @@ export default function ScripturesPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0118] text-white font-sans selection:bg-amber-500/30">
-      <Header />
-
+      
       <div className="flex h-[calc(100vh-64px)]">
 
 
