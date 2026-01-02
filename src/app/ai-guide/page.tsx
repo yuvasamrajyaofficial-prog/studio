@@ -1,31 +1,23 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
+import { useChat } from '@ai-sdk/react';
 import { ChatSidebar } from './components/chat-sidebar';
 import { ChatMessages } from './components/chat-messages';
 import { ChatInput } from './components/chat-input';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { generateAIResponse } from '@/lib/ai/client';
-import { createSystemMessage } from '@/lib/ai/spiritual-context';
 import { loadUserChats, createChat, saveMessage, updateChatTitle, deleteChat as deleteFirestoreChat } from '@/lib/ai/chat-storage';
 import { useToast } from '@/hooks/use-toast';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-}
 
 interface Chat {
   id: string;
   title: string;
   preview: string;
   updatedAt: Date;
-  messages: Message[];
+  messages: any[];
 }
 
 export default function AIGuidePage() {
@@ -35,10 +27,53 @@ export default function AIGuidePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [chats, setChats] = useState<Chat[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [streamingMessage, setStreamingMessage] = useState<string>('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Vercel AI SDK's useChat hook - MUCH cleaner!
+  const { messages, input, setInput, append, isLoading, error, setMessages } = useChat({
+    api: '/api/chat',
+    body: {
+      userId: user?.uid,
+    },
+    onResponse: (response) => {
+      if (!response.ok) {
+        toast({
+          title: 'Error',
+          description: 'Failed to get AI response',
+          variant: 'destructive',
+        });
+      }
+    },
+    onFinish: async (message) => {
+      // Save messages to Firestore after AI responds
+      if (user && activeChat) {
+        try {
+          // Save assistant message
+          await saveMessage(user.uid, activeChat, {
+            id: message.id,
+            role: 'assistant',
+            content: message.content,
+            timestamp: new Date(),
+          });
+
+          // Update chat title from first message if needed
+          if (messages.length === 1) {
+            const firstUserMessage = messages[0];
+            await updateChatTitle(
+              user.uid,
+              activeChat,
+              firstUserMessage.content.slice(0, 50) + (firstUserMessage.content.length > 50 ? '...' : ''),
+              firstUserMessage.content.slice(0, 100) + (firstUserMessage.content.length > 100 ? '...' : '')
+            );
+          }
+
+          // Reload chats
+          await loadChats();
+        } catch (error) {
+          console.error('Failed to save message:', error);
+        }
+      }
+    },
+  });
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -54,14 +89,9 @@ export default function AIGuidePage() {
     if (user && chats.length === 0 && !activeChat) {
       handleNewChat();
     }
-  }, [user]); // Only run once on mount
+  }, [user]);
 
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, streamingMessage]);
-
-  //Load chats from Firestore
+  // Load chats from Firestore
   const loadChats = async () => {
     if (!user) return;
     try {
@@ -77,10 +107,10 @@ export default function AIGuidePage() {
     if (!user) return;
     
     try {
-      const newChat = await createChat(user.uid, 'gemini'); // Default to Gemini
+      const newChat = await createChat(user.uid, 'gemini');
       setChats([newChat, ...chats]);
       setActiveChat(newChat.id);
-      setMessages([]);
+      setMessages([]); // Clear messages
       setIsSidebarOpen(false);
     } catch (error) {
       console.error('Failed to create chat:', error);
@@ -97,7 +127,7 @@ export default function AIGuidePage() {
     const chat = chats.find((c) => c.id === chatId);
     if (chat) {
       setActiveChat(chatId);
-      setMessages(chat.messages);
+      setMessages(chat.messages || []);
       setIsSidebarOpen(false);
     }
   };
@@ -118,95 +148,29 @@ export default function AIGuidePage() {
     }
   };
 
-  // Send message with REAL AI
+  // Send message using Vercel AI SDK
   const handleSendMessage = async (content: string) => {
     if (!user || !activeChat) return;
 
-    const userMessage: Message = {
+    // Save user message to Firestore first
+    const userMessage = {
       id: `msg_${Date.now()}`,
-      role: 'user',
+      role: 'user' as const,
       content,
       timestamp: new Date(),
     };
 
-    // Add user message immediately
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
-    setIsLoading(true);
-    setStreamingMessage('');
-
     try {
-      // Save user message to Firestore
       await saveMessage(user.uid, activeChat, userMessage);
-
-      // Build spiritual context
-      const systemMessage = await createSystemMessage(user.uid);
-
-      // Prepare messages for AI
-      const aiMessages = [
-        systemMessage,
-        ...updatedMessages.map(m => ({
-          role: m.role,
-          content: m.content,
-        })),
-      ];
-
-      let fullResponse = '';
-
-      // Generate AI response with streaming
-      await generateAIResponse(user.uid, aiMessages, {
-        onToken: (token) => {
-          fullResponse += token;
-          setStreamingMessage(fullResponse);
-        },
-        onComplete: async () => {
-          const aiMessage: Message = {
-            id: `msg_${Date.now()}`,
-            role: 'assistant',
-            content: fullResponse,
-            timestamp: new Date(),
-          };
-
-          const finalMessages = [...updatedMessages, aiMessage];
-          setMessages(finalMessages);
-          setStreamingMessage('');
-          setIsLoading(false);
-
-          // Save AI message to Firestore
-          await saveMessage(user.uid, activeChat, aiMessage);
-
-          // Update chat title from first message
-          if (messages.length === 0) {
-            await updateChatTitle(
-              user.uid,
-              activeChat,
-              content.slice(0, 50) + (content.length > 50 ? '...' : ''),
-              content.slice(0, 100) + (content.length > 100 ? '...' : '')
-            );
-          }
-
-          // Reload chats to update sidebar
-          await loadChats();
-        },
-        onError: (error) => {
-          setIsLoading(false);
-          setStreamingMessage('');
-          toast({
-            title: 'AI Error',
-            description: error,
-            variant: 'destructive',
-          });
-        },
-      });
-    } catch (error: any) {
-      setIsLoading(false);
-      setStreamingMessage('');
-      toast({
-        title: 'Error',
-        description: error.message || 'Failed to send message',
-        variant: 'destructive',
-      });
+    } catch (error) {
+      console.error('Failed to save user message:', error);
     }
+
+    // Send to AI via Vercel AI SDK
+    append({
+      role: 'user',
+      content,
+    });
   };
 
   // Copy message
@@ -220,17 +184,18 @@ export default function AIGuidePage() {
 
   // Regenerate response
   const handleRegenerate = async (messageId: string) => {
-    // Find the message and get all messages before it
     const messageIndex = messages.findIndex(m => m.id === messageId);
     if (messageIndex === -1) return;
 
     const messagesToKeep = messages.slice(0, messageIndex);
     setMessages(messagesToKeep);
 
-    // Get the last user message
-    const lastUserMessage = messagesToKeep.reverse().find(m => m.role === 'user');
+    const lastUserMessage = [...messagesToKeep].reverse().find(m => m.role === 'user');
     if (lastUserMessage) {
-      await handleSendMessage(lastUserMessage.content);
+      append({
+        role: 'user',
+        content: lastUserMessage.content,
+      });
     }
   };
 
@@ -243,19 +208,6 @@ export default function AIGuidePage() {
   if (!user) {
     return null; // Will redirect
   }
-
-  // Combine regular messages with streaming message
-  const displayMessages = streamingMessage
-    ? [
-        ...messages,
-        {
-          id: 'streaming',
-          role: 'assistant' as const,
-          content: streamingMessage,
-          timestamp: new Date(),
-        },
-      ]
-    : messages;
 
   return (
     <div className="h-screen flex bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] overflow-hidden">
@@ -288,18 +240,24 @@ export default function AIGuidePage() {
         {/* Messages */}
         <div className="flex-1 overflow-hidden flex flex-col">
           <ChatMessages
-            messages={displayMessages}
+            messages={messages}
             isLoading={isLoading}
             onCopy={handleCopy}
             onRegenerate={handleRegenerate}
             onFeedback={handleFeedback}
           />
-          <div ref={messagesEndRef} />
         </div>
 
         {/* Input */}
         <ChatInput
-          onSend={handleSendMessage}
+          value={input}
+          onChange={setInput}
+          onSend={() => {
+            if (input.trim()) {
+              handleSendMessage(input);
+              setInput('');
+            }
+          }}
           isLoading={isLoading}
           disabled={!activeChat}
         />

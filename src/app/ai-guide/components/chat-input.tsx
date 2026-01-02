@@ -6,20 +6,31 @@ import {  Send, Paperclip, Mic, StopCircle } from 'lucide-react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 interface ChatInputProps {
-  onSend: (message: string) => void;
+  value?: string;
+  onChange?: (value: string) => void;
+  onSend: (message?: string) => void;
   isLoading?: boolean;
   disabled?: boolean;
 }
 
-export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
-  const [input, setInput] = useState('');
+export function ChatInput({ value, onChange, onSend, isLoading, disabled }: ChatInputProps) {
+  const [internalInput, setInternalInput] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Use controlled value if provided, otherwise use internal state
+  const inputValue = value !== undefined ? value : internalInput;
+  const setInputValue = onChange || setInternalInput;
+
   const handleSubmit = () => {
-    if (!input.trim() || isLoading || disabled) return;
+    if (!inputValue.trim() || isLoading || disabled) return;
     
-    onSend(input);
-    setInput('');
+    onSend(inputValue);
+    
+    // Clear input only if uncontrolled
+    if (value === undefined) {
+      setInternalInput('');
+    }
+    
     textareaRef.current?.focus();
   };
 
@@ -50,8 +61,8 @@ export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
           <div className="flex-1 relative">
             <TextareaAutosize
               ref={textareaRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask your spiritual guide..."
               disabled={disabled || isLoading}
@@ -61,9 +72,9 @@ export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
             />
             
             {/* Character count (optional) */}
-            {input.length > 0 && (
+            {inputValue.length > 0 && (
               <div className="absolute bottom-2 right-2 text-xs text-gray-500">
-                {input.length}
+                {inputValue.length}
               </div>
             )}
           </div>
@@ -79,7 +90,7 @@ export function ChatInput({ onSend, isLoading, disabled }: ChatInputProps) {
           {/* Send button */}
           <Button
             onClick={handleSubmit}
-            disabled={!input.trim() || isLoading || disabled}
+            disabled={!inputValue.trim() || isLoading || disabled}
             className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 disabled:opacity-50"
           >
             {isLoading ? (
