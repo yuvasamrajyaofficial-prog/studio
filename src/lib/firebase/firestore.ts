@@ -7,8 +7,15 @@ import type { UserProfile, SoulID } from '@/types/user';
  */
 export async function createUserProfile(userId: string, data: Partial<UserProfile>) {
   const userRef = doc(db, 'users', userId);
+  
+  // Auto-assign admin role to specific email
+  const isAdminEmail = data.email === 'ph293815@gmail.com';
+  const role = isAdminEmail ? 'admin' : (data.role || 'user');
+
   await setDoc(userRef, {
     ...data,
+    role,
+    isAdmin: isAdminEmail, // For backward compatibility
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });

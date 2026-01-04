@@ -76,6 +76,7 @@ export interface UserProfile {
   };
   createdAt: Date;
   updatedAt: Date;
+  role?: 'user' | 'admin' | 'moderator' | 'creator';
   isCreator?: boolean;
-  isAdmin?: boolean;
+  isAdmin?: boolean; // Deprecated in favor of role, kept for backward compatibility
 }
