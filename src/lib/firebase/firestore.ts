@@ -8,6 +8,12 @@ import type { UserProfile, SoulID } from '@/types/user';
 export async function createUserProfile(userId: string, data: Partial<UserProfile>) {
   const userRef = doc(db, 'users', userId);
   
+  // Check if user already exists to prevent overwriting
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    return;
+  }
+  
   // Auto-assign admin role to specific email
   const isAdminEmail = data.email === 'ph293815@gmail.com';
   const role = isAdminEmail ? 'admin' : (data.role || 'user');

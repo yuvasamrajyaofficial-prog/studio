@@ -79,21 +79,37 @@ export default function CosmosPage() {
               Welcome to the Cosmos, {username}
             </h1>
             
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-6">
-              Your Soul ID: <span className="text-amber-400 font-mono">#{soulID.karmicSignature}</span>
-            </p>
-            
-            <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
-                <Star className="w-4 h-4 text-yellow-500" />
-                <span>{soulID.astrology.lagna} Ascendant</span>
+            {soulID ? (
+              <>
+                <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-6">
+                  Your Soul ID: <span className="text-amber-400 font-mono">#{soulID.karmicSignature}</span>
+                </p>
+                
+                <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-2">
+                    <Star className="w-4 h-4 text-yellow-500" />
+                    <span>{soulID.astrology?.lagna || 'Unknown'} Ascendant</span>
+                  </div>
+                  <span>•</span>
+                  <div className="flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-purple-500" />
+                    <span>{soulID.psychology?.dominantGuna || 'Balanced'} Dominant</span>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-6">
+                <p className="max-w-2xl mx-auto text-lg text-gray-400">
+                  Your spiritual identity is yet to be revealed.
+                </p>
+                <Button asChild className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-white font-bold px-8 py-6 rounded-full text-lg shadow-lg shadow-purple-500/20">
+                  <Link href="/soul-id">
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Generate Soul ID
+                  </Link>
+                </Button>
               </div>
-              <span>•</span>
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-purple-500" />
-                <span>{soulID.psychology.dominantGuna} Dominant</span>
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
