@@ -2,33 +2,29 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
 import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Book, ChevronRight, Star, Filter } from 'lucide-react';
+import { Book, ChevronRight, Eye } from 'lucide-react';
 import { getScriptures } from '@/lib/scriptures/actions';
-import Link from 'next/link';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { useAuth } from '@/contexts/auth-context';
 import { incrementUserStat } from '@/lib/firebase/firestore';
-
 import { ScriptureReader } from './components/scripture-reader';
 import { Scripture } from '@/types/scripture';
+import { ScriptureFilters } from './components/scripture-filters';
 
 export default function ScripturesPage() {
   const { user } = useAuth();
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeScripture, setActiveScripture] = useState<Scripture | null>(null);
   const [scriptures, setScriptures] = useState<Scripture[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Filter State
+  const [filters, setFilters] = useState({
+    search: '',
+    traditions: [] as string[],
+    languages: [] as string[],
+    era: 'All'
+  });
 
   useEffect(() => {
     async function loadScriptures() {
@@ -52,11 +48,24 @@ export default function ScripturesPage() {
   };
 
   const filteredScriptures = scriptures.filter((scripture) => {
+    // Search
     const matchesSearch =
-      scripture.title.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      scripture.description.en.toLowerCase().includes(searchQuery.toLowerCase());
+      scripture.title.en.toLowerCase().includes(filters.search.toLowerCase()) ||
+      scripture.description.en.toLowerCase().includes(filters.search.toLowerCase());
 
-    return matchesSearch;
+    // Tradition
+    const matchesTradition = filters.traditions.length === 0 || filters.traditions.includes(scripture.tradition);
+
+    // Language (Assuming language is stored in metadata or we check title.sa for Sanskrit presence, 
+    // but for now let's just match if 'Sanskrit' is selected and title.sa exists)
+    // In a real app, you'd have a 'languages' array in your Scripture type.
+    // For this demo, we'll skip strict language filtering or assume all are Sanskrit/English.
+    const matchesLanguage = true; 
+
+    // Era (Assuming era is in metadata)
+    const matchesEra = filters.era === 'All' || true; // Placeholder until Era is added to schema
+
+    return matchesSearch && matchesTradition && matchesLanguage && matchesEra;
   });
 
   // If a scripture is selected, show the Reader Dashboard
@@ -73,16 +82,15 @@ export default function ScripturesPage() {
     <div className="min-h-screen bg-[#0a0118] text-white font-sans selection:bg-amber-500/30">
       
       <div className="flex min-h-[calc(100vh-64px)]">
-
-
         {/* Main Content */}
-        <main className="flex-1 p-6 lg:p-10 relative">
+        <main className="flex-1 p-4 md:p-8 lg:p-10 relative">
           {/* Background Elements */}
           <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
           
-          <div className="relative z-10 max-w-6xl mx-auto">
+          <div className="relative z-10 max-w-7xl mx-auto">
+            
             {/* Header Section */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-12 lg:mb-16">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -99,7 +107,7 @@ export default function ScripturesPage() {
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200 mb-4"
               >
-                Begin Your Cosmic Journey
+                Sacred Library
               </motion.h1>
               
               <motion.p
@@ -108,130 +116,104 @@ export default function ScripturesPage() {
                 transition={{ delay: 0.2 }}
                 className="text-gray-400 max-w-2xl mx-auto text-lg"
               >
-                Select a sacred text from the library to unlock ancient wisdom and explore the depths of consciousness.
+                Explore the timeless wisdom of ancient texts, curated for the modern seeker.
               </motion.p>
             </div>
 
-            {/* Search & Filter Section */}
-            <div className="max-w-xl mx-auto mb-12 relative flex gap-4">
-              <div className="relative group flex-1">
-                <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-purple-600/20 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-500" />
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <Input 
-                    type="text"
-                    placeholder="Search scriptures..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-[#0f0518]/80 border-white/10 rounded-full text-white placeholder:text-gray-500 focus:border-amber-500/50 focus:ring-amber-500/20 transition-all"
-                  />
-                </div>
-              </div>
+            <div className="flex flex-col lg:flex-row">
+              {/* Filters Sidebar */}
+              <ScriptureFilters filters={filters} setFilters={setFilters} />
 
-              {/* Mobile Filter Button */}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="icon" className="h-12 w-12 rounded-full border-white/10 bg-[#0f0518]/80 text-amber-400 hover:bg-white/10 hover:text-amber-300 shrink-0">
-                    <Filter className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="bg-[#0f0518] border-white/10 text-white w-[300px]">
-                  <SheetHeader>
-                    <SheetTitle className="text-left text-amber-400 font-serif text-xl">Filters</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-8 space-y-6">
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Tradition</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {['Hinduism', 'Buddhism', 'Jainism', 'Sikhism'].map((t) => (
-                          <Button key={t} variant="outline" size="sm" className="border-white/10 hover:bg-white/10 hover:text-amber-400 text-gray-300">
-                            {t}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Language</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {['Sanskrit', 'Pali', 'Tamil', 'Hindi'].map((l) => (
-                          <Button key={l} variant="outline" size="sm" className="border-white/10 hover:bg-white/10 hover:text-amber-400 text-gray-300">
-                            {l}
-                          </Button>
-                        ))}
-                      </div>
-                    </div>
+              {/* Scriptures Grid */}
+              <div className="flex-1">
+                {isLoading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="h-80 rounded-xl bg-white/5 animate-pulse" />
+                    ))}
                   </div>
-                </SheetContent>
-              </Sheet>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredScriptures.map((scripture, index) => (
+                      <motion.div
+                        key={scripture.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <div onClick={() => handleScriptureClick(scripture)} className="cursor-pointer h-full group">
+                          <Card className="h-full bg-[#0f0518] border-white/10 hover:border-amber-500/50 transition-all duration-500 overflow-hidden relative shadow-lg hover:shadow-amber-900/20">
+                            
+                            {/* Image Container */}
+                            <div className="h-56 overflow-hidden relative">
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0518] via-transparent to-transparent z-10" />
+                              <img 
+                                src={scripture.coverImage || 'https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=1000&auto=format&fit=crop'} 
+                                alt={scripture.title.en}
+                                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                              />
+                              
+                              {/* Badges */}
+                              <div className="absolute top-3 right-3 z-20 flex flex-col gap-2 items-end">
+                                <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-xs font-medium text-amber-400 shadow-xl">
+                                  {scripture.tradition}
+                                </span>
+                              </div>
+
+                              {/* Quick View Overlay */}
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 flex items-center justify-center backdrop-blur-[2px]">
+                                <Button variant="secondary" className="rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md">
+                                  <Eye className="w-4 h-4 mr-2" />
+                                  Read Now
+                                </Button>
+                              </div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-6 relative z-20">
+                              <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-amber-400 transition-colors line-clamp-1">
+                                {scripture.title.en}
+                              </h3>
+                              <p className="text-sm text-amber-500/80 font-medium mb-4 font-serif">
+                                {scripture.title.sa}
+                              </p>
+                              <p className="text-sm text-gray-400 line-clamp-3 mb-6 h-[4.5em]">
+                                {scripture.description.en}
+                              </p>
+                              
+                              <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4">
+                                <span className="flex items-center gap-1.5">
+                                  <Book className="w-3.5 h-3.5 text-purple-400" />
+                                  <span className="text-gray-400">{scripture.totalChapters || 0} Chapters</span>
+                                </span>
+                                <span className="group-hover:translate-x-1 transition-transform duration-300 text-amber-500 flex items-center gap-1 font-medium">
+                                  Start Reading <ChevronRight className="w-3 h-3" />
+                                </span>
+                              </div>
+                            </div>
+                          </Card>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+
+                {!isLoading && filteredScriptures.length === 0 && (
+                  <div className="text-center py-20 bg-white/5 rounded-xl border border-white/10">
+                    <Book className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-medium text-white mb-2">No scriptures found</h3>
+                    <p className="text-gray-400">Try adjusting your filters or search query.</p>
+                    <Button 
+                      variant="link" 
+                      className="text-amber-400 mt-4"
+                      onClick={() => setFilters({ search: '', traditions: [], languages: [], era: 'All' })}
+                    >
+                      Clear all filters
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-
-            {/* Scriptures Grid */}
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-64 rounded-xl bg-white/5 animate-pulse" />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredScriptures.map((scripture, index) => (
-                  <motion.div
-                    key={scripture.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 + 0.3 }}
-                  >
-                    <div onClick={() => handleScriptureClick(scripture)} className="cursor-pointer h-full">
-                      <Card className="h-full bg-white/5 border-white/10 hover:border-amber-500/30 hover:bg-white/10 transition-all duration-300 group overflow-hidden relative">
-                        {/* Image Overlay */}
-                        <div className="h-48 overflow-hidden relative">
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0118] to-transparent z-10" />
-                          <img 
-                            src={scripture.coverImage || 'https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=1000&auto=format&fit=crop'} 
-                            alt={scripture.title.en}
-                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                          />
-                          <div className="absolute top-4 right-4 z-20">
-                            <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-medium text-amber-400">
-                              {scripture.tradition}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="p-6 relative z-20 -mt-12">
-                          <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-amber-400 transition-colors">
-                            {scripture.title.en}
-                          </h3>
-                          <p className="text-sm text-amber-400/80 font-medium mb-3 font-serif">
-                            {scripture.title.sa}
-                          </p>
-                          <p className="text-sm text-gray-400 line-clamp-2 mb-4">
-                            {scripture.description.en}
-                          </p>
-                          
-                          <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4">
-                            <span className="flex items-center gap-1">
-                              <Book className="w-3 h-3" />
-                              {scripture.totalChapters || 0} Chapters
-                            </span>
-                            <span className="group-hover:translate-x-1 transition-transform duration-300 text-amber-500 flex items-center gap-1">
-                              Read Now <ChevronRight className="w-3 h-3" />
-                            </span>
-                          </div>
-                        </div>
-                      </Card>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-
-            {!isLoading && filteredScriptures.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-gray-400">No scriptures found matching your search.</p>
-              </div>
-            )}
           </div>
         </main>
       </div>

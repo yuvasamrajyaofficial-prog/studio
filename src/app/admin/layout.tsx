@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { AdminHeader } from '@/components/admin/admin-header';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user, loading, signOut } = useAuth();
@@ -68,9 +69,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-[#0a0118] flex">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-white/10 bg-black/20 backdrop-blur-xl hidden md:flex flex-col">
-        <div className="p-6 border-b border-white/10">
+      {/* Sidebar - Desktop Only */}
+      <aside className="w-64 border-r border-white/10 bg-black/20 backdrop-blur-xl hidden md:flex flex-col sticky top-0 h-screen">
+        <div className="p-6 border-b border-white/10 h-16 flex items-center">
           <h1 className="text-xl font-bold font-headline text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-purple-400">
             MALOLA Admin
           </h1>
@@ -91,22 +92,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ))}
         </nav>
-
-        <div className="p-4 border-t border-white/10">
-          <Button 
-            variant="ghost" 
-            className="w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10"
-            onClick={() => signOut()}
-          >
-            <LogOut className="w-5 h-5 mr-3" />
-            Sign Out
-          </Button>
-        </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8">
+      <main className="flex-1 flex flex-col min-w-0">
+        <AdminHeader />
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
           {children}
         </div>
       </main>
