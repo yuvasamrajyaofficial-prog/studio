@@ -5,6 +5,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, MessageSquare, Activity, AlertTriangle } from 'lucide-react';
 
 export default function AdminDashboard() {
+  const [stats, setStats] = React.useState({
+    totalUsers: 0,
+    activeSouls: 0,
+    aiMessages: 0,
+    systemAlerts: 0
+  });
+
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      const { getDashboardStats } = await import('@/lib/admin/actions');
+      const data = await getDashboardStats();
+      setStats(data);
+    };
+    fetchStats();
+  }, []);
+
   return (
     <div className="space-y-8">
       <div>
@@ -16,28 +32,28 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard 
           title="Total Users" 
-          value="1,234" 
+          value={stats.totalUsers.toLocaleString()} 
           change="+12%" 
           icon={Users} 
           color="text-blue-400" 
         />
         <MetricCard 
           title="Active Souls" 
-          value="856" 
+          value={stats.activeSouls.toLocaleString()} 
           change="+5%" 
           icon={Activity} 
           color="text-green-400" 
         />
         <MetricCard 
           title="AI Messages" 
-          value="45.2k" 
+          value={stats.aiMessages.toLocaleString()} 
           change="+28%" 
           icon={MessageSquare} 
           color="text-purple-400" 
         />
         <MetricCard 
           title="System Alerts" 
-          value="2" 
+          value={stats.systemAlerts} 
           change="Normal" 
           icon={AlertTriangle} 
           color="text-amber-400" 

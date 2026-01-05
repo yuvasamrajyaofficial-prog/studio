@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
 import { getUserProfile } from '@/lib/firebase/firestore';
+import { ADMIN_EMAILS } from '@/lib/admin-config';
 import { Loader2, LayoutDashboard, Users, FileText, Bot, Settings, ShieldAlert, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -25,10 +26,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           return;
         }
 
-        const profile = await getUserProfile(user.uid);
-        if (profile?.role === 'admin' || profile?.isAdmin) {
-          setIsAdmin(true);
+        // Check against allowed emails
+        const isAllowedEmail = user.email && ADMIN_EMAILS.includes(user.email);
+        
+        if (isAllowedEmail) {
+          // Double check with profile role if needed, but email is primary guard now
+          const profile = await getUserProfile(user.uid);
+          // Optional: You can enforce both email AND role if you want strict security
+          // if (profile?.role === 'admin' || profile?.isAdmin) {
+            setIsAdmin(true);
+          // }
         } else {
+          console.warn(`Unauthorized access attempt by: ${user.email}`);
           router.push('/cosmos'); // Redirect unauthorized users
         }
         setIsChecking(false);

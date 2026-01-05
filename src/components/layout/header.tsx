@@ -9,6 +9,7 @@ import { ChevronLeft, Home } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useAuth } from "@/contexts/auth-context";
+import { ADMIN_EMAILS } from "@/lib/admin-config";
 
 export function Header() {
   const pathname = usePathname();
@@ -55,6 +56,11 @@ export function Header() {
             <ThemeToggleButton />
             {user ? (
               <div className="flex items-center gap-2">
+                {user.email && ADMIN_EMAILS.includes(user.email) && (
+                  <Button asChild size="sm" variant="ghost" className="text-amber-400 hover:text-amber-300 hover:bg-amber-400/10">
+                    <Link href="/admin">Admin Dashboard</Link>
+                  </Button>
+                )}
                 <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
                   <Link href="/profile">Profile</Link>
                 </Button>
