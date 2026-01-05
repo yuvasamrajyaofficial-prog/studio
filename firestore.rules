@@ -4,85 +4,139 @@ service cloud.firestore {
 
     // --- Helper Functions ---
 
-    // Check if user is authenticated
+    /**
+     * Checks if the user is authenticated.
+     */
     function isSignedIn() {
       return request.auth != null;
     }
     
-    // Check if the user is the owner of the document (using uid field)
+    /**
+     * Checks if the currently signed-in user's UID matches the provided userId.
+     */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // Check if the user is an Admin
-    // We check against a hardcoded list of admin emails for security
-    // OR a custom claim if you implement that later.
-    function isAdmin() {
+    /**
+     * Checks if the user is the owner of an existing document.
+     * Prevents modification or deletion of non-existent documents.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * Checks if the user has a verified KYC status via custom claims.
+     * IMPORTANT: This relies on a custom claim being set by a backend process.
+     */
+    function isKycVerified() {
+      return isSignedIn() && request.auth.token.kycVerified == true;
+    }
+
+    /**
+     * Checks if the user is an Admin.
+     * Grants access based on email allowlist (matching src/lib/admin-config.ts)
+     * or 'admin' role in the user profile.
+     */
+    function isAdminUser() {
       return isSignedIn() && (
-        request.auth.token.email.matches('^.*@gmail[.]com$') && (
-          request.auth.token.email == 'prashantbhiremath13@gmail.com' ||
-          request.auth.token.email == 'ph293815@gmail.com'
-        )
+        // Email Allowlist Check
+        (request.auth.token.email.lower() == 'prashantbhiremath13@gmail.com' || 
+         request.auth.token.email.lower() == 'ph293815@gmail.com')
+        ||
+        // Role Check (if available on the resource being read, or if we trust the claim)
+        // Note: For 'create' rules, we can't check 'resource.data', so we rely on email 
+        // or we would need a custom claim 'admin' set on the token.
+        // For now, email check is the primary robust guard.
+        (resource != null && resource.data.role == 'admin')
       );
     }
 
     // --- Collection Rules ---
 
-    // Users Collection
+    /**
+     * @description Rules for the user profile collection.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user creating their own user document.
+     * @allow (list) Admins only (for User Management).
+     * @principle Restricts access to a user's own data tree, enforcing strict data privacy.
+     */
     match /users/{userId} {
-      // Admins can read/write everything
-      allow read, write: if isAdmin();
-      
-      // Owners can read their own profile
-      allow get: if isOwner(userId);
-      
-      // Creation: Allow if auth uid matches doc id AND data.uid matches
-      allow create: if isOwner(userId) && request.resource.data.uid == userId;
-      
-      // Update: Allow if owner, but prevent changing critical fields like uid or role (unless admin)
-      allow update: if isOwner(userId) 
-        && request.resource.data.uid == resource.data.uid
-        && request.resource.data.role == resource.data.role;
-        
-      // Delete: Only admins or owner can delete
-      allow delete: if isOwner(userId);
+      allow get: if isOwner(userId) || isAdminUser();
+      allow list: if isAdminUser(); // Required for Admin Dashboard
+      // Note: Changed 'id' to 'uid' to match application code and prevent "Profile not found" error
+      allow create: if isOwner(userId) && (request.resource.data.uid == userId || request.resource.data.id == userId);
+      allow update: if (isExistingOwner(userId) || isAdminUser())
+        // Prevent regular users from changing critical fields
+        && (isAdminUser() || (
+          request.resource.data.uid == resource.data.uid
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.kycStatus == resource.data.kycStatus
+        ));
+      allow delete: if isExistingOwner(userId) || isAdminUser();
     }
 
-    // Scriptures Collection (Public Read, Admin Write)
+    /**
+     * @description Rules for the public scripture collection.
+     * @path /scriptures/{scriptureId}
+     * @allow (get) Any user, including unauthenticated ones.
+     * @allow (write) Admins only.
+     */
     match /scriptures/{scriptureId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow get, list: if true;
+      allow create, update, delete: if isAdminUser();
+      
+      // Allow access to subcollections (chapters, verses)
+      match /{document=**} {
+        allow get, list: if true;
+        allow write: if isAdminUser();
+      }
     }
 
-    // Blogs/Articles Collection (Public Read, Admin Write)
+    /**
+     * @description Rules for the blog/article collection.
+     * @path /blogs/{blogId}
+     * @allow (get) Any user.
+     * @allow (write) Admins only.
+     */
     match /blogs/{blogId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Projects (User Private)
-    match /projects/{projectId} {
-      allow read, write: if isAdmin();
-      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
-      allow read, update, delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
-    }
-
-    // Voices (User Private + Admin)
-    match /voices/{voiceId} {
-      allow read, write: if isAdmin();
-      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
-      allow read, update, delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
-    }
-
-    // App Config (Public Read, Admin Write)
-    match /appConfig/{configId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow get, list: if true;
+      allow create, update, delete: if isAdminUser();
     }
     
-    // Default deny
-    match /{document=**} {
-      allow read, write: if false;
+    /**
+     * @description Rules for the user projects collection.
+     * @path /projects/{projectId}
+     * @allow (create) An authenticated user can create a project for themselves.
+     * @deny (list) Listing all projects is forbidden to protect user privacy.
+     */
+    match /projects/{projectId} {
+      allow list: if false;
+      allow get, delete, update: if isOwner(resource.data.ownerUid) || isAdminUser();
+      allow create: if isOwner(request.resource.data.ownerUid);
+    }
+
+    /**
+     * @description Rules for the user-created voice models collection.
+     * @path /voices/{voiceId}
+     * @allow (create) An authenticated and KYC-verified user can create a voice model.
+     */
+    match /voices/{voiceId} {
+      allow list: if false;
+      allow get, delete, update: if isOwner(resource.data.ownerUid) || isAdminUser();
+      allow create: if isOwner(request.resource.data.ownerUid) && isKycVerified();
+    }
+
+    /**
+     * @description Rules for the global application configuration.
+     * @path /appConfig/{configId}
+     * @allow (get, list) Any user can read configuration.
+     * @allow (write) Admins only.
+     */
+    match /appConfig/{configId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdminUser();
     }
   }
 }
