@@ -1,91 +1,128 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { getBlogBySlug } from "@/lib/blogs/actions";
+import { BlogPost } from "@/lib/admin/blog-actions";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Calendar, ArrowLeft, User, Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
-import { ChevronLeft, Calendar, Clock, Share2, Bookmark } from "lucide-react";
-import { useParams } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 
-export default function BlogPostPage() {
+export default function BlogDetailsPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const [blog, setBlog] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Mock Data (In real app, fetch based on slug)
-  const post = {
-    title: "The Relevance of Vedas in the Age of AI",
-    category: "Philosophy",
-    date: "Dec 15, 2025",
-    readTime: "5 min read",
-    author: "Dr. A. Sharma",
-    authorRole: "Vedic Scholar & AI Ethicist",
-    content: `
-      <p class="lead">As we stand on the precipice of a new era defined by Artificial Intelligence, the ancient wisdom of the Vedas offers a surprising and profound framework for navigating the ethical and existential challenges ahead.</p>
-      
-      <h3>The Concept of Intelligence (Buddhi)</h3>
-      <p>In Vedic philosophy, intelligence is not merely computational power. It is <em>Buddhi</em>, the faculty of discrimination and wisdom. While AI excels at processing vast amounts of data (similar to <em>Manas</em> or the sensory mind), it lacks the conscious awareness that characterizes true sentient intelligence.</p>
-      
-      <p>The Rigveda speaks of <em>Rta</em>, the cosmic order that governs the universe. As we build digital systems that increasingly govern our lives, we must ask: Are these systems aligned with the natural order, or are they disrupting it?</p>
+  useEffect(() => {
+    async function loadBlog() {
+      if (!slug) return;
+      try {
+        const data = await getBlogBySlug(slug);
+        setBlog(data);
+      } catch (error) {
+        console.error("Failed to load blog:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadBlog();
+  }, [slug]);
 
-      <h3>Ethical AI and Dharma</h3>
-      <p>Dharma, often translated as duty or righteousness, provides a robust ethical framework for AI development. An AI system's "dharma" should be to serve humanity and preserve the balance of the ecosystem, not merely to maximize engagement or profit.</p>
-      
-      <blockquote>
-        "Let noble thoughts come to us from every side." — Rigveda 1.89.1
-      </blockquote>
-      
-      <p>This ancient invocation encourages an open-source approach to knowledge, where AI is democratized and used for the universal good rather than concentrated power.</p>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          <div className="h-8 w-24 bg-muted animate-pulse mb-8 rounded" />
+          <div className="h-12 w-3/4 bg-muted animate-pulse mb-4 rounded" />
+          <div className="h-6 w-1/2 bg-muted animate-pulse mb-8 rounded" />
+          <div className="h-96 w-full bg-muted animate-pulse rounded-xl" />
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
-      <h3>Conclusion</h3>
-      <p>By integrating these timeless principles into our modern technological development, we can ensure that AI becomes a tool for human elevation rather than obsolescence.</p>
-    `
-  };
+  if (!blog) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-20 text-center">
+          <h1 className="text-3xl font-bold mb-4">Blog Post Not Found</h1>
+          <p className="text-muted-foreground mb-8">The article you are looking for does not exist.</p>
+          <Button asChild>
+            <Link href="/blogs">Back to Blogs</Link>
+          </Button>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-
+      
       <main className="flex-1 pb-20">
-        {/* Article Header */}
-        <div className="bg-muted/30 border-b border-border/50 py-12 md:py-20">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <Button variant="ghost" size="sm" asChild className="mb-8 text-muted-foreground hover:text-foreground">
+        {/* Hero / Header */}
+        <div className="relative h-[40vh] min-h-[400px] flex items-end">
+          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/50 to-background z-10" />
+          {blog.coverImage && (
+            <img 
+              src={blog.coverImage} 
+              alt={blog.title} 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
+          
+          <div className="container mx-auto px-4 relative z-20 pb-12">
+            <Button asChild variant="ghost" className="mb-6 text-white hover:text-white/80 hover:bg-white/10 -ml-4">
               <Link href="/blogs">
-                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Blogs
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blogs
               </Link>
             </Button>
             
-            <div className="space-y-6 text-center">
-              <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
-                {post.category}
-              </Badge>
-              <h1 className="text-3xl md:text-5xl font-bold font-headline leading-tight">
-                {post.title}
-              </h1>
-              <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" /> {post.date}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" /> {post.readTime}
-                </span>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {blog.tags?.map((tag) => (
+                <Badge key={tag} className="bg-primary text-primary-foreground border-none">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-white font-headline mb-4 max-w-4xl">
+              {blog.title}
+            </h1>
+            
+            <div className="flex items-center gap-6 text-white/80">
+              <div className="flex items-center gap-2">
+                <User className="h-4 w-4" />
+                <span className="font-medium">{blog.author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>{blog.createdAt?.seconds ? new Date(blog.createdAt.seconds * 1000).toLocaleDateString() : 'Unknown Date'}</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Article Content */}
-        <article className="container mx-auto px-4 max-w-3xl py-12">
-          {/* Author Bio (Top) */}
-          <div className="flex items-center justify-between border-b border-border/50 pb-8 mb-8">
+        {/* Content */}
+        <article className="container mx-auto px-4 py-12 max-w-3xl">
+           {/* Author Bio (Top) */}
+           <div className="flex items-center justify-between border-b border-border/50 pb-8 mb-8">
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-                {post.author.charAt(0)}
+                {blog.author.charAt(0)}
               </div>
               <div>
-                <p className="font-medium text-foreground">{post.author}</p>
-                <p className="text-xs text-muted-foreground">{post.authorRole}</p>
+                <p className="font-medium text-foreground">{blog.author}</p>
+                <p className="text-xs text-muted-foreground">Author</p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -98,11 +135,9 @@ export default function BlogPostPage() {
             </div>
           </div>
 
-          {/* Main Text */}
-          <div 
-            className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline prose-a:text-primary hover:prose-a:text-primary/80"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline prose-a:text-primary hover:prose-a:text-primary/80">
+            <ReactMarkdown>{blog.content}</ReactMarkdown>
+          </div>
         </article>
       </main>
 

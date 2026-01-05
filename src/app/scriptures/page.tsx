@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Book, ChevronRight, Star, Filter } from 'lucide-react';
-import { MOCK_SCRIPTURES } from '@/lib/scriptures/data';
+import { getScriptures } from '@/lib/scriptures/actions';
 import Link from 'next/link';
 import {
   Sheet,
@@ -26,8 +26,24 @@ import { Scripture } from '@/types/scripture';
 export default function ScripturesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeScripture, setActiveScripture] = useState<Scripture | null>(null);
+  const [scriptures, setScriptures] = useState<Scripture[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredScriptures = MOCK_SCRIPTURES.filter((scripture) => {
+  useEffect(() => {
+    async function loadScriptures() {
+      try {
+        const data = await getScriptures();
+        setScriptures(data);
+      } catch (error) {
+        console.error('Failed to load scriptures:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadScriptures();
+  }, []);
+
+  const filteredScriptures = scriptures.filter((scripture) => {
     const matchesSearch =
       scripture.title.en.toLowerCase().includes(searchQuery.toLowerCase()) ||
       scripture.description.en.toLowerCase().includes(searchQuery.toLowerCase());
@@ -143,59 +159,67 @@ export default function ScripturesPage() {
             </div>
 
             {/* Scriptures Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredScriptures.map((scripture, index) => (
-                <motion.div
-                  key={scripture.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 + 0.3 }}
-                >
-                  <div onClick={() => setActiveScripture(scripture)} className="cursor-pointer h-full">
-                    <Card className="h-full bg-white/5 border-white/10 hover:border-amber-500/30 hover:bg-white/10 transition-all duration-300 group overflow-hidden relative">
-                      {/* Image Overlay */}
-                      <div className="h-48 overflow-hidden relative">
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0118] to-transparent z-10" />
-                        <img 
-                          src={scripture.coverImage} 
-                          alt={scripture.title.en}
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute top-4 right-4 z-20">
-                          <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-medium text-amber-400">
-                            {scripture.tradition}
-                          </span>
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-64 rounded-xl bg-white/5 animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredScriptures.map((scripture, index) => (
+                  <motion.div
+                    key={scripture.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 + 0.3 }}
+                  >
+                    <div onClick={() => setActiveScripture(scripture)} className="cursor-pointer h-full">
+                      <Card className="h-full bg-white/5 border-white/10 hover:border-amber-500/30 hover:bg-white/10 transition-all duration-300 group overflow-hidden relative">
+                        {/* Image Overlay */}
+                        <div className="h-48 overflow-hidden relative">
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0118] to-transparent z-10" />
+                          <img 
+                            src={scripture.coverImage || 'https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=1000&auto=format&fit=crop'} 
+                            alt={scripture.title.en}
+                            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute top-4 right-4 z-20">
+                            <span className="px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs font-medium text-amber-400">
+                              {scripture.tradition}
+                            </span>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="p-6 relative z-20 -mt-12">
-                        <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-amber-400 transition-colors">
-                          {scripture.title.en}
-                        </h3>
-                        <p className="text-sm text-amber-400/80 font-medium mb-3 font-serif">
-                          {scripture.title.sa}
-                        </p>
-                        <p className="text-sm text-gray-400 line-clamp-2 mb-4">
-                          {scripture.description.en}
-                        </p>
-                        
-                        <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4">
-                          <span className="flex items-center gap-1">
-                            <Book className="w-3 h-3" />
-                            {scripture.totalChapters} Chapters
-                          </span>
-                          <span className="group-hover:translate-x-1 transition-transform duration-300 text-amber-500 flex items-center gap-1">
-                            Read Now <ChevronRight className="w-3 h-3" />
-                          </span>
+                        <div className="p-6 relative z-20 -mt-12">
+                          <h3 className="text-xl font-serif font-bold text-white mb-1 group-hover:text-amber-400 transition-colors">
+                            {scripture.title.en}
+                          </h3>
+                          <p className="text-sm text-amber-400/80 font-medium mb-3 font-serif">
+                            {scripture.title.sa}
+                          </p>
+                          <p className="text-sm text-gray-400 line-clamp-2 mb-4">
+                            {scripture.description.en}
+                          </p>
+                          
+                          <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4">
+                            <span className="flex items-center gap-1">
+                              <Book className="w-3 h-3" />
+                              {scripture.totalChapters || 0} Chapters
+                            </span>
+                            <span className="group-hover:translate-x-1 transition-transform duration-300 text-amber-500 flex items-center gap-1">
+                              Read Now <ChevronRight className="w-3 h-3" />
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </Card>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                      </Card>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
 
-            {filteredScriptures.length === 0 && (
+            {!isLoading && filteredScriptures.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-gray-400">No scriptures found matching your search.</p>
               </div>
