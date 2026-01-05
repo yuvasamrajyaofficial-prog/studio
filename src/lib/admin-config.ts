@@ -1,6 +1,6 @@
 export const ADMIN_EMAILS = [
   "prashantbhiremath13@gmail.com",
-  "pg293815@gmail.com",
+  "ph293815@gmail.com",
   // Add other admin emails here
 ];
 
