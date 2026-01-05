@@ -190,9 +190,7 @@ export default function CosmosPage() {
               <Button asChild variant="outline" className="border-white/20 text-white hover:bg-white/10">
                 <Link href="/scriptures">Browse Scriptures</Link>
               </Button>
-              <Button asChild variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                <Link href="/studio">Talk to AI Guru</Link>
-              </Button>
+
               <Button asChild variant="outline" className="border-white/20 text-white hover:bg-white/10">
                 <Link href="/blogs">Read Insights</Link>
               </Button>

@@ -22,21 +22,14 @@ export default function AdminCMSPage() {
           title="Scriptures" 
           count={12} 
           icon={BookOpen} 
-          href="/studio/upload"
+          href="/scriptures"
           desc="Manage sacred texts and translations."
-        />
-        <CMSCard 
-          title="Audio/TTS" 
-          count={45} 
-          icon={Mic} 
-          href="/studio/tts"
-          desc="Manage generated audio and voice clones."
         />
         <CMSCard 
           title="Blogs/Articles" 
           count={8} 
           icon={FileText} 
-          href="/studio/blog"
+          href="/blogs"
           desc="Manage educational content and updates."
         />
       </div>

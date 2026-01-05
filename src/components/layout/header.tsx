@@ -56,7 +56,7 @@ export function Header() {
             <ThemeToggleButton />
             {user ? (
               <div className="flex items-center gap-2">
-                {user.email && ADMIN_EMAILS.includes(user.email) && (
+                {user.email && ADMIN_EMAILS.includes(user.email.toLowerCase()) && (
                   <Button asChild size="sm" variant="ghost" className="text-amber-400 hover:text-amber-300 hover:bg-amber-400/10">
                     <Link href="/admin">Admin Dashboard</Link>
                   </Button>
