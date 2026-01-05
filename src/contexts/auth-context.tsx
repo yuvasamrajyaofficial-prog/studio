@@ -85,34 +85,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // Create user profile if it doesn't exist
-    await createUserProfile(user.uid, {
-      uid: user.uid,
-      email: user.email!,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      culturalContext: {
-        country: '',
-        language: '',
-        religion: 'HINDUISM',
-        interests: [],
-        consentAstrology: false,
-        consentMatching: false,
-      },
-      karmaMeter: {
-        points: 0,
-        level: 1,
-        glowColor: '#4ECDC4',
-      },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+      // Create user profile if it doesn't exist
+      try {
+        await createUserProfile(user.uid, {
+          uid: user.uid,
+          email: user.email!,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          culturalContext: {
+            country: 'IN',
+            languages: ['en'],
+            religion: 'HINDUISM',
+            interests: [],
+            consentFlags: {
+              astrology: false,
+              relationshipMatching: false,
+              aiCounseling: false,
+              dataCollection: false
+            }
+          },
+          karmaMeter: {
+            points: 0,
+            level: 1,
+            glowColor: '#4ECDC4',
+          },
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      } catch (profileError) {
+        console.error("Error creating user profile:", profileError);
+        // Don't block sign-in if profile creation fails, but log it
+      }
 
-    return user;
+      return user;
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      throw error;
+    }
   };
 
   const signOut = async () => {

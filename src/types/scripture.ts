@@ -1,26 +1,41 @@
 export interface Scripture {
   id: string;
+  title: {
+    en: string;
+    sa?: string;
+    hi?: string;
+    [key: string]: string | undefined;
+  };
   slug: string;
-  title: Record<string, string>; // { en: "Bhagavad Gita", sa: "भगवद्गीता" }
-  description: Record<string, string>;
-  author: string;
-  tradition: 'Hinduism' | 'Buddhism' | 'Christianity' | 'Islam' | 'Sikhism' | 'Jainism' | 'Taoism' | 'Other';
-  tags: string[];
-  coverImage: string;
-  totalChapters: number;
-  languages: string[]; // ['en', 'sa', 'hi', 'kn']
-  createdAt: Date;
-  updatedAt: Date;
+  description: {
+    en: string;
+    [key: string]: string | undefined;
+  };
+  author?: string;
+  coverImage?: string;
+  languages: string[];
+  tags?: string[];
+  totalChapters?: number;
+  createdAt?: any;
+  updatedAt?: any;
 }
 
 export interface Chapter {
   id: string;
   scriptureId: string;
   number: number;
-  title: Record<string, string>;
-  summary: Record<string, string>;
+  title: {
+    en: string;
+    sa?: string;
+    [key: string]: string | undefined;
+  };
+  summary?: {
+    en: string;
+    [key: string]: string | undefined;
+  };
   versesCount: number;
   order: number;
+  createdAt?: any;
 }
 
 export interface Verse {
@@ -29,23 +44,17 @@ export interface Verse {
   chapterId: string;
   number: number;
   text: {
-    original: string;      // The source text (e.g., Sanskrit)
-    transliteration?: string; // Romanized version (e.g., IAST)
+    original: string; // Sanskrit/Source
+    transliteration?: string;
+    [key: string]: string | undefined;
   };
-  translations: Record<string, string>; // { en: "...", hi: "...", kn: "..." }
+  translations: {
+    en: string;
+    [key: string]: string | undefined;
+  };
   commentary?: {
-    author: string;
-    text: Record<string, string>;
-  }[];
+    en?: string;
+    [key: string]: string | undefined;
+  };
+  createdAt?: any;
 }
-
-export type Language = 'en' | 'hi' | 'sa' | 'kn' | 'ta' | 'te';
-
-export const LANGUAGE_LABELS: Record<Language, string> = {
-  en: 'English',
-  hi: 'Hindi',
-  sa: 'Sanskrit',
-  kn: 'Kannada',
-  ta: 'Tamil',
-  te: 'Telugu',
-};

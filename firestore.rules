@@ -1,139 +1,88 @@
-/**
- * Core Philosophy: This ruleset enforces a strict user-ownership model for user data,
- * ensuring users can only access their own information. Scripture data is treated as public content,
- * readable by anyone. Project and Voice data are private to the user who created them, with
- * special checks for voice creation. App config data is public-read, admin-write.
- *
- * Data Structure: The data is organized into five primary top-level collections:
- *   - /users/{userId}: Stores private user profile data. Access is strictly controlled
- *     based on the authenticated user's ID matching the document ID.
- *   - /scriptures/{scriptureId}: Stores public scripture information, accessible to all clients.
- *   - /projects/{projectId}: Stores private user-generated project data, accessible only by the owner.
- *   - /voices/{voiceId}: Stores sensitive voice model data, with creation restricted to
- *     KYC-verified users and access limited to the owner.
- *   - /appConfig/{configId}: Stores global application settings, readable by all but not writable.
- *
- * Key Security Decisions:
- *   - User Data Privacy: A user can only create, read, update, or delete their own document
- *     within the /users collection.
- *   - User Listing Disabled: To prevent user enumeration and protect privacy, listing
- *     documents in the /users collection is explicitly forbidden.
- *   - Project & Voice Data Privacy: Users can only create projects/voices for themselves and
- *     can only access projects/voices they own. Listing the entire collection is forbidden.
- *   - KYC-Gated Voice Creation: Creating a document in the /voices collection requires the
- *     user to have a custom claim `kycVerified` set to `true`. This is a critical security gate.
- *   - Public Read-Only Content: The /scriptures and /appConfig collections are publicly readable 
- *     by anyone, including unauthenticated users, to facilitate content discovery and app configuration.
- *   - Secure-by-Default Writes: Writes to /scriptures and /appConfig are disabled for clients.
- *   - Immutable Fields: Critical user fields like `id`, `role`, and `kycStatus` are
- *     made immutable on update to prevent users from altering their own ID or escalating
- *     their privileges.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions for reusable logic
-    
-    /**
-     * Checks if the user is authenticated.
-     */
+    // --- Helper Functions ---
+
+    // Check if user is authenticated
     function isSignedIn() {
       return request.auth != null;
     }
     
-    /**
-     * Checks if the currently signed-in user's UID matches the provided userId.
-     */
+    // Check if the user is the owner of the document (using uid field)
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /**
-     * Checks if the user is the owner of an existing document.
-     * Prevents modification or deletion of non-existent documents.
-     */
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
+    // Check if the user is an Admin
+    // We check against a hardcoded list of admin emails for security
+    // OR a custom claim if you implement that later.
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email.matches('^.*@gmail[.]com$') && (
+          request.auth.token.email == 'prashantbhiremath13@gmail.com' ||
+          request.auth.token.email == 'ph293815@gmail.com'
+        )
+      );
     }
 
-    /**
-     * Checks if the user has a verified KYC status via custom claims.
-     * IMPORTANT: This relies on a custom claim being set by a backend process.
-     */
-    function isKycVerified() {
-      return isSignedIn() && request.auth.token.kycVerified == true;
-    }
+    // --- Collection Rules ---
 
-    /**
-     * @description Rules for the user profile collection.
-     * @path /users/{userId}
-     * @allow (create) An authenticated user creating their own user document for the first time.
-     * @deny (get) An authenticated user attempting to read another user's profile data.
-     * @principle Restricts access to a user's own data tree, enforcing strict data privacy.
-     */
+    // Users Collection
     match /users/{userId} {
+      // Admins can read/write everything
+      allow read, write: if isAdmin();
+      
+      // Owners can read their own profile
       allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId)
-        && request.resource.data.id == resource.data.id
-        && request.resource.data.role == resource.data.role
-        && request.resource.data.kycStatus == resource.data.kycStatus;
-      allow delete: if isExistingOwner(userId);
+      
+      // Creation: Allow if auth uid matches doc id AND data.uid matches
+      allow create: if isOwner(userId) && request.resource.data.uid == userId;
+      
+      // Update: Allow if owner, but prevent changing critical fields like uid or role (unless admin)
+      allow update: if isOwner(userId) 
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.role == resource.data.role;
+        
+      // Delete: Only admins or owner can delete
+      allow delete: if isOwner(userId);
     }
 
-    /**
-     * @description Rules for the public scripture collection.
-     * @path /scriptures/{scriptureId}
-     * @allow (get) Any user, including unauthenticated ones, reading a scripture document.
-     * @deny (create) Any user attempting to create a new scripture.
-     * @principle Implements a public read-only pattern, with writes disabled pending schema updates for proper authorization.
-     */
+    // Scriptures Collection (Public Read, Admin Write)
     match /scriptures/{scriptureId} {
-      allow get: if true;
-      allow list: if true;
-      // CRITICAL: Cannot implement owner-only writes. The 'Scripture' entity is missing an 'ownerId' or 'authorId' field.
-      allow create, update, delete: if false; // Client-side writes are disabled.
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Blogs/Articles Collection (Public Read, Admin Write)
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Projects (User Private)
+    match /projects/{projectId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
+      allow read, update, delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // Voices (User Private + Admin)
+    match /voices/{voiceId} {
+      allow read, write: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.ownerUid == request.auth.uid;
+      allow read, update, delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // App Config (Public Read, Admin Write)
+    match /appConfig/{configId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
     
-    /**
-     * @description Rules for the user projects collection.
-     * @path /projects/{projectId}
-     * @allow (create) An authenticated user can create a project for themselves.
-     * @deny (list) Listing all projects is forbidden to protect user privacy.
-     * @principle Enforces strict ownership for all project-related operations.
-     */
-    match /projects/{projectId} {
-      allow list: if false;
-      allow get, delete: if isOwner(resource.data.ownerUid);
-      allow update: if isOwner(resource.data.ownerUid);
-      allow create: if isOwner(request.resource.data.ownerUid);
-    }
-
-    /**
-     * @description Rules for the user-created voice models collection.
-     * @path /voices/{voiceId}
-     * @allow (create) An authenticated and KYC-verified user can create a voice model.
-     * @deny (list) Listing all voice models is forbidden.
-      * @principle Enforces strict ownership and gates creation with a KYC check.
-      */
-    match /voices/{voiceId} {
-      allow list: if false;
-      allow get, delete, update: if isOwner(resource.data.ownerUid);
-      allow create: if isOwner(request.resource.data.ownerUid) && isKycVerified();
-    }
-
-    /**
-     * @description Rules for the global application configuration.
-     * @path /appConfig/{configId}
-     * @allow (get, list) Any user can read configuration.
-     * @deny (write) No client can write to the configuration.
-     * @principle Makes app configuration public while preventing client-side modification.
-     */
-    match /appConfig/{configId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

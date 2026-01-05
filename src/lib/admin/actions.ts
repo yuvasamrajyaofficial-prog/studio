@@ -1,4 +1,4 @@
-import { collection, getDocs, query, orderBy, limit, where, getCountFromServer } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, where, getCountFromServer, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { UserProfile } from '@/types/user';
 
@@ -7,7 +7,7 @@ export async function getAllUsers() {
     const usersRef = collection(db, 'users');
     const q = query(usersRef, orderBy('createdAt', 'desc'), limit(50));
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as UserProfile));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as unknown as UserProfile));
   } catch (error) {
     console.error("Error fetching users:", error);
     return [];
@@ -35,4 +35,9 @@ export async function getDashboardStats() {
       systemAlerts: 0
     };
   }
+}
+
+export async function updateUserRole(userId: string, role: 'user' | 'admin' | 'moderator') {
+  const userRef = doc(db, 'users', userId);
+  await updateDoc(userRef, { role });
 }
