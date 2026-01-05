@@ -57,7 +57,16 @@ export function AIModal() {
     const result = await getScriptureSummaryAction({
       scriptureContent: data.message,
       era: "Kali", 
-      category: "General Inquiry"
+      category: "General Inquiry",
+      userContext: user ? {
+        name: user.displayName || undefined,
+        // We would ideally fetch the full profile here or have it in context, 
+        // but for now we'll just pass what we have from AuthUser
+      } : undefined,
+      pageContext: {
+        path: window.location.pathname,
+        title: document.title
+      }
     });
 
     let botResponse = "I'm sorry, I couldn't process your request. Please try again.";

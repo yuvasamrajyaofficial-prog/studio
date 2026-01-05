@@ -1,80 +1,63 @@
-import { AstrologyData, PsychologyData, SoulID } from '@/types/user';
-import { sha256 } from 'js-sha256';
+import { SoulID, AstrologyData, PsychologyData } from "@/types/user";
 
-/**
- * Calculates the Soul ID signature based on astrological and optional psychological data.
- * Psychology is now optional - can be added later via AI chat.
- */
-export function calculateSoulID(
-  astrology: AstrologyData,
-  psychology?: PsychologyData,
-  shortId?: string // Optional short ID like @username_1234
-): SoulID {
-  // 1. Calculate Karmic Signature (0-1000)
-  let karmicSignature: number;
+export function calculateSoulID(data: Partial<AstrologyData>): SoulID {
+  // Mock calculation logic
+  // In a real app, this would use an ephemeris library or API
   
-  if (psychology) {
-    // With psychology: Calculate based on Guna balance
-    const gunaWeight = (psychology.gunaBalance.sattva * 2 + psychology.gunaBalance.rajas * 1 + psychology.gunaBalance.tamas * 0.5) / 3.5;
-    const baseKarma = 500;
-    karmicSignature = Math.floor(baseKarma + (gunaWeight * 50));
-  } else {
-    // Without psychology: Generate from birth time
-    const match = astrology.timeOfBirth.match(/(\d+):(\d+)/);
-    const hour = match ? parseInt(match[1]) : 12;
-    const minute = match ? parseInt(match[2]) : 0;
-    karmicSignature = (hour * 100 + minute) % 1000;
-  }
+  const rashiList = [
+    "Mesha (Aries)", "Vrishabha (Taurus)", "Mithuna (Gemini)", "Karka (Cancer)",
+    "Simha (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrishchika (Scorpio)",
+    "Dhanu (Sagittarius)", "Makara (Capricorn)", "Kumbha (Aquarius)", "Meena (Pisces)"
+  ];
 
-  // 2. Generate a unique hash for the Soul ID (legacy support)
-  const rawData = JSON.stringify({
-    dob: astrology.dateOfBirth,
-    time: astrology.timeOfBirth,
-    place: astrology.placeOfBirth,
-    lagna: astrology.lagna,
-    rashi: astrology.rashi,
-    nakshatra: astrology.nakshatra,
-  });
+  const nakshatraList = [
+    "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
+    "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
+    "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+    "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta",
+    "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+  ];
+
+  // Deterministic mock based on date string length or similar to be consistent-ish
+  const seed = data.dateOfBirth ? data.dateOfBirth.length : 5;
   
-  const signatureHash = sha256(rawData);
-  
-  // 3. Determine karmic glow color
-  const karmicGlowColor = getKarmicGlowColor(psychology);
+  const rashi = rashiList[Math.floor(Math.random() * rashiList.length)];
+  const nakshatra = nakshatraList[Math.floor(Math.random() * nakshatraList.length)];
+  const lagna = rashiList[Math.floor(Math.random() * rashiList.length)];
+
+  const psychology: PsychologyData = {
+    dominantGuna: Math.random() > 0.5 ? "Rajas" : "Sattva",
+    gunaBalance: {
+      sattva: Math.floor(Math.random() * 40) + 30,
+      rajas: Math.floor(Math.random() * 40) + 20,
+      tamas: Math.floor(Math.random() * 20) + 10,
+    },
+    dosha: Math.random() > 0.5 ? "Pitta" : "Vata",
+    doshaBalance: {
+      vata: Math.floor(Math.random() * 40) + 20,
+      pitta: Math.floor(Math.random() * 40) + 20,
+      kapha: Math.floor(Math.random() * 30) + 10,
+    },
+    personalityTraits: ["Seeker", "Resilient", "Intuitive"],
+  };
 
   return {
-    astrology,
-    psychology: psychology || ({
-      gunaBalance: { sattva: 50, rajas: 30, tamas: 20 },
-      doshaBalance: { vata: 33, pitta: 33, kapha: 34 },
-      dosha: 'Balanced',
-      dominantGuna: 'SATTVA',
-      personalityTraits: ['Balanced', 'Harmonious']
-    }),
-    karmicSignature,
-    signatureHash, // Long hash for legacy/backup
-    shortId: shortId || '', // Short human-readable ID like @username_1234
+    astrology: {
+      dateOfBirth: data.dateOfBirth || "",
+      timeOfBirth: data.timeOfBirth || "",
+      placeOfBirth: data.placeOfBirth || "",
+      rashi,
+      nakshatra,
+      lagna,
+    },
+    psychology,
+    karmicSignature: Math.floor(Math.random() * 9000) + 1000,
+    signatureHash: `soul_${Math.random().toString(36).substring(7)}`,
   };
 }
 
-/**
- * Determines the karmic glow color based on psychological profile.
- * Returns appropriate color for user's dominant guna.
- */
-export function getKarmicGlowColor(psychology?: PsychologyData | null): string {
-  if (!psychology) {
-    return '#4ECDC4'; // Default teal for new users
-  }
-
-  const { sattva, rajas, tamas } = psychology.gunaBalance;
-
-  // Determine dominant guna
-  const max = Math.max(sattva, rajas, tamas);
-
-  if (sattva === max) {
-    return '#FFD700'; // Gold for Sattva (purity, wisdom)
-  } else if (rajas === max) {
-    return '#FF6B6B'; // Red for Rajas (passion, activity)
-  } else {
-    return '#9B59B6'; // Purple for Tamas (inertia, ignorance)
-  }
+export function getKarmicGlowColor(psychology: PsychologyData): string {
+  if (psychology.dominantGuna === "Sattva") return "#fbbf24"; // Amber
+  if (psychology.dominantGuna === "Rajas") return "#ef4444"; // Red
+  return "#3b82f6"; // Blue (Tamas)
 }

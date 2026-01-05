@@ -1,262 +1,155 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
-import { calculateSoulID, getKarmicGlowColor } from '@/lib/soul-id-calculator';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Sparkles, ShieldCheck, Zap, Moon, Sun, Home, ChevronLeft } from 'lucide-react';
-import type { SoulID } from '@/types/user';
-import Link from 'next/link';
-import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
-import { useAuth } from '@/contexts/auth-context';
-import { getUserProfile, updateSoulID, saveRegistrationData } from '@/lib/firebase/firestore';
-import { useToast } from '@/hooks/use-toast';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
+import { updateSoulID } from "@/lib/firebase/firestore";
+import { calculateSoulID } from "@/lib/soul-id-calculator";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sparkles, Calendar, Clock, MapPin, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 export default function SoulIDPage() {
-  const router = useRouter();
   const { user } = useAuth();
-  const { toast } = useToast();
-  const [soulID, setSoulID] = useState<SoulID | null>(null);
-  const [isRevealing, setIsRevealing] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    dateOfBirth: "",
+    timeOfBirth: "",
+    placeOfBirth: "",
+  });
 
-  useEffect(() => {
-    const generateAndSaveSoulID = async () => {
-      try {
-        // Check if user is authenticated
-        if (!user) {
-          router.push('/login');
-          return;
-        }
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      toast.error("You must be logged in to generate a Soul ID");
+      return;
+    }
 
-        // Try to get existing Soul ID from Firestore first
-        const profile = await getUserProfile(user.uid);
-        
-        if (profile?.soulID) {
-          // Soul ID already exists, just display it
-          setSoulID(profile.soulID);
-          setIsLoading(false);
-          setTimeout(() => setIsRevealing(false), 2000);
-          return;
-        }
+    setIsLoading(true);
 
-        // Get registration data from Firestore
-        if (!profile?.registration) {
-          // Try localStorage as fallback (for migration)
-          const localData = localStorage.getItem('malola_registration');
-          
-          if (!localData) {
-            router.push('/register');
-            return;
-          }
+    try {
+      const soulID = calculateSoulID(formData);
+      
+      // Add a short ID based on user name
+      soulID.shortId = `@${user.displayName?.split(' ')[0].toLowerCase() || 'seeker'}_${Math.floor(Math.random() * 100)}`;
 
-          const data = JSON.parse(localData);
-          
-          // Save registration data to Firestore
-          await saveRegistrationData(user.uid, data);
-        }
-
-        // Generate Soul ID from registration data
-        const registrationData = profile?.registration || JSON.parse(localStorage.getItem('malola_registration') || '{}');
-        
-        const astrologyData = {
-          dateOfBirth: registrationData.dateOfBirth,
-          timeOfBirth: registrationData.timeOfBirth,
-          placeOfBirth: registrationData.placeOfBirth,
-          lagna: 'Taurus', // Mock - would calculate from actual astrology API
-          rashi: 'Leo',
-          nakshatra: 'Magha',
-        };
-
-        const generatedSoulID = calculateSoulID(astrologyData);
-        setSoulID(generatedSoulID);
-        
-        // Save Soul ID to Firestore
-        await updateSoulID(user.uid, generatedSoulID);
-        
-        // Also save to localStorage (for migration/fallback)
-        localStorage.setItem('malola_soul_id', JSON.stringify(generatedSoulID));
-        
-        setIsLoading(false);
-        setTimeout(() => setIsRevealing(false), 2000);
-
-        toast({
-          title: 'Soul ID Created!',
-          description: 'Your cosmic identity has been generated.',
-        });
-
-      } catch (error) {
-        console.error('Error generating Soul ID:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to generate Soul ID. Please try again.',
-          variant: 'destructive',
-        });
-        setIsLoading(false);
-      }
-    };
-
-    generateAndSaveSoulID();
-  }, [user, router, toast]);
-
-  if (!soulID) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] flex items-center justify-center">
-        <div className="text-white text-xl">Generating your Soul ID...</div>
-      </div>
-    );
-  }
-
-  const glowColor = getKarmicGlowColor(soulID.psychology);
+      await updateSoulID(user.uid, soulID);
+      toast.success("Soul ID generated successfully!");
+      router.push("/profile");
+    } catch (error) {
+      console.error("Failed to generate Soul ID:", error);
+      toast.error("Failed to generate Soul ID. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] relative overflow-hidden flex items-center justify-center p-4">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-      <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl" />
+    <div className="min-h-screen flex flex-col bg-[#0a0118] text-white selection:bg-amber-500/30">
+      <Header />
 
-      <div className="relative z-10 w-full max-w-2xl">
-        {/* Back Button */}
-        <div className="mb-6">
-          <button 
-            onClick={() => router.back()}
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-            <span>Back</span>
-          </button>
-        </div>
-
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <Link href="/" className="inline-flex items-center gap-3 mb-6">
-            <SudharshanaChakraIcon className="h-10 w-10 text-amber-400" />
-            <span className="font-serif text-3xl font-bold text-amber-400 tracking-wide">MALOLA</span>
-          </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">Your Soul ID is Ready</h1>
-          <p className="text-gray-400">Welcome to the cosmic realm</p>
-        </div>
-
-        {/* Soul ID Card */}
-        <div className="flex flex-col items-center">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="relative group w-full max-w-md"
-          >
-            {/* Glow Effect */}
-            <div
-              className="absolute inset-0 blur-[60px] opacity-50 group-hover:opacity-80 transition-opacity duration-1000"
-              style={{ backgroundColor: glowColor }}
-            />
-
-            <Card className="relative w-full aspect-[9/14] bg-black/40 border-white/10 backdrop-blur-3xl rounded-[40px] p-8 flex flex-col overflow-hidden border">
-              {/* Card Header */}
-              <div className="flex justify-between items-start mb-8">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-yellow-500" />
-                  </div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-bold">
-                    Soul ID Signature
-                  </span>
-                </div>
-                <ShieldCheck className="w-6 h-6 text-green-500/50" />
+      <main className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-[#0a0118] to-[#0a0118] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow" />
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative z-10 w-full max-w-md"
+        >
+          <Card className="bg-white/5 border-white/10 backdrop-blur-xl shadow-2xl">
+            <CardHeader className="text-center">
+              <div className="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center mb-4 shadow-lg shadow-orange-500/20">
+                <Sparkles className="w-8 h-8 text-white animate-spin-slow" />
               </div>
-
-              {/* Main Content */}
-              <div className="flex-1 flex flex-col items-center justify-center text-center space-y-6">
-                <div className="relative">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                    className="w-32 h-32 rounded-full border border-dashed border-white/20"
-                  />
-                  <div
-                    className="absolute inset-2 rounded-full blur-md opacity-50"
-                    style={{ backgroundColor: glowColor }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Zap className="w-12 h-12 text-white" />
+              <CardTitle className="text-2xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-200">
+                Generate Your Soul ID
+              </CardTitle>
+              <CardDescription className="text-gray-400">
+                Enter your birth details to reveal your cosmic signature and karmic blueprint.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleGenerate} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="dob" className="text-gray-300">Date of Birth</Label>
+                  <div className="relative">
+                    <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <Input
+                      id="dob"
+                      type="date"
+                      required
+                      value={formData.dateOfBirth}
+                      onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                      className="pl-10 bg-black/20 border-white/10 text-white focus:border-amber-500/50"
+                    />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <h2 className="text-3xl font-bold tracking-tight text-white">
-                    {soulID.astrology.lagna} Ascendant
-                  </h2>
-                  <p className="text-gray-400 text-sm">
-                    {soulID.astrology.nakshatra} Nakshatra • {soulID.astrology.rashi} Moon
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-3 gap-4 w-full pt-4">
-                  <div className="text-center">
-                    <div className="text-[10px] uppercase text-gray-500 mb-1">Sattva</div>
-                    <div className="text-sm font-bold text-white">{Math.round(soulID.psychology.gunaBalance.sattva)}%</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[10px] uppercase text-gray-500 mb-1">Rajas</div>
-                    <div className="text-sm font-bold text-white">{Math.round(soulID.psychology.gunaBalance.rajas)}%</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-[10px] uppercase text-gray-500 mb-1">Tamas</div>
-                    <div className="text-sm font-bold text-white">{Math.round(soulID.psychology.gunaBalance.tamas)}%</div>
+                <div className="space-y-2">
+                  <Label htmlFor="tob" className="text-gray-300">Time of Birth</Label>
+                  <div className="relative">
+                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <Input
+                      id="tob"
+                      type="time"
+                      required
+                      value={formData.timeOfBirth}
+                      onChange={(e) => setFormData({ ...formData, timeOfBirth: e.target.value })}
+                      className="pl-10 bg-black/20 border-white/10 text-white focus:border-amber-500/50"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Card Footer */}
-              <div className="mt-auto pt-8 border-t border-white/5">
-                <div className="flex justify-between items-end">
-                  <div className="space-y-1">
-                    <div className="text-[10px] uppercase tracking-widest text-gray-500">Karmic Signature</div>
-                    <div className="text-2xl font-mono font-bold text-white">
-                      #{soulID.karmicSignature}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-[8px] font-mono text-gray-600 break-all w-32 leading-tight">
-                      {soulID.signatureHash.substring(0, 32)}...
-                    </div>
+                <div className="space-y-2">
+                  <Label htmlFor="pob" className="text-gray-300">Place of Birth</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                    <Input
+                      id="pob"
+                      type="text"
+                      placeholder="City, Country"
+                      required
+                      value={formData.placeOfBirth}
+                      onChange={(e) => setFormData({ ...formData, placeOfBirth: e.target.value })}
+                      className="pl-10 bg-black/20 border-white/10 text-white focus:border-amber-500/50"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Decorative Elements */}
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                <Sun className="w-24 h-24 text-white" />
-              </div>
-              <div className="absolute bottom-0 left-0 p-4 opacity-10">
-                <Moon className="w-24 h-24 text-white" />
-              </div>
-            </Card>
-          </motion.div>
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-medium py-6 shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02]"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Calculating Cosmic Alignment...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      Reveal My Soul ID
+                    </>
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </main>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="mt-12 text-center space-y-6"
-          >
-            <p className="text-gray-400 text-sm max-w-md">
-              Your Soul ID has been generated and stored in the cosmic ledger. You can now explore ancient wisdom and connect with your spiritual path.
-            </p>
-            <Button 
-              onClick={() => router.push('/cosmos')}
-              size="lg"
-              className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-12"
-            >
-              <Home className="w-5 h-5 mr-2" />
-              Enter the Cosmos
-            </Button>
-          </motion.div>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }

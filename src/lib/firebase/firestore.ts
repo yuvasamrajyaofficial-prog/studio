@@ -72,3 +72,21 @@ export async function updateUserProfile(userId: string, data: Partial<UserProfil
     updatedAt: serverTimestamp(),
   });
 }
+
+/**
+ * Increment a specific user stat
+ */
+export async function incrementUserStat(userId: string, stat: keyof UserProfile['stats'], value: number = 1) {
+  const userRef = doc(db, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  
+  if (userSnap.exists()) {
+    const currentStats = userSnap.data().stats || {};
+    const currentVal = currentStats[stat] || 0;
+    
+    await updateDoc(userRef, {
+      [`stats.${stat}`]: currentVal + value,
+      updatedAt: serverTimestamp(),
+    });
+  }
+}

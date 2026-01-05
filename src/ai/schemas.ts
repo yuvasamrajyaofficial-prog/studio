@@ -13,6 +13,15 @@ export const SummarizeScriptureInputSchema = z.object({
     .string()
     .min(1, { message: 'Category cannot be empty.' })
     .describe('The category of the scripture.'),
+  userContext: z.object({
+    name: z.string().optional(),
+    soulId: z.string().optional(),
+    interests: z.array(z.string()).optional(),
+  }).optional().describe('Context about the user asking the question.'),
+  pageContext: z.object({
+    path: z.string().optional(),
+    title: z.string().optional(),
+  }).optional().describe('Context about the page the user is currently viewing.'),
 });
 export type SummarizeScriptureInput = z.infer<
   typeof SummarizeScriptureInputSchema

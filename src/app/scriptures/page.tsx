@@ -17,13 +17,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
-
+import { useAuth } from '@/contexts/auth-context';
+import { incrementUserStat } from '@/lib/firebase/firestore';
 
 import { ScriptureReader } from './components/scripture-reader';
 import { Scripture } from '@/types/scripture';
 
 export default function ScripturesPage() {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeScripture, setActiveScripture] = useState<Scripture | null>(null);
   const [scriptures, setScriptures] = useState<Scripture[]>([]);
@@ -42,6 +43,13 @@ export default function ScripturesPage() {
     }
     loadScriptures();
   }, []);
+
+  const handleScriptureClick = (scripture: Scripture) => {
+    setActiveScripture(scripture);
+    if (user) {
+      incrementUserStat(user.uid, 'scripturesRead');
+    }
+  };
 
   const filteredScriptures = scriptures.filter((scripture) => {
     const matchesSearch =
@@ -174,7 +182,7 @@ export default function ScripturesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 + 0.3 }}
                   >
-                    <div onClick={() => setActiveScripture(scripture)} className="cursor-pointer h-full">
+                    <div onClick={() => handleScriptureClick(scripture)} className="cursor-pointer h-full">
                       <Card className="h-full bg-white/5 border-white/10 hover:border-amber-500/30 hover:bg-white/10 transition-all duration-300 group overflow-hidden relative">
                         {/* Image Overlay */}
                         <div className="h-48 overflow-hidden relative">
