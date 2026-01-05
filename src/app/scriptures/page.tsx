@@ -10,6 +10,13 @@ import { Button } from '@/components/ui/button';
 import { Search, Book, ChevronRight, Star, Filter } from 'lucide-react';
 import { MOCK_SCRIPTURES } from '@/lib/scriptures/data';
 import Link from 'next/link';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 
 
@@ -81,21 +88,58 @@ export default function ScripturesPage() {
               </motion.p>
             </div>
 
-            {/* Search Bar */}
-            <div className="max-w-xl mx-auto mb-12 relative">
-              <div className="relative group">
+            {/* Search & Filter Section */}
+            <div className="max-w-xl mx-auto mb-12 relative flex gap-4">
+              <div className="relative group flex-1">
                 <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-purple-600/20 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-500" />
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <Input 
                     type="text"
-                    placeholder="Search for scriptures, authors, or topics..."
+                    placeholder="Search scriptures..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full h-12 pl-12 pr-4 bg-[#0f0518]/80 border-white/10 rounded-full text-white placeholder:text-gray-500 focus:border-amber-500/50 focus:ring-amber-500/20 transition-all"
                   />
                 </div>
               </div>
+
+              {/* Mobile Filter Button */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" className="h-12 w-12 rounded-full border-white/10 bg-[#0f0518]/80 text-amber-400 hover:bg-white/10 hover:text-amber-300 shrink-0">
+                    <Filter className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="bg-[#0f0518] border-white/10 text-white w-[300px]">
+                  <SheetHeader>
+                    <SheetTitle className="text-left text-amber-400 font-serif text-xl">Filters</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-8 space-y-6">
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Tradition</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {['Hinduism', 'Buddhism', 'Jainism', 'Sikhism'].map((t) => (
+                          <Button key={t} variant="outline" size="sm" className="border-white/10 hover:bg-white/10 hover:text-amber-400 text-gray-300">
+                            {t}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Language</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {['Sanskrit', 'Pali', 'Tamil', 'Hindi'].map((l) => (
+                          <Button key={l} variant="outline" size="sm" className="border-white/10 hover:bg-white/10 hover:text-amber-400 text-gray-300">
+                            {l}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
 
             {/* Scriptures Grid */}

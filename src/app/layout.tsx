@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AIModal } from "@/components/ai/ai-modal";
 import { AIChatBubble } from "@/components/ai/ai-chat-bubble";
 import { AuthProvider } from "@/contexts/auth-context";
+import { BottomNav } from "@/components/layout/bottom-nav";
 
 const fontBody = PT_Sans({
   subsets: ["latin"],
@@ -50,6 +51,7 @@ export default function RootLayout({
             <Toaster />
             <AIModal />
             <AIChatBubble />
+            <BottomNav />
           </AuthProvider>
         </ThemeProvider>
       </body>

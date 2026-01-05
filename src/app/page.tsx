@@ -58,12 +58,6 @@ export default function HomePage() {
               )}
             </div>
             
-            {/* Floating Flower Action Button */}
-            <div className="fixed bottom-6 right-6 z-50 md:bottom-8 md:right-8">
-              <Button size="icon" className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 animate-bounce-slow">
-                <Sparkles className="h-5 w-5 md:h-6 md:w-6 text-white" />
-              </Button>
-            </div>
           </div>
         </section>
 

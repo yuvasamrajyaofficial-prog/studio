@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SudharshanaChakraIcon } from "../icons/sudharshana-chakra";
 import { Youtube, Instagram, Twitter, Facebook, Send, Flag } from "lucide-react";
 
 export function Footer() {
@@ -7,15 +6,13 @@ export function Footer() {
     <footer className="bg-background border-t border-border/50 pt-16 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16 text-center md:text-left">
-          {/* Column 1: Cosmos & Yugas */}
+          {/* Column 1: Resources */}
           <div className="space-y-4">
-            <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">Cosmos & Yugas</h3>
+            <h3 className="font-headline text-lg font-bold text-amber-400 mb-4">Resources</h3>
             <ul className="space-y-3 text-sm text-slate-300">
-              <li><Link href="/kalacakra" className="hover:text-amber-300 transition-colors">Kālacakra (Cosmic Wheel)</Link></li>
-              <li><Link href="/yuga-timeline" className="hover:text-amber-300 transition-colors">Yuga Timeline</Link></li>
-              <li><Link href="/lokas" className="hover:text-amber-300 transition-colors">Lokas & Cosmic Map</Link></li>
-              <li><Link href="/rishis" className="hover:text-amber-300 transition-colors">Lineage of Rishis</Link></li>
-              <li><Link href="/avatars" className="hover:text-amber-300 transition-colors">Avatar Timeline</Link></li>
+              <li><Link href="/scriptures" className="hover:text-amber-300 transition-colors">Scripture Library</Link></li>
+              <li><Link href="/blogs" className="hover:text-amber-300 transition-colors">Blogs & Articles</Link></li>
+              <li><Link href="/cosmos" className="hover:text-amber-300 transition-colors">Your Cosmos (Dashboard)</Link></li>
             </ul>
           </div>
 
