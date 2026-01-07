@@ -89,20 +89,7 @@ export function ScriptureSidebar({
     <div className={cn("flex flex-col h-full bg-[#0a0118] border-r border-white/5", className)}>
       
       {/* Header / Logo Area */}
-      <div className="p-6 flex items-center justify-between border-b border-white/5">
-         <div className="flex items-center gap-3">
-           {/* Simple Logo Placeholder */}
-           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-400 to-purple-600 animate-pulse" />
-           <span className="font-serif text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-400 tracking-wide">
-             MALOLA
-           </span>
-        </div>
-        {onClose && (
-          <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden text-gray-400 hover:text-white">
-            <X className="w-5 h-5" />
-          </Button>
-        )}
-      </div>
+
 
       <ScrollArea className="flex-1 px-6 py-6">
         <div className="space-y-8">
