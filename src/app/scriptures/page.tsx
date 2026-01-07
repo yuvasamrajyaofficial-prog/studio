@@ -79,33 +79,9 @@ export default function ScripturesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0118] text-white font-sans selection:bg-amber-500/30 flex">
-      
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:block w-80 shrink-0 h-screen sticky top-0">
-        <ScriptureSidebar 
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-          selectedEra={selectedEra}
-          onSelectEra={setSelectedEra}
-        />
-      </div>
+    <div className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 p-4 md:p-8 lg:p-10 relative overflow-y-auto">
 
-      {/* Mobile: Sidebar IS the main content */}
-      <div className="lg:hidden w-full min-h-screen">
-         <ScriptureSidebar 
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-          selectedEra={selectedEra}
-          onSelectEra={setSelectedEra}
-          onScriptureSelect={handleSidebarSelect}
-          className="border-none w-full"
-        />
-      </div>
-
-      {/* Desktop Main Content (Grid) - Hidden on Mobile */}
-      <div className="hidden lg:flex flex-1 flex-col min-w-0">
-        <main className="flex-1 p-4 md:p-8 lg:p-10 relative overflow-y-auto">
           {/* Background Elements */}
           <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
           
@@ -236,7 +212,6 @@ export default function ScripturesPage() {
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 }
