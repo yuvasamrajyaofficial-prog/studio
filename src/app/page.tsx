@@ -8,6 +8,13 @@ import Link from "next/link";
 import { BookOpen, Headphones, Sparkles, Globe, Heart, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 
+// New Landing Page Components
+import { HowItWorks } from "@/components/home/how-it-works";
+import { ScripturesCarousel } from "@/components/home/scriptures-carousel";
+import { DailyWisdom } from "@/components/home/daily-wisdom";
+import { Testimonials } from "@/components/home/testimonials";
+import { Newsletter } from "@/components/home/newsletter";
+
 export default function HomePage() {
   const { user } = useAuth();
 
@@ -61,6 +68,9 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* How It Works Section */}
+        <HowItWorks />
+
         {/* Features Grid */}
         <section className="py-24 bg-card/30 relative border-t border-border/50">
           <div className="container mx-auto px-4">
@@ -107,6 +117,18 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Featured Scriptures Carousel */}
+        <ScripturesCarousel />
+
+        {/* Daily Wisdom Section */}
+        <DailyWisdom />
+
+        {/* Testimonials / Social Proof */}
+        <Testimonials />
+
+        {/* Newsletter Signup */}
+        <Newsletter />
       </main>
       
       <Footer />
