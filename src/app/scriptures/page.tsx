@@ -10,7 +10,6 @@ import { useAuth } from '@/contexts/auth-context';
 import { incrementUserStat } from '@/lib/firebase/firestore';
 import { ScriptureReader } from './components/scripture-reader';
 import { Scripture } from '@/types/scripture';
-import { ScriptureSidebar } from './components/scripture-sidebar';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export default function ScripturesPage() {

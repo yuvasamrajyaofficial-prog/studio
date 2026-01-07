@@ -22,17 +22,26 @@ export default function ScriptureLayout({
   // Filter scriptures based on selected Era
   const filteredScriptures = scriptures;
 
+  const isMainPage = pathname === '/scriptures';
+
   return (
     <div className="min-h-screen flex flex-col bg-background overflow-hidden">
       <Header />
       
-      <main className="flex-1 flex h-[calc(100vh-4rem)] overflow-hidden">
+      <main className="flex-1 flex h-[calc(100vh-4rem)] overflow-hidden relative">
         {/* Sidebar with independent sliding */}
         <motion.aside 
           initial={{ x: -320, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
+          animate={{ 
+            x: 0, 
+            opacity: 1,
+            display: !isMainPage ? 'none' : 'flex' // Hide on mobile if not main page
+          }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="w-80 p-6 flex flex-col gap-6 bg-card/10 backdrop-blur-sm border-r border-white/5 shrink-0"
+          className={cn(
+            "w-full lg:w-80 p-6 flex flex-col gap-6 bg-card/10 backdrop-blur-sm border-r border-white/5 shrink-0 z-20",
+            !isMainPage && "hidden lg:flex" // Desktop always shows, mobile only on main page
+          )}
         >
           <motion.div
             initial={{ y: -20, opacity: 0 }}
@@ -74,7 +83,10 @@ export default function ScriptureLayout({
         </motion.aside>
 
         {/* Main Content with independent sliding */}
-        <div className="flex-1 relative bg-[#050505] overflow-hidden">
+        <div className={cn(
+          "flex-1 relative bg-[#050505] overflow-hidden",
+          isMainPage && "hidden lg:block" // Hide grid on mobile main page to show only list
+        )}>
           {/* Background decorative elements */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-900/10 pointer-events-none" />
           
