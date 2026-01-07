@@ -12,6 +12,7 @@ import Link from 'next/link';
 import type { SoulID } from '@/types/user';
 import { useAuth } from '@/contexts/auth-context';
 import { getUserProfile } from '@/lib/firebase/firestore';
+import { cn } from '@/lib/utils';
 
 export default function CosmosPage() {
   const { user } = useAuth();

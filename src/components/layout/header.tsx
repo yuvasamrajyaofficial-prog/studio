@@ -28,7 +28,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0f0518]/80 backdrop-blur-md border-b border-white/5">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
           {!isHome && (
@@ -36,8 +36,7 @@ export function Header() {
           )}
           
           <Link href="/" className="flex items-center gap-3">
-            <SudharshanaChakraIcon className="h-8 w-8 text-amber-400" />
-            <span className="font-serif text-2xl font-bold text-amber-400 tracking-wide hidden md:inline-block">
+            <span className="font-serif text-2xl font-bold text-primary tracking-wide hidden md:inline-block">
               MALOLA
             </span>
           </Link>
@@ -46,11 +45,11 @@ export function Header() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <nav className="flex gap-8 items-center">
-            <Link href="/" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors flex items-center gap-2">
+            <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
               <Home className="h-4 w-4" /> Home
             </Link>
-            <Link href="/scriptures" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Scriptures</Link>
-            <Link href="/blogs" className="text-sm font-medium text-slate-300 hover:text-amber-400 transition-colors">Blogs</Link>
+            <Link href="/scriptures" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Scriptures</Link>
+            <Link href="/blogs" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Blogs</Link>
           </nav>
           
           <div className="flex items-center gap-3">
@@ -58,23 +57,23 @@ export function Header() {
             {user ? (
               <div className="flex items-center gap-2">
                 {user.email && ADMIN_EMAILS.includes(user.email.toLowerCase()) && (
-                  <Button asChild size="sm" variant="ghost" className="text-amber-400 hover:text-amber-300 hover:bg-amber-400/10">
+                  <Button asChild size="sm" variant="ghost" className="text-primary hover:text-primary/80 hover:bg-primary/10">
                     <Link href="/admin">Admin Dashboard</Link>
                   </Button>
                 )}
-                <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                <Button asChild size="sm" variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
                   <Link href="/profile">Profile</Link>
                 </Button>
-                <Button asChild size="sm" className="bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700 text-white font-semibold">
+                <Button asChild size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                   <Link href="/cosmos">Enter the Cosmos</Link>
                 </Button>
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                <Button asChild size="sm" variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
                   <Link href="/login">Log In</Link>
                 </Button>
-                <Button asChild size="sm" className="bg-amber-500 hover:bg-amber-600 text-black font-semibold">
+                <Button asChild size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                   <Link href="/register">Start Journey</Link>
                 </Button>
               </div>
@@ -87,13 +86,13 @@ export function Header() {
           <ThemeToggleButton />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-[#0f0518] border-white/10 text-white w-[300px]">
+            <SheetContent side="right" className="bg-background border-border/50 text-foreground w-[300px]">
               <SheetHeader>
-                <SheetTitle className="text-left text-amber-400 font-serif text-xl flex items-center gap-2">
+                <SheetTitle className="text-left text-primary font-serif text-xl flex items-center gap-2">
                   <SudharshanaChakraIcon className="h-6 w-6" />
                   MALOLA
                 </SheetTitle>
@@ -103,40 +102,40 @@ export function Header() {
                   <Link 
                     href="/" 
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium text-slate-300 hover:text-amber-400 transition-colors flex items-center gap-3"
+                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-3"
                   >
                     <Home className="h-5 w-5" /> Home
                   </Link>
                   <Link 
                     href="/scriptures" 
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium text-slate-300 hover:text-amber-400 transition-colors"
+                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                   >
                     Scriptures
                   </Link>
                   <Link 
                     href="/blogs" 
                     onClick={() => setIsOpen(false)}
-                    className="text-lg font-medium text-slate-300 hover:text-amber-400 transition-colors"
+                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
                   >
                     Blogs
                   </Link>
                 </nav>
 
-                <div className="h-px bg-white/10" />
+                <div className="h-px bg-border/50" />
 
                 <div className="flex flex-col gap-4">
                   {user ? (
                     <>
                       <div className="flex flex-col gap-3">
-                        <Button asChild className="w-full bg-gradient-to-r from-purple-600 to-amber-600 hover:from-purple-700 hover:to-amber-700 text-white font-semibold">
+                        <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                           <Link href="/cosmos" onClick={() => setIsOpen(false)}>Enter the Cosmos</Link>
                         </Button>
-                        <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                        <Button asChild variant="outline" className="w-full border-border/50 text-foreground hover:bg-muted/20">
                           <Link href="/profile" onClick={() => setIsOpen(false)}>Profile</Link>
                         </Button>
                         {user.email && ADMIN_EMAILS.includes(user.email.toLowerCase()) && (
-                          <Button asChild variant="ghost" className="w-full text-amber-400 hover:text-amber-300 hover:bg-amber-400/10">
+                          <Button asChild variant="ghost" className="w-full text-primary hover:text-primary/80 hover:bg-primary/10">
                             <Link href="/admin" onClick={() => setIsOpen(false)}>Admin Dashboard</Link>
                           </Button>
                         )}
@@ -144,10 +143,10 @@ export function Header() {
                     </>
                   ) : (
                     <div className="flex flex-col gap-3">
-                      <Button asChild className="w-full bg-amber-500 hover:bg-amber-600 text-black font-semibold">
+                      <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
                         <Link href="/register" onClick={() => setIsOpen(false)}>Start Journey</Link>
                       </Button>
-                      <Button asChild variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">
+                      <Button asChild variant="outline" className="w-full border-border/50 text-foreground hover:bg-muted/20">
                         <Link href="/login" onClick={() => setIsOpen(false)}>Log In</Link>
                       </Button>
                     </div>
