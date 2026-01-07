@@ -4,65 +4,100 @@
 
 @layer base {
   :root {
-    --background: 275 100% 97%;
-    --foreground: 276 36% 15%;
+    /* Day Theme Variables */
+    --day-bg-start: #c9e8ff;
+    --day-bg-end: #fff9e6;
+    --day-text: #1a1a1a;
+    --day-accent: #ff6b35;
+    --day-gold: #d4af37;
+    --day-header-bg: rgba(255, 255, 255, 0.95);
+    --day-card-bg: rgba(255, 255, 255, 0.9);
 
-    --card: 275 100% 97%;
-    --card-foreground: 276 36% 15%;
- 
-    --popover: 275 100% 97%;
-    --popover-foreground: 276 36% 15%;
- 
-    --primary: 330 80% 60%;
-    --primary-foreground: 276 36% 15%;
- 
-    --secondary: 275 60% 90%;
-    --secondary-foreground: 276 36% 15%;
- 
-    --muted: 275 60% 90%;
-    --muted-foreground: 276 36% 45%;
- 
-    --accent: 45 93% 50%;
-    --accent-foreground: 276 36% 15%;
- 
+    /* Night Theme Variables */
+    --night-bg-start: #0b1120;
+    --night-bg-end: #1c2b50;
+    --night-text: #e8e8e8;
+    --night-accent: #ff8fa3;
+    --night-silver: #c0c0c0;
+    --night-header-bg: rgba(28, 43, 80, 0.95);
+    --night-card-bg: rgba(28, 43, 80, 0.7);
+
+    /* Active Theme Variables */
+    --bg-start: var(--day-bg-start);
+    --bg-end: var(--day-bg-end);
+    --text-color: var(--day-text);
+    --accent-color: var(--day-accent);
+    --header-bg: var(--day-header-bg);
+    --card-bg: var(--day-card-bg);
+
+    /* Shadcn Mappings (HSL) */
+    --background: 205 100% 89%; /* --day-bg-start */
+    --foreground: 0 0% 10%; /* --day-text */
+
+    --card: 0 0% 100% / 0.9; /* --day-card-bg */
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 16 100% 60%; /* --day-accent */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 64% 52%; /* --day-gold */
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 205 100% 95%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 45 64% 52%;
+    --accent-foreground: 0 0% 10%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 275 60% 80%;
-    --input: 275 60% 85%;
-    --ring: 276 36% 15%;
- 
-    --radius: 0.5rem;
+    --border: 205 30% 80%;
+    --input: 205 30% 85%;
+    --ring: 16 100% 60%;
+
+    --radius: 0.75rem;
   }
- 
+
   .dark {
-    --background: 276 68% 6%; /* Almost black indigo */
-    --foreground: 275 100% 97%;
- 
-    --card: 276 68% 10%;
-    --card-foreground: 275 100% 97%;
- 
-    --popover: 276 68% 10%;
-    --popover-foreground: 275 100% 97%;
- 
-    --primary: 45 100% 50%; /* Golden Yellow */
-    --primary-foreground: 276 36% 15%;
- 
-    --secondary: 276 68% 15%;
-    --secondary-foreground: 275 100% 97%;
- 
-    --muted: 276 68% 15%;
-    --muted-foreground: 275 100% 90%;
- 
-    --accent: 330 80% 60%; /* Pink for Chakra */
-    --accent-foreground: 276 36% 15%;
- 
+    --bg-start: var(--night-bg-start);
+    --bg-end: var(--night-bg-end);
+    --text-color: var(--night-text);
+    --accent-color: var(--night-accent);
+    --header-bg: var(--night-header-bg);
+    --card-bg: var(--night-card-bg);
+
+    /* Shadcn Mappings (HSL) */
+    --background: 222 48% 8%; /* --night-bg-start */
+    --foreground: 0 0% 91%; /* --night-text */
+
+    --card: 222 48% 15% / 0.7; /* --night-card-bg */
+    --card-foreground: 0 0% 91%;
+
+    --popover: 222 48% 10%;
+    --popover-foreground: 0 0% 91%;
+
+    --primary: 350 100% 78%; /* --night-accent */
+    --primary-foreground: 222 48% 8%;
+
+    --secondary: 0 0% 75%; /* --night-silver */
+    --secondary-foreground: 222 48% 8%;
+
+    --muted: 222 48% 15%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 350 100% 78%;
+    --accent-foreground: 222 48% 8%;
+
     --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 98%;
- 
-    --border: 276 68% 15%;
-    --input: 276 68% 20%;
-    --ring: 45 100% 50%;
+
+    --border: 222 48% 20%;
+    --input: 222 48% 25%;
+    --ring: 350 100% 78%;
   }
 }
 
@@ -72,60 +107,91 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-color: hsl(var(--background));
-    transition: background 2s ease, color 0.5s ease;
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+    color: var(--text-color);
+    min-height: 100vh;
+    transition: background 0.5s ease, color 0.5s ease;
   }
 
   .dark::before {
-    content: '';
+    content: "";
     position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, white, transparent),
-        radial-gradient(2px 2px at 60px 70px, white, transparent),
-        radial-gradient(1px 1px at 50px 50px, white, transparent);
+    background-image: radial-gradient(2px 2px at 20px 30px, white, transparent),
+      radial-gradient(2px 2px at 60px 70px, white, transparent),
+      radial-gradient(1px 1px at 50px 50px, white, transparent);
     background-repeat: repeat;
     background-size: 200px 200px;
     animation: twinkle 5s infinite;
-    opacity: 0.6;
+    opacity: 0.3;
     pointer-events: none;
     z-index: -1;
   }
 
   @keyframes twinkle {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 0.2; }
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.1;
+    }
   }
 }
 
 @layer utilities {
   .bg-header {
-    background-color: hsl(var(--card) / 0.8);
+    background-color: var(--header-bg);
+    backdrop-filter: blur(8px);
   }
+
+  .bg-card-custom {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(8px);
+  }
+
   .ai-chat-bubble {
-    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
-    box-shadow: 0 4px 20px hsla(var(--primary), 0.4);
+    background: linear-gradient(45deg, var(--accent-color), var(--day-gold));
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .ai-chat-bubble {
+    background: linear-gradient(
+      45deg,
+      var(--accent-color),
+      var(--night-silver)
+    );
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   }
 
   .ai-modal-header-bg {
-    background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)));
+    background: linear-gradient(45deg, var(--accent-color), var(--day-gold));
+  }
+
+  .dark .ai-modal-header-bg {
+    background: linear-gradient(
+      45deg,
+      var(--accent-color),
+      var(--night-silver)
+    );
   }
 
   .ai-modal-overlay {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
   }
-  
+
   .ai-message-user {
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background: var(--accent-color);
+    color: white;
   }
 
   .ai-message-bot {
-    background: hsl(var(--muted));
-    color: hsl(var(--muted-foreground));
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px border-border;
   }
 }

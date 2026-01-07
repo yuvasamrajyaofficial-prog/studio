@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
-import { Playfair_Display, PT_Sans } from "next/font/google";
+import { Poppins, Noto_Serif_Devanagari } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -9,15 +9,15 @@ import { AIChatBubble } from "@/components/ai/ai-chat-bubble";
 import { AuthProvider } from "@/contexts/auth-context";
 import { BottomNav } from "@/components/layout/bottom-nav";
 
-const fontBody = PT_Sans({
+const fontBody = Poppins({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
 
-const fontHeadline = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+const fontHeadline = Noto_Serif_Devanagari({
+  subsets: ["latin", "devanagari"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-headline",
 });
 
