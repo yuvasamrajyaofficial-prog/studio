@@ -52,7 +52,7 @@ export function BottomNav() {
       }}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="fixed bottom-0 left-0 right-0 z-40 bg-[#0f0518]/95 backdrop-blur-lg border-t border-white/10 md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-lg border-t border-border/50 md:hidden"
     >
       <nav className="flex items-center justify-around h-16">
         {navItems.map((item) => {
@@ -66,8 +66,8 @@ export function BottomNav() {
               className={cn(
                 "flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors",
                 isActive
-                  ? "text-amber-400"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               <Icon className={cn("w-5 h-5", isActive && "animate-pulse")} />

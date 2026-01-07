@@ -9,7 +9,7 @@ export function SudharshanaChakraIcon(props: SVGProps<SVGSVGElement>) {
       fill="none"
       stroke="currentColor"
       className={cn(
-        "text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] filter",
+        "text-primary drop-shadow-[0_0_15px_rgba(var(--primary),0.6)] filter",
         props.className
       )}
       {...props}
