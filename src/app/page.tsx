@@ -17,7 +17,7 @@ export default function HomePage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-12 md:py-0 bg-[#0f0518]">
+        <section className="relative min-h-[60vh] md:min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-8 md:py-0 bg-[#0f0518]">
           {/* Background Effects */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900/10 via-[#0f0518] to-[#0f0518] pointer-events-none" />
           

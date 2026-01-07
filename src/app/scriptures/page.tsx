@@ -44,19 +44,31 @@ export default function ScripturesPage() {
     }
   };
 
+  // Handle sidebar item click (Mobile & Desktop)
+  const handleSidebarSelect = (scriptureName: string) => {
+    // Find the scripture that matches the name (or category if it's a category-based selection)
+    // For now, we assume the sidebar items map to scripture titles or traditions
+    const found = scriptures.find(s => 
+      s.title.en.includes(scriptureName) || s.tradition.includes(scriptureName)
+    );
+
+    if (found) {
+      handleScriptureClick(found);
+    } else {
+      // If no direct match, we just filter (Desktop behavior) or do nothing (Mobile behavior if we want strict list-to-reader)
+      // But user asked: "click all scriptuters...which they want... then users will click all scriptuters...which they want..."
+      // implying the sidebar IS the list on mobile.
+    }
+  };
+
   const filteredScriptures = scriptures.filter((scripture) => {
-    // Category Filter (Matches tradition or title for now as a proxy)
     const matchesCategory = selectedCategory 
       ? (scripture.tradition.includes(selectedCategory) || scripture.title.en.includes(selectedCategory))
       : true;
-
-    // Era Filter (Placeholder logic until Era is in schema)
     const matchesEra = true; 
-
     return matchesCategory && matchesEra;
   });
 
-  // If a scripture is selected, show the Reader Dashboard
   if (activeScripture) {
     return (
       <ScriptureReader 
@@ -79,30 +91,20 @@ export default function ScripturesPage() {
         />
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        
-        {/* Mobile Header with Sidebar Trigger */}
-        <div className="lg:hidden p-4 border-b border-white/10 flex items-center justify-between bg-[#0f0518] sticky top-0 z-30">
-          <span className="font-serif text-lg font-bold text-amber-400">MALOLA</span>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="w-6 h-6 text-white" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="p-0 w-80 bg-[#0f0518] border-r border-white/10">
-              <ScriptureSidebar 
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-                selectedEra={selectedEra}
-                onSelectEra={setSelectedEra}
-                // Pass a close handler if needed, usually Sheet handles it via context but we can add a custom close button inside Sidebar
-              />
-            </SheetContent>
-          </Sheet>
-        </div>
+      {/* Mobile: Sidebar IS the main content */}
+      <div className="lg:hidden w-full min-h-screen">
+         <ScriptureSidebar 
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+          selectedEra={selectedEra}
+          onSelectEra={setSelectedEra}
+          onScriptureSelect={handleSidebarSelect}
+          className="border-none w-full"
+        />
+      </div>
 
+      {/* Desktop Main Content (Grid) - Hidden on Mobile */}
+      <div className="hidden lg:flex flex-1 flex-col min-w-0">
         <main className="flex-1 p-4 md:p-8 lg:p-10 relative overflow-y-auto">
           {/* Background Elements */}
           <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-purple-900/20 to-transparent pointer-events-none" />
