@@ -27,6 +27,8 @@ const MOCK_SCRIPTURE = {
   isPublic: true
 };
 
+import { BackButton } from "@/components/ui/back-button";
+
 export default async function ScriptureDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   
@@ -38,7 +40,10 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
   }
 
   return (
-    <div className="p-8 lg:p-12 max-w-5xl mx-auto">
+    <div className="p-6 md:p-8 lg:p-12 max-w-5xl mx-auto">
+      <div className="mb-6">
+        <BackButton label="Back to Library" href="/scriptures" />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Sidebar / Info */}
         <div className="lg:col-span-1 space-y-6">

@@ -38,6 +38,8 @@ const MOCK_CHAPTER = {
   ]
 };
 
+import { BackButton } from "@/components/ui/back-button";
+
 export default async function ChapterPage({ params }: { params: Promise<{ id: string; chapterId: string }> }) {
   const { id, chapterId } = await params;
   
@@ -49,13 +51,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="p-8 lg:p-12 max-w-5xl mx-auto">
+    <div className="p-6 md:p-8 lg:p-12 max-w-5xl mx-auto">
       <div className="mb-8">
-        <Button variant="ghost" asChild className="pl-0 hover:pl-2 transition-all text-gray-500 hover:text-white">
-          <Link href={`/scriptures/${id}`}>
-            <ChevronLeft className="mr-2 h-4 w-4" /> Back to Book
-          </Link>
-        </Button>
+        <BackButton label="Back to Book" href={`/scriptures/${id}`} />
       </div>
 
       <ScriptureReader 

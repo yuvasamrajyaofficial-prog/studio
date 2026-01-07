@@ -12,6 +12,8 @@ import { Calendar, ArrowLeft, User, Share2, Bookmark } from "lucide-react";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
+import { BackButton } from "@/components/ui/back-button";
+
 export default function BlogDetailsPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -81,11 +83,9 @@ export default function BlogDetailsPage() {
           )}
           
           <div className="container mx-auto px-4 relative z-20 pb-12">
-            <Button asChild variant="ghost" className="mb-6 text-white hover:text-white/80 hover:bg-white/10 -ml-4">
-              <Link href="/blogs">
-                <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blogs
-              </Link>
-            </Button>
+            <div className="mb-6">
+              <BackButton label="Back to Blogs" href="/blogs" className="text-white hover:text-white/80 hover:bg-white/10" />
+            </div>
             
             <div className="flex flex-wrap gap-2 mb-4">
               {blog.tags?.map((tag) => (

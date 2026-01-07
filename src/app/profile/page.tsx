@@ -30,6 +30,8 @@ import { getKarmicGlowColor } from '@/lib/soul-id-calculator';
 import { useTheme } from 'next-themes';
 import { toast } from 'sonner';
 
+import { Header } from '@/components/layout/header';
+
 export default function ProfilePage() {
   const router = useRouter();
   const { user, signOut } = useAuth();
@@ -169,22 +171,22 @@ export default function ProfilePage() {
   const glowColor = profile.soulID ? getKarmicGlowColor(profile.soulID.psychology) : '#4ECDC4';
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-background relative overflow-hidden transition-colors duration-300 flex flex-col">
+      <Header />
+      
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 pointer-events-none" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <Link href="/cosmos" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ChevronLeft className="w-5 h-5" />
-            <span>Back to Cosmos</span>
-          </Link>
+      <div className="relative z-10 container mx-auto px-4 py-6 md:py-8 max-w-6xl flex-1">
+        {/* Header Actions */}
+        <div className="mb-6 flex items-center justify-between">
+          <BackButton label="Back to Cosmos" href="/cosmos" />
           
           <Button 
             variant="outline" 
+            size="sm"
             className="border-red-500/50 text-red-400 hover:bg-red-500/10"
             onClick={handleSignOut}
           >

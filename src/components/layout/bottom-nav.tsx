@@ -4,9 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, BookOpen, Sparkles, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import { useState } from "react";
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
 
   const navItems = [
     {
@@ -32,7 +45,15 @@ export function BottomNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#0f0518]/95 backdrop-blur-lg border-t border-white/10 md:hidden">
+    <motion.div 
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="fixed bottom-0 left-0 right-0 z-40 bg-[#0f0518]/95 backdrop-blur-lg border-t border-white/10 md:hidden"
+    >
       <nav className="flex items-center justify-around h-16">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -55,6 +76,6 @@ export function BottomNav() {
           );
         })}
       </nav>
-    </div>
+    </motion.div>
   );
 }

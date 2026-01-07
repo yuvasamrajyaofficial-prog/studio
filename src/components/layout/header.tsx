@@ -18,28 +18,21 @@ import {
 import { useAuth } from "@/contexts/auth-context";
 import { ADMIN_EMAILS } from "@/lib/admin-config";
 
+import { BackButton } from "../ui/back-button";
+
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { user } = useAuth();
   const isHome = pathname === "/";
-  const isCosmos = pathname === "/cosmos";
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#0f0518]/80 backdrop-blur-md border-b border-white/5">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-4">
-          {!isHome && !isCosmos && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={() => router.back()}
-              className="mr-2 text-slate-400 hover:text-white hover:bg-white/10"
-              title="Go Back"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </Button>
+          {!isHome && (
+            <BackButton className="mr-2" />
           )}
           
           <Link href="/" className="flex items-center gap-3">
