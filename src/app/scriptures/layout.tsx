@@ -9,6 +9,7 @@ import { ScriptureHierarchy } from '@/components/scripture-hierarchy';
 import { scriptures } from '@/lib/scriptures';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function ScriptureLayout({
   children,
