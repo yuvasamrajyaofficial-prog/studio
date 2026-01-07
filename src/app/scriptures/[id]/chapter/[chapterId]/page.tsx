@@ -39,8 +39,6 @@ const MOCK_CHAPTER = {
   ]
 };
 
-import { BackButton } from "@/components/ui/back-button";
-
 export default async function ChapterPage({ params }: { params: Promise<{ id: string; chapterId: string }> }) {
   const { id, chapterId } = await params;
   
