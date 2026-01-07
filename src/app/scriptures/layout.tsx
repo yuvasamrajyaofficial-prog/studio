@@ -38,22 +38,22 @@ export default function ScriptureLayout({
           }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className={cn(
-            "w-full lg:w-80 p-6 flex flex-col gap-6 bg-card/10 backdrop-blur-sm border-r border-white/5 shrink-0 z-20",
+            "w-full lg:w-80 p-6 flex flex-col gap-6 bg-card/30 backdrop-blur-sm border-r border-border/50 shrink-0 z-20",
             !isMainPage && "hidden lg:flex" // Desktop always shows, mobile only on main page
           )}
         >
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
-            <TabsList className="grid w-full grid-cols-2 bg-white/5 p-1 rounded-xl">
-              <TabsTrigger value="library" className="rounded-lg data-[state=active]:bg-white/10">
+            <TabsList className="grid w-full grid-cols-2 bg-muted/50 p-1 rounded-xl">
+              <TabsTrigger value="library" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                 Cosmic Library
               </TabsTrigger>
-              <TabsTrigger value="hierarchy" className="rounded-lg data-[state=active]:bg-white/10">
+              <TabsTrigger value="hierarchy" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
                 Hierarchy
               </TabsTrigger>
             </TabsList>
             
-            <div className="flex-1 overflow-hidden mt-4 border border-white/10 rounded-2xl bg-black/20 relative">
+            <div className="flex-1 overflow-hidden mt-4 border border-border/50 rounded-2xl bg-muted/20 relative">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -76,11 +76,11 @@ export default function ScriptureLayout({
 
         {/* Main Content with independent sliding */}
         <div className={cn(
-          "flex-1 relative bg-[#050505] overflow-hidden",
+          "flex-1 relative bg-background overflow-hidden",
           isMainPage && "hidden lg:block" // Hide grid on mobile main page to show only list
         )}>
           {/* Background decorative elements */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-900/10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
           
           <div className="absolute inset-0 overflow-y-auto">
             <AnimatePresence mode="wait">

@@ -99,21 +99,21 @@ export default function BlogEditorPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-foreground">
             {isNew ? 'New Article' : 'Edit Article'}
           </h2>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-lg border border-white/10">
+          <div className="flex items-center gap-2 bg-muted/20 px-3 py-2 rounded-lg border border-border/50">
             <Switch 
               checked={blog.published} 
               onCheckedChange={checked => setBlog({...blog, published: checked})} 
             />
-            <Label className="text-sm cursor-pointer">
+            <Label className="text-sm cursor-pointer text-foreground">
               {blog.published ? 'Published' : 'Draft'}
             </Label>
           </div>
-          <Button onClick={handleSave} disabled={saving} className="bg-purple-600 hover:bg-purple-700">
+          <Button onClick={handleSave} disabled={saving} className="bg-primary hover:bg-primary/90 text-primary-foreground">
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             Save
           </Button>
@@ -123,20 +123,20 @@ export default function BlogEditorPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content Area */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="bg-white/5 border-white/10 text-white">
+          <Card className="bg-card/50 border-border/50 text-foreground">
             <CardContent className="p-6 space-y-4">
               <div className="space-y-2">
                 <Label>Title</Label>
                 <Input 
                   value={blog.title} 
                   onChange={e => setBlog({...blog, title: e.target.value})}
-                  className="bg-slate-900 border-white/10 text-lg font-bold"
+                  className="bg-muted/20 border-border/50 text-lg font-bold"
                   placeholder="Enter article title..."
                 />
               </div>
               
               <Tabs defaultValue="edit" className="w-full">
-                <TabsList className="bg-white/5 border-white/10">
+                <TabsList className="bg-muted/20 border-border/50">
                   <TabsTrigger value="edit">Editor</TabsTrigger>
                   <TabsTrigger value="preview">Preview</TabsTrigger>
                 </TabsList>
@@ -144,16 +144,16 @@ export default function BlogEditorPage() {
                   <Textarea 
                     value={blog.content} 
                     onChange={e => setBlog({...blog, content: e.target.value})}
-                    className="bg-slate-900 border-white/10 min-h-[500px] font-mono"
+                    className="bg-muted/20 border-border/50 min-h-[500px] font-mono"
                     placeholder="Write your article in Markdown..."
                   />
                 </TabsContent>
                 <TabsContent value="preview" className="mt-4">
-                  <div className="bg-slate-900 border border-white/10 rounded-md p-6 min-h-[500px] prose prose-invert max-w-none">
+                  <div className="bg-muted/20 border border-border/50 rounded-md p-6 min-h-[500px] prose prose-invert max-w-none dark:prose-invert">
                     {blog.content ? (
                       <ReactMarkdown>{blog.content}</ReactMarkdown>
                     ) : (
-                      <p className="text-gray-500 italic">Nothing to preview yet.</p>
+                      <p className="text-muted-foreground italic">Nothing to preview yet.</p>
                     )}
                   </div>
                 </TabsContent>
@@ -164,7 +164,7 @@ export default function BlogEditorPage() {
 
         {/* Sidebar Settings */}
         <div className="space-y-6">
-          <Card className="bg-white/5 border-white/10 text-white">
+          <Card className="bg-card/50 border-border/50 text-foreground">
             <CardHeader>
               <CardTitle className="text-lg">Settings</CardTitle>
             </CardHeader>
@@ -174,7 +174,7 @@ export default function BlogEditorPage() {
                 <Input 
                   value={blog.slug} 
                   onChange={e => setBlog({...blog, slug: e.target.value})}
-                  className="bg-slate-900 border-white/10"
+                  className="bg-muted/20 border-border/50"
                   placeholder="url-friendly-slug"
                 />
               </div>
@@ -184,7 +184,7 @@ export default function BlogEditorPage() {
                 <Textarea 
                   value={blog.excerpt} 
                   onChange={e => setBlog({...blog, excerpt: e.target.value})}
-                  className="bg-slate-900 border-white/10 h-24"
+                  className="bg-muted/20 border-border/50 h-24"
                   placeholder="Short summary for cards..."
                 />
               </div>
@@ -194,7 +194,7 @@ export default function BlogEditorPage() {
                 <Input 
                   value={blog.author} 
                   onChange={e => setBlog({...blog, author: e.target.value})}
-                  className="bg-slate-900 border-white/10"
+                  className="bg-muted/20 border-border/50"
                 />
               </div>
 
@@ -204,12 +204,12 @@ export default function BlogEditorPage() {
                   <Input 
                     value={blog.coverImage} 
                     onChange={e => setBlog({...blog, coverImage: e.target.value})}
-                    className="bg-slate-900 border-white/10"
+                    className="bg-muted/20 border-border/50"
                     placeholder="https://..."
                   />
                 </div>
                 {blog.coverImage && (
-                  <div className="mt-2 rounded-md overflow-hidden h-32 border border-white/10">
+                  <div className="mt-2 rounded-md overflow-hidden h-32 border border-border/50">
                     <img src={blog.coverImage} alt="Cover" className="w-full h-full object-cover" />
                   </div>
                 )}
@@ -221,14 +221,14 @@ export default function BlogEditorPage() {
                   value={tagInput}
                   onChange={e => setTagInput(e.target.value)}
                   onKeyDown={handleAddTag}
-                  className="bg-slate-900 border-white/10"
+                  className="bg-muted/20 border-border/50"
                   placeholder="Type and press Enter..."
                 />
                 <div className="flex flex-wrap gap-2 mt-2">
                   {blog.tags?.map(tag => (
-                    <div key={tag} className="bg-purple-500/20 text-purple-300 px-2 py-1 rounded-md text-xs flex items-center gap-1">
+                    <div key={tag} className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs flex items-center gap-1">
                       {tag}
-                      <button onClick={() => removeTag(tag)} className="hover:text-white">×</button>
+                      <button onClick={() => removeTag(tag)} className="hover:text-foreground">×</button>
                     </div>
                   ))}
                 </div>

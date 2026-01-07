@@ -63,7 +63,7 @@ export default function BlogsPage() {
             ) : featuredPost ? (
               <Card className="overflow-hidden border-none bg-card/50 shadow-lg hover:shadow-xl transition-shadow">
                 <div className="grid md:grid-cols-2 gap-0">
-                  <div className={`h-64 md:h-auto bg-gradient-to-br from-indigo-900 to-purple-900 flex items-center justify-center text-white/20 relative`}>
+                  <div className={`h-64 md:h-auto bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-foreground/20 relative`}>
                     {featuredPost.coverImage ? (
                       <img src={featuredPost.coverImage} alt={featuredPost.title} className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
@@ -107,7 +107,7 @@ export default function BlogsPage() {
         </section>
 
         {/* Categories & Recent Posts */}
-        <section className="py-12 px-4 bg-muted/20">
+        <section className="py-12 px-4 bg-muted/30">
           <div className="container mx-auto">
             {/* Categories */}
             <div className="flex flex-wrap gap-2 justify-center mb-12">

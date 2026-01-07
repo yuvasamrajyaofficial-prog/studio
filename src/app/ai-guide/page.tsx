@@ -283,7 +283,7 @@ export default function AIGuidePage() {
   }
 
   return (
-    <div className="h-screen flex bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] overflow-hidden">
+    <div className="h-screen flex bg-background overflow-hidden">
       {/* Sidebar */}
       <ChatSidebar
         isOpen={isSidebarOpen}
@@ -298,16 +298,16 @@ export default function AIGuidePage() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col h-screen">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center gap-3 p-4 border-b border-white/10 bg-[#0a0118]/80 backdrop-blur-xl">
+        <div className="lg:hidden flex items-center gap-3 p-4 border-b border-border/50 bg-card/80 backdrop-blur-xl">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsSidebarOpen(true)}
-            className="text-gray-400 hover:text-white"
+            className="text-muted-foreground hover:text-foreground"
           >
             <Menu className="w-5 h-5" />
           </Button>
-          <h1 className="text-lg font-bold text-white">AI Spiritual Guide</h1>
+          <h1 className="text-lg font-bold text-foreground">AI Spiritual Guide</h1>
         </div>
 
         {/* Messages */}

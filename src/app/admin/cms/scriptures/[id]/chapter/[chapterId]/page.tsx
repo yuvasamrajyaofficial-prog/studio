@@ -108,13 +108,13 @@ export default function ChapterEditorPage() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div>
-          <h2 className="text-2xl font-bold text-white">Edit Chapter {chapter.number}</h2>
-          <p className="text-gray-400 text-sm">Manage chapter details and verses</p>
+          <h2 className="text-2xl font-bold text-foreground">Edit Chapter {chapter.number}</h2>
+          <p className="text-muted-foreground text-sm">Manage chapter details and verses</p>
         </div>
       </div>
 
       {/* Chapter Details */}
-      <Card className="bg-white/5 border-white/10 text-white">
+      <Card className="bg-card/50 border-border/50 text-foreground">
         <CardHeader>
           <CardTitle>Chapter Details</CardTitle>
         </CardHeader>
@@ -125,7 +125,7 @@ export default function ChapterEditorPage() {
               <Input 
                 value={chapter.title?.en} 
                 onChange={e => setChapter({...chapter, title: {...chapter.title!, en: e.target.value}})}
-                className="bg-slate-900 border-white/10"
+                className="bg-muted/20 border-border/50"
               />
             </div>
             <div className="space-y-2">
@@ -133,7 +133,7 @@ export default function ChapterEditorPage() {
               <Input 
                 value={chapter.title?.sa} 
                 onChange={e => setChapter({...chapter, title: {...chapter.title!, sa: e.target.value}})}
-                className="bg-slate-900 border-white/10 font-devanagari"
+                className="bg-muted/20 border-border/50 font-devanagari"
               />
             </div>
           </div>
@@ -142,10 +142,10 @@ export default function ChapterEditorPage() {
             <Textarea 
               value={chapter.summary?.en} 
               onChange={e => setChapter({...chapter, summary: {...chapter.summary!, en: e.target.value}})}
-              className="bg-slate-900 border-white/10 h-20"
+              className="bg-muted/20 border-border/50 h-20"
             />
           </div>
-          <Button onClick={handleSaveChapter} className="w-full bg-purple-600 hover:bg-purple-700">
+          <Button onClick={handleSaveChapter} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
             Save Chapter Details
           </Button>
         </CardContent>
@@ -154,8 +154,8 @@ export default function ChapterEditorPage() {
       {/* Verses Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold text-white">Verses ({verses.length})</h3>
-          <Button onClick={handleAddVerse} variant="outline" className="border-white/20 text-white hover:bg-white/10">
+          <h3 className="text-xl font-bold text-foreground">Verses ({verses.length})</h3>
+          <Button onClick={handleAddVerse} variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
             <Plus className="w-4 h-4 mr-2" />
             Add Verse
           </Button>
@@ -163,14 +163,14 @@ export default function ChapterEditorPage() {
 
         <div className="space-y-4">
           {verses.map((verse) => (
-            <Card key={verse.id} className="bg-white/5 border-white/10 text-white overflow-hidden">
+            <Card key={verse.id} className="bg-card/50 border-border/50 text-foreground overflow-hidden">
               <div 
-                className="p-4 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors"
+                className="p-4 flex items-center justify-between cursor-pointer hover:bg-muted/20 transition-colors"
                 onClick={() => setExpandedVerse(expandedVerse === verse.id ? null : verse.id)}
               >
                 <div className="flex items-center gap-4">
-                  <span className="font-mono text-amber-400 font-bold">Verse {verse.number}</span>
-                  <span className="text-sm text-gray-400 truncate max-w-md">
+                  <span className="font-mono text-primary font-bold">Verse {verse.number}</span>
+                  <span className="text-sm text-muted-foreground truncate max-w-md">
                     {verse.text.original?.substring(0, 50)}...
                   </span>
                 </div>
@@ -180,14 +180,14 @@ export default function ChapterEditorPage() {
               </div>
 
               {expandedVerse === verse.id && (
-                <CardContent className="p-4 pt-0 space-y-4 border-t border-white/10 mt-4">
+                <CardContent className="p-4 pt-0 space-y-4 border-t border-border/50 mt-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label>Original Text (Sanskrit)</Label>
                       <Textarea 
                         value={verse.text.original} 
                         onChange={e => handleUpdateVerse(verse.id, { text: { ...verse.text, original: e.target.value } })}
-                        className="bg-slate-900 border-white/10 font-devanagari h-24"
+                        className="bg-muted/20 border-border/50 font-devanagari h-24"
                       />
                     </div>
                     <div className="space-y-2">
@@ -195,7 +195,7 @@ export default function ChapterEditorPage() {
                       <Textarea 
                         value={verse.text.transliteration} 
                         onChange={e => handleUpdateVerse(verse.id, { text: { ...verse.text, transliteration: e.target.value } })}
-                        className="bg-slate-900 border-white/10 h-24"
+                        className="bg-muted/20 border-border/50 h-24"
                       />
                     </div>
                   </div>
@@ -204,7 +204,7 @@ export default function ChapterEditorPage() {
                     <Textarea 
                       value={verse.translations.en} 
                       onChange={e => handleUpdateVerse(verse.id, { translations: { ...verse.translations, en: e.target.value } })}
-                      className="bg-slate-900 border-white/10 h-20"
+                      className="bg-muted/20 border-border/50 h-20"
                     />
                   </div>
                   <div className="flex justify-end pt-2">

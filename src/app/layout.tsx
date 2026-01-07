@@ -32,14 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-body text-foreground antialiased",
-          fontBody.variable,
-          fontHeadline.variable
-        )}
-      >
+    <html lang="en" className={cn(fontBody.variable, fontHeadline.variable)} suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-body text-foreground antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

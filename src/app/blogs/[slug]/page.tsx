@@ -73,7 +73,7 @@ export default function BlogDetailsPage() {
       <main className="flex-1 pb-20">
         {/* Hero / Header */}
         <div className="relative h-[40vh] min-h-[400px] flex items-end">
-          <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/50 to-background z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/30 to-background z-10" />
           {blog.coverImage && (
             <img 
               src={blog.coverImage} 
@@ -84,7 +84,7 @@ export default function BlogDetailsPage() {
           
           <div className="container mx-auto px-4 relative z-20 pb-12">
             <div className="mb-6">
-              <BackButton label="Back to Blogs" href="/blogs" className="text-white hover:text-white/80 hover:bg-white/10" />
+              <BackButton label="Back to Blogs" href="/blogs" className="text-foreground hover:text-primary hover:bg-primary/10" />
             </div>
             
             <div className="flex flex-wrap gap-2 mb-4">
@@ -95,11 +95,11 @@ export default function BlogDetailsPage() {
               ))}
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-white font-headline mb-4 max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground font-headline mb-4 max-w-4xl">
               {blog.title}
             </h1>
             
-            <div className="flex items-center gap-6 text-white/80">
+            <div className="flex items-center gap-6 text-muted-foreground">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4" />
                 <span className="font-medium">{blog.author}</span>

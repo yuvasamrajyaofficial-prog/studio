@@ -128,7 +128,7 @@ export default function ScriptureEditorPage() {
           <Button variant="ghost" size="icon" onClick={() => router.back()}>
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-foreground">
             {isNew ? 'New Scripture' : scripture.title?.en || 'Edit Scripture'}
           </h2>
         </div>
@@ -139,13 +139,13 @@ export default function ScriptureEditorPage() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="bg-white/5 border-white/10">
+        <TabsList className="bg-muted/20 border-border/50">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="chapters" disabled={isNew}>Chapters</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6 mt-6">
-          <Card className="bg-white/5 border-white/10 text-white">
+          <Card className="bg-card/50 border-border/50 text-foreground">
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
@@ -156,7 +156,7 @@ export default function ScriptureEditorPage() {
                   <Input 
                     value={scripture.title?.en} 
                     onChange={e => setScripture({...scripture, title: {...scripture.title!, en: e.target.value}})}
-                    className="bg-slate-900 border-white/10"
+                    className="bg-muted/20 border-border/50"
                   />
                 </div>
                 <div className="space-y-2">
@@ -194,7 +194,7 @@ export default function ScriptureEditorPage() {
                   <Input 
                     value={scripture.author} 
                     onChange={e => setScripture({...scripture, author: e.target.value})}
-                    className="bg-slate-900 border-white/10"
+                    className="bg-muted/20 border-border/50"
                   />
                 </div>
                 <div className="space-y-2">
@@ -202,7 +202,7 @@ export default function ScriptureEditorPage() {
                   <Input 
                     value={scripture.coverImage} 
                     onChange={e => setScripture({...scripture, coverImage: e.target.value})}
-                    className="bg-slate-900 border-white/10"
+                    className="bg-muted/20 border-border/50"
                   />
                 </div>
               </div>
@@ -212,7 +212,7 @@ export default function ScriptureEditorPage() {
 
         <TabsContent value="chapters" className="space-y-6 mt-6">
           <div className="flex justify-end">
-            <Button onClick={handleAddChapter} variant="outline" className="border-white/20 text-white hover:bg-white/10">
+            <Button onClick={handleAddChapter} variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
               <Plus className="w-4 h-4 mr-2" />
               Add Chapter
             </Button>
@@ -222,15 +222,15 @@ export default function ScriptureEditorPage() {
             {chapters.map((chapter) => (
               <div 
                 key={chapter.id} 
-                className="flex items-center justify-between p-4 rounded-lg bg-white/5 border border-white/10 hover:border-purple-500/50 transition-colors"
+                className="flex items-center justify-between p-4 rounded-lg bg-muted/20 border border-border/50 hover:border-primary/50 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div className="h-8 w-8 rounded bg-white/10 flex items-center justify-center text-sm font-bold">
                     {chapter.number}
                   </div>
                   <div>
-                    <h4 className="font-medium text-white">{chapter.title.en}</h4>
-                    <p className="text-xs text-gray-400">{chapter.versesCount} verses</p>
+                    <h4 className="font-medium text-foreground">{chapter.title.en}</h4>
+                    <p className="text-xs text-muted-foreground">{chapter.versesCount} verses</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

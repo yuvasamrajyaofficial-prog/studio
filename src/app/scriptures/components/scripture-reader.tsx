@@ -79,20 +79,13 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
   };
 
   return (
-    <div className={`fixed inset-0 z-50 flex flex-col bg-[#0a0118] text-white transition-colors duration-300 ${
-      theme === 'light' ? 'bg-[#f5f5f5] text-gray-900' : 
-      theme === 'sepia' ? 'bg-[#f4ecd8] text-[#5b4636]' : ''
-    }`}>
+    <div className="fixed inset-0 z-50 flex flex-col bg-background text-foreground transition-colors duration-300">
       
       {/* Top Toolbar */}
       <motion.header 
         initial={{ y: -100 }}
         animate={{ y: showControls ? 0 : -100 }}
-        className={`h-16 border-b flex items-center justify-between px-4 backdrop-blur-md z-50 ${
-          theme === 'dark' ? 'bg-[#0f0518]/90 border-white/10' : 
-          theme === 'light' ? 'bg-white/90 border-gray-200' : 
-          'bg-[#eaddcf]/90 border-[#d3c4b1]'
-        }`}
+        className="h-16 border-b flex items-center justify-between px-4 backdrop-blur-md z-50 bg-card/90 border-border/50"
       >
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -100,7 +93,7 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
           </Button>
           <div>
             <h1 className="font-serif font-bold text-lg">{scripture.title.en}</h1>
-            <p className={`text-xs ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+            <p className="text-xs text-muted-foreground">
               Chapter {currentChapter?.number}: {currentChapter?.title.en}
             </p>
           </div>
@@ -119,7 +112,7 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
           </Button>
 
           {/* Tools */}
-          <div className={`h-8 w-px mx-2 ${theme === 'dark' ? 'bg-white/10' : 'bg-gray-300'}`} />
+          <div className="h-8 w-px mx-2 bg-border/50" />
           
           <Button 
             variant={activeTool === 'highlight' ? 'secondary' : 'ghost'} 
@@ -146,10 +139,10 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
                 <Settings className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 p-4 bg-[#1a0a2e] border-white/10 text-white">
+            <DropdownMenuContent align="end" className="w-64 p-4 bg-card border-border/50 text-foreground">
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs text-gray-400 mb-2 block">Font Size</label>
+                  <label className="text-xs text-muted-foreground mb-2 block">Font Size</label>
                   <div className="flex items-center gap-2">
                     <Type className="w-3 h-3" />
                     <Slider 
@@ -165,19 +158,19 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
                 </div>
                 
                 <div>
-                  <label className="text-xs text-gray-400 mb-2 block">Theme</label>
+                  <label className="text-xs text-muted-foreground mb-2 block">Theme</label>
                   <div className="grid grid-cols-3 gap-2">
                     <button 
                       onClick={() => setTheme('light')}
-                      className={`h-8 rounded border ${theme === 'light' ? 'ring-2 ring-amber-500' : 'border-white/10'} bg-white`}
+                      className={`h-8 rounded border ${theme === 'light' ? 'ring-2 ring-primary' : 'border-border/50'} bg-white`}
                     />
                     <button 
                       onClick={() => setTheme('sepia')}
-                      className={`h-8 rounded border ${theme === 'sepia' ? 'ring-2 ring-amber-500' : 'border-white/10'} bg-[#f4ecd8]`}
+                      className={`h-8 rounded border ${theme === 'sepia' ? 'ring-2 ring-primary' : 'border-border/50'} bg-[#f4ecd8]`}
                     />
                     <button 
                       onClick={() => setTheme('dark')}
-                      className={`h-8 rounded border ${theme === 'dark' ? 'ring-2 ring-amber-500' : 'border-white/10'} bg-[#0a0118]`}
+                      className={`h-8 rounded border ${theme === 'dark' ? 'ring-2 ring-primary' : 'border-border/50'} bg-[#0a0118]`}
                     />
                   </div>
                 </div>
@@ -193,10 +186,10 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
 
       {/* Main Content Area */}
       <div className="flex-1 overflow-hidden relative flex">
-        {/* Left Page (Previous Chapter Preview - Optional or just navigation) */}
+        {/* Left Page Navigation */}
         <Button 
           variant="ghost" 
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-40 h-24 w-12 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm hidden md:flex items-center justify-center"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-40 h-24 w-12 rounded-full bg-muted/20 hover:bg-muted/40 backdrop-blur-sm hidden md:flex items-center justify-center"
           onClick={handlePrevChapter}
           disabled={currentChapterIndex === 0}
         >
@@ -220,7 +213,7 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
                   <h2 className="text-3xl font-serif font-bold mb-2 text-amber-500">
                     Chapter {currentChapter?.number}
                   </h2>
-                  <h3 className={`text-xl font-medium mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <h3 className="text-xl font-medium mb-4 text-foreground/80">
                     {currentChapter?.title.en}
                   </h3>
                   <div className="w-16 h-1 bg-amber-500/30 mx-auto rounded-full" />
@@ -233,12 +226,12 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
                       className={`relative group p-4 rounded-lg transition-colors break-inside-avoid ${
                         highlights.includes(verse.id) 
                           ? (theme === 'dark' ? 'bg-amber-500/20' : 'bg-yellow-200/50') 
-                          : 'hover:bg-white/5'
+                          : 'hover:bg-muted/20'
                       }`}
                       onClick={() => toggleHighlight(verse.id)}
                     >
                       {/* Verse Number */}
-                      <span className="absolute -left-2 top-4 text-xs font-mono text-gray-500 opacity-0 group-hover:opacity-100">
+                      <span className="absolute -left-2 top-4 text-xs font-mono text-muted-foreground opacity-0 group-hover:opacity-100">
                         {verse.number}
                       </span>
 
@@ -252,14 +245,14 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
 
                       {/* Transliteration */}
                       {verse.text.transliteration && (
-                        <p className="text-center text-sm text-gray-500 mb-4 italic font-serif">
+                        <p className="text-center text-sm text-muted-foreground mb-4 italic font-serif">
                           {verse.text.transliteration}
                         </p>
                       )}
 
                       {/* Translation */}
                       <p 
-                        className={`leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-800'}`}
+                        className="leading-relaxed text-foreground/80"
                         style={{ fontSize: `${fontSize}px` }}
                       >
                         {verse.translations[secondaryLang] || verse.translations['en']}
@@ -285,7 +278,7 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
         {/* Right Page Navigation */}
         <Button 
           variant="ghost" 
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-40 h-24 w-12 rounded-full bg-black/20 hover:bg-black/40 backdrop-blur-sm hidden md:flex items-center justify-center"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-40 h-24 w-12 rounded-full bg-muted/20 hover:bg-muted/40 backdrop-blur-sm hidden md:flex items-center justify-center"
           onClick={handleNextChapter}
           disabled={currentChapterIndex === chapters.length - 1}
         >
@@ -294,11 +287,7 @@ export function ScriptureReader({ scripture, onClose }: ScriptureReaderProps) {
       </div>
 
       {/* Bottom Progress Bar */}
-      <div className={`h-12 border-t flex items-center justify-between px-6 text-xs ${
-        theme === 'dark' ? 'bg-[#0f0518] border-white/10 text-gray-400' : 
-        theme === 'light' ? 'bg-white border-gray-200 text-gray-500' : 
-        'bg-[#eaddcf] border-[#d3c4b1] text-[#5b4636]'
-      }`}>
+      <div className="h-12 border-t flex items-center justify-between px-6 text-xs bg-card border-border/50 text-muted-foreground">
         <span>{currentChapterIndex + 1} of {chapters.length} Chapters</span>
         <div className="flex-1 mx-8 max-w-md">
           <Slider 

@@ -202,7 +202,7 @@ export default function ProfilePage() {
             {/* Avatar */}
             <Avatar className="w-32 h-32 border-4" style={{ borderColor: glowColor }}>
               <AvatarImage src={profile.photoURL || ''} />
-              <AvatarFallback className="text-4xl font-bold bg-gradient-to-br from-purple-600 to-amber-600 text-white">
+              <AvatarFallback className="text-4xl font-bold bg-gradient-to-br from-purple-600 to-amber-600 text-primary-foreground">
                 {profile.displayName?.[0] || profile.email?.[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -257,7 +257,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Edit Button */}
-            <Button className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-white">
+            <Button className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-primary-foreground">
               <Edit className="w-4 h-4 mr-2" />
               Edit Profile
             </Button>
@@ -480,7 +480,7 @@ export default function ProfilePage() {
                 <div className="pt-6">
                   <Button 
                     variant="destructive" 
-                    className="w-full"
+                    className="w-full text-destructive-foreground"
                     onClick={handleSignOut}
                   >
                     <LogOut className="w-4 h-4 mr-2" />

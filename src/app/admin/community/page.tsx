@@ -1,50 +1,54 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldAlert, CheckCircle, XCircle } from 'lucide-react';
+import { 
+  MessageSquare, ShieldAlert, Flag, Users,
+  CheckCircle2, XCircle, MoreVertical, Trash2,
+  ShieldCheck, AlertTriangle
+} from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
-export default function AdminCommunityPage() {
+export default function CommunityModeration() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">Community Moderation</h2>
+        <h2 className="text-3xl font-bold text-foreground">Community Moderation</h2>
         <div className="flex gap-2">
-          <Button variant="outline" className="border-white/10">Mod Logs</Button>
-          <Button variant="outline" className="border-white/10">Banned Users</Button>
+          <Button variant="outline" className="border-border/50">Mod Logs</Button>
+          <Button variant="outline" className="border-border/50">Banned Users</Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="p-6 rounded-xl bg-red-500/10 border border-red-500/20">
-          <div className="text-red-400 font-bold text-2xl">0</div>
-          <div className="text-sm text-gray-400">Pending Reports</div>
-        </div>
-        <div className="p-6 rounded-xl bg-amber-500/10 border border-amber-500/20">
-          <div className="text-amber-400 font-bold text-2xl">0</div>
-          <div className="text-sm text-gray-400">Flagged Comments</div>
-        </div>
-        <div className="p-6 rounded-xl bg-green-500/10 border border-green-500/20">
-          <div className="text-green-400 font-bold text-2xl">100%</div>
-          <div className="text-sm text-gray-400">Health Score</div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="p-6 bg-card/50 border-border/50 text-foreground">
+          <div className="text-sm text-muted-foreground">Pending Reports</div>
+          <div className="text-3xl font-bold mt-1">12</div>
+        </Card>
+        <Card className="p-6 bg-card/50 border-border/50 text-foreground">
+          <div className="text-sm text-muted-foreground">Flagged Comments</div>
+          <div className="text-3xl font-bold mt-1">45</div>
+        </Card>
+        <Card className="p-6 bg-card/50 border-border/50 text-foreground">
+          <div className="text-sm text-muted-foreground">Health Score</div>
+          <div className="text-3xl font-bold mt-1 text-green-500">98%</div>
+        </Card>
       </div>
 
-      <Card className="bg-white/5 border-white/10 text-white">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-gray-400" />
-            Report Queue
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-16 text-gray-500">
-            <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-500/50" />
-            <h3 className="text-lg font-medium text-white mb-1">All Clear!</h3>
-            <p>There are no pending reports to review.</p>
+      <Card className="bg-card/50 border-border/50 text-foreground p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <ShieldAlert className="w-5 h-5 text-muted-foreground" />
+          <h3 className="text-xl font-bold">Moderation Queue</h3>
+        </div>
+
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-4">
+            <ShieldCheck className="w-8 h-8 text-green-500" />
           </div>
-        </CardContent>
+          <h3 className="text-lg font-medium text-foreground mb-1">All Clear!</h3>
+          <p className="text-muted-foreground">There are no pending reports in the queue.</p>
+        </div>
       </Card>
     </div>
   );

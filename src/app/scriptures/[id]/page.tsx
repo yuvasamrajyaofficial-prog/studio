@@ -46,7 +46,7 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Sidebar / Info */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="relative aspect-[3/4] w-full rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+          <div className="relative aspect-[3/4] w-full rounded-3xl overflow-hidden shadow-2xl border border-border/50">
             {scripture.coverImageUrl ? (
               <Image
                 src={scripture.coverImageUrl}
@@ -55,8 +55,8 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                <BookOpen className="h-16 w-16 text-white/20" />
+              <div className="w-full h-full bg-muted/20 flex items-center justify-center">
+                <BookOpen className="h-16 w-16 text-foreground/20" />
               </div>
             )}
           </div>
@@ -64,19 +64,19 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
           <div className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {scripture.tags.map(tag => (
-                <Badge key={tag} variant="outline" className="bg-white/5 border-white/10 text-gray-400">{tag}</Badge>
+                <Badge key={tag} variant="outline" className="bg-muted/20 border-border/50 text-muted-foreground">{tag}</Badge>
               ))}
             </div>
             
-            <div className="space-y-3 text-sm text-gray-500">
+            <div className="space-y-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-yellow-500/50" /> {scripture.region}
+                <MapPin className="h-4 w-4 text-primary/50" /> {scripture.region}
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="h-4 w-4 text-yellow-500/50" /> {scripture.era?.replace('_', ' ')}
+                <Clock className="h-4 w-4 text-primary/50" /> {scripture.era?.replace('_', ' ')}
               </div>
               <div className="flex items-center gap-3">
-                <BookOpen className="h-4 w-4 text-yellow-500/50" /> {scripture.language}
+                <BookOpen className="h-4 w-4 text-primary/50" /> {scripture.language}
               </div>
             </div>
           </div>
@@ -85,17 +85,17 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
         {/* Content */}
         <div className="lg:col-span-2 space-y-10">
           <div className="space-y-4">
-            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold tracking-tight bg-gradient-to-b from-foreground to-foreground/50 bg-clip-text text-transparent">
               {scripture.title}
             </h1>
-            <p className="text-xl text-gray-400 leading-relaxed">
+            <p className="text-xl text-muted-foreground leading-relaxed">
               {scripture.description}
             </p>
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-white flex items-center gap-3">
-              <div className="w-8 h-px bg-yellow-500/50" />
+            <h2 className="text-2xl font-semibold text-foreground flex items-center gap-3">
+              <div className="w-8 h-px bg-primary/50" />
               Chapters
             </h2>
             <div className="grid gap-3">
@@ -105,16 +105,16 @@ export default async function ScriptureDetailsPage({ params }: { params: Promise
                   href={`/scriptures/${scripture.id}/chapter/${chapter.id}`}
                   className="block group"
                 >
-                  <div className="bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-between">
+                  <div className="bg-card/50 border border-border/50 rounded-2xl p-6 hover:bg-card hover:border-border transition-all duration-300 flex items-center justify-between">
                     <div className="space-y-1">
-                      <div className="text-lg font-medium text-gray-300 group-hover:text-white transition-colors">
+                      <div className="text-lg font-medium text-foreground/80 group-hover:text-foreground transition-colors">
                         Chapter {chapter.number}: {chapter.title}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-muted-foreground">
                         {chapter.description}
                       </div>
                     </div>
-                    <ChevronLeft className="h-5 w-5 rotate-180 text-gray-600 group-hover:text-yellow-500 transition-all transform group-hover:translate-x-1" />
+                    <ChevronLeft className="h-5 w-5 rotate-180 text-muted-foreground group-hover:text-primary transition-all transform group-hover:translate-x-1" />
                   </div>
                 </Link>
               ))}

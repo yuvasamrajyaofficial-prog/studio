@@ -15,7 +15,7 @@ export default function CommunityPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="relative min-h-[40vh] flex flex-col items-center justify-center overflow-hidden py-16 bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518]">
+        <section className="relative min-h-[40vh] flex flex-col items-center justify-center overflow-hidden py-16 bg-gradient-to-b from-background via-background/90 to-background">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl" />
@@ -27,12 +27,12 @@ export default function CommunityPage() {
               className="space-y-4"
             >
               <div className="mb-6 inline-block">
-                <Users className="w-20 h-20 text-amber-400 mx-auto" />
+                <Users className="w-20 h-20 text-primary mx-auto" />
               </div>
-              <h1 className="font-serif text-4xl md:text-6xl font-bold text-white mb-4">
+              <h1 className="font-serif text-4xl md:text-6xl font-bold text-foreground mb-4">
                 Soul Circles
               </h1>
-              <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400">
+              <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
                 Connect with like-minded seekers, share your spiritual journey, and grow together
               </p>
             </motion.div>
@@ -103,9 +103,9 @@ export default function CommunityPage() {
         </section>
 
         {/* Featured Circles */}
-        <section className="py-16 bg-black/20">
+        <section className="py-16 bg-muted/20">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">Featured Soul Circles</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Featured Soul Circles</h2>
             
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               <CircleCard
@@ -140,19 +140,19 @@ export default function CommunityPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-purple-900/50 to-blue-900/50">
+        <section className="py-16 bg-gradient-to-r from-primary/20 to-accent/20">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Join Our Growing Community
             </h2>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Connect with thousands of spiritual seekers worldwide and deepen your practice together
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-amber-500 hover:bg-amber-600 text-black font-bold">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold">
                 Create Your Circle
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
                 Browse Communities
               </Button>
             </div>
@@ -182,12 +182,12 @@ function CommunityCard({
 }) {
   return (
     <Link href={href}>
-      <Card className={`p-6 h-full bg-gradient-to-br ${gradient} backdrop-blur-sm border ${borderColor} hover:border-white/30 transition-all duration-300 hover:scale-105 group cursor-pointer`}>
-        <div className="h-12 w-12 rounded-lg bg-white/10 flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-          <Icon className="h-6 w-6 text-white" />
+      <Card className={`p-6 h-full bg-gradient-to-br ${gradient} backdrop-blur-sm border ${borderColor} hover:border-border transition-all duration-300 hover:scale-105 group cursor-pointer`}>
+        <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+          <Icon className="h-6 w-6 text-primary" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-        <p className="text-gray-300 text-sm">{description}</p>
+        <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </Card>
     </Link>
   );
@@ -205,15 +205,15 @@ function CircleCard({
   tags: string[];
 }) {
   return (
-    <Card className="p-6 bg-white/5 border-white/10 hover:border-white/20 transition-colors">
+    <Card className="p-6 bg-card/50 border-border/50 hover:border-border transition-colors">
       <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-bold text-white">{title}</h3>
-        <div className="flex items-center gap-1 text-amber-400">
+        <h3 className="text-xl font-bold text-foreground">{title}</h3>
+        <div className="flex items-center gap-1 text-primary">
           <Users className="w-4 h-4" />
           <span className="text-sm font-medium">{members}</span>
         </div>
       </div>
-      <p className="text-gray-400 text-sm mb-4">{description}</p>
+      <p className="text-muted-foreground text-sm mb-4">{description}</p>
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <span

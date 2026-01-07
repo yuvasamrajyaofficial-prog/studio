@@ -163,6 +163,7 @@ export default function RegisterPage() {
         title: 'Registration failed',
         description: errorMessage,
         variant: 'destructive',
+        duration: 5000,
       });
     } finally {
       setIsSubmitting(false);
@@ -170,7 +171,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl" />
@@ -179,7 +180,7 @@ export default function RegisterPage() {
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header with Back Button */}
         <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <Link href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft className="w-5 h-5" />
             <span>Back to Home</span>
           </Link>
@@ -191,20 +192,20 @@ export default function RegisterPage() {
             <SudharshanaChakraIcon className="h-10 w-10 text-amber-400" />
             <span className="font-serif text-3xl font-bold text-amber-400 tracking-wide">MALOLA</span>
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">Begin Your Cosmic Journey</h1>
-          <p className="text-gray-400">Register to unlock your Soul ID and access ancient wisdom</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Begin Your Cosmic Journey</h1>
+          <p className="text-muted-foreground">Register to unlock your Soul ID and access ancient wisdom</p>
         </div>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-4xl mx-auto space-y-8">
             {/* Section 0: Account (NEW) */}
-            <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+            <Card className="bg-card/50 border-border/50 backdrop-blur-xl p-8 rounded-3xl">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                   <Mail className="w-6 h-6 text-amber-400" />
                   Create Account
                 </h2>
-                <p className="text-gray-400 text-sm mt-1">Sign up to begin your spiritual journey</p>
+                <p className="text-muted-foreground text-sm mt-1">Sign up to begin your spiritual journey</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
@@ -213,12 +214,12 @@ export default function RegisterPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Email</FormLabel>
+                      <FormLabel className="text-foreground/80">Email</FormLabel>
                       <FormControl>
                         <Input 
                           type="email"
                           placeholder="your@email.com" 
-                          className="bg-white/5 border-white/10 text-white h-12 placeholder:text-gray-500"
+                          className="bg-muted/20 border-border/50 text-foreground h-12 placeholder:text-muted-foreground"
                           {...field} 
                         />
                       </FormControl>
@@ -232,12 +233,12 @@ export default function RegisterPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Password</FormLabel>
+                      <FormLabel className="text-foreground/80">Password</FormLabel>
                       <FormControl>
                         <Input 
                           type="password"
                           placeholder="At least 6 characters" 
-                          className="bg-white/5 border-white/10 text-white h-12 placeholder:text-gray-500"
+                          className="bg-muted/20 border-border/50 text-foreground h-12 placeholder:text-muted-foreground"
                           {...field} 
                         />
                       </FormControl>
@@ -249,13 +250,13 @@ export default function RegisterPage() {
             </Card>
 
             {/* Section 1: Region & Language */}
-            <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+            <Card className="bg-card/50 border-border/50 backdrop-blur-xl p-8 rounded-3xl">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                   <Globe className="w-6 h-6 text-amber-400" />
                   Region & Language
                 </h2>
-                <p className="text-gray-400 text-sm mt-1">Where are you from?</p>
+                <p className="text-muted-foreground text-sm mt-1">Where are you from?</p>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
@@ -264,19 +265,19 @@ export default function RegisterPage() {
                   name="country"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Country</FormLabel>
+                      <FormLabel className="text-foreground/80">Country</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
+                          <SelectTrigger className="bg-muted/20 border-border/50 text-foreground h-12">
                             <SelectValue placeholder="Select your country" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="bg-gray-900 border-white/10">
-                          <SelectItem value="India" className="text-white">India</SelectItem>
-                          <SelectItem value="USA" className="text-white">United States</SelectItem>
-                          <SelectItem value="UK" className="text-white">United Kingdom</SelectItem>
-                          <SelectItem value="Canada" className="text-white">Canada</SelectItem>
-                          <SelectItem value="Australia" className="text-white">Australia</SelectItem>
+                        <SelectContent className="bg-card border-border/50">
+                          <SelectItem value="India" className="text-foreground">India</SelectItem>
+                          <SelectItem value="USA" className="text-foreground">United States</SelectItem>
+                          <SelectItem value="UK" className="text-foreground">United Kingdom</SelectItem>
+                          <SelectItem value="Canada" className="text-foreground">Canada</SelectItem>
+                          <SelectItem value="Australia" className="text-foreground">Australia</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -289,18 +290,18 @@ export default function RegisterPage() {
                   name="language"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Preferred Language</FormLabel>
+                      <FormLabel className="text-foreground/80">Preferred Language</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
+                          <SelectTrigger className="bg-muted/20 border-border/50 text-foreground h-12">
                             <SelectValue placeholder="Select language" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="bg-gray-900 border-white/10">
-                          <SelectItem value="English" className="text-white">English</SelectItem>
-                          <SelectItem value="Hindi" className="text-white">हिंदी (Hindi)</SelectItem>
-                          <SelectItem value="Sanskrit" className="text-white">संस्कृत (Sanskrit)</SelectItem>
-                          <SelectItem value="Tamil" className="text-white">தமிழ் (Tamil)</SelectItem>
+                        <SelectContent className="bg-card border-border/50">
+                          <SelectItem value="English" className="text-foreground">English</SelectItem>
+                          <SelectItem value="Hindi" className="text-foreground">हिंदी (Hindi)</SelectItem>
+                          <SelectItem value="Sanskrit" className="text-foreground">संस्कृत (Sanskrit)</SelectItem>
+                          <SelectItem value="Tamil" className="text-foreground">தமிழ் (Tamil)</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -311,13 +312,13 @@ export default function RegisterPage() {
             </Card>
 
             {/* Section 2: Cultural Context */}
-            <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+            <Card className="bg-card/50 border-border/50 backdrop-blur-xl p-8 rounded-3xl">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                   <Sparkles className="w-6 h-6 text-amber-400" />
                   Cultural Context
                 </h2>
-                <p className="text-gray-400 text-sm mt-1">Customize your spiritual journey</p>
+                <p className="text-muted-foreground text-sm mt-1">Customize your spiritual journey</p>
               </div>
 
               <div className="space-y-6">
@@ -326,13 +327,13 @@ export default function RegisterPage() {
                   name="religion"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-lg font-semibold text-gray-200">Spiritual Path / Philosophy</FormLabel>
+                      <FormLabel className="text-lg font-semibold text-foreground">Spiritual Path / Philosophy</FormLabel>
                       <FormControl>
                         <RadioGroup onValueChange={field.onChange} value={field.value} className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {religions.map((r) => (
-                            <div key={r.value} className="flex items-center space-x-2 border border-white/10 rounded-lg p-4 hover:bg-white/5 cursor-pointer">
+                            <div key={r.value} className="flex items-center space-x-2 border border-border/50 rounded-lg p-4 hover:bg-muted/20 cursor-pointer">
                               <RadioGroupItem value={r.value} id={r.value} />
-                              <FormLabel htmlFor={r.value} className="cursor-pointer flex-1 text-gray-300">{r.label}</FormLabel>
+                              <FormLabel htmlFor={r.value} className="cursor-pointer flex-1 text-foreground/80">{r.label}</FormLabel>
                             </div>
                           ))}
                         </RadioGroup>
@@ -347,7 +348,7 @@ export default function RegisterPage() {
                   name="interests"
                   render={() => (
                     <FormItem>
-                      <FormLabel className="text-lg font-semibold text-gray-200">Interests</FormLabel>
+                      <FormLabel className="text-lg font-semibold text-foreground">Interests</FormLabel>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {interests.map((interest) => (
                           <FormField
@@ -355,7 +356,7 @@ export default function RegisterPage() {
                             control={form.control}
                             name="interests"
                             render={({ field }) => (
-                              <FormItem className="flex items-center space-x-2 border border-white/10 rounded-lg p-4 hover:bg-white/5">
+                              <FormItem className="flex items-center space-x-2 border border-border/50 rounded-lg p-4 hover:bg-muted/20">
                                 <FormControl>
                                   <Checkbox
                                     checked={field.value?.includes(interest.value)}
@@ -366,7 +367,7 @@ export default function RegisterPage() {
                                     }}
                                   />
                                 </FormControl>
-                                <FormLabel className="cursor-pointer flex-1 text-gray-300">{interest.label}</FormLabel>
+                                <FormLabel className="cursor-pointer flex-1 text-foreground/80">{interest.label}</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -377,7 +378,7 @@ export default function RegisterPage() {
                   )}
                 />
 
-                <div className="space-y-3 pt-4 border-t border-white/5">
+                <div className="space-y-3 pt-4 border-t border-border/50">
                   <FormField
                     control={form.control}
                     name="consentAstrology"
@@ -387,7 +388,7 @@ export default function RegisterPage() {
                           <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1">
-                          <FormLabel className="text-gray-300">Enable Astrology Features</FormLabel>
+                           <FormLabel className="text-foreground/80">Enable Astrology Features</FormLabel>
                           <p className="text-xs text-gray-500">Advisory and for spiritual guidance only</p>
                         </div>
                       </FormItem>
@@ -403,7 +404,7 @@ export default function RegisterPage() {
                           <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                         </FormControl>
                         <div className="space-y-1">
-                          <FormLabel className="text-gray-300">Enable Relationship Matching</FormLabel>
+                          <FormLabel className="text-foreground/80">Enable Relationship Matching</FormLabel>
                           <p className="text-xs text-gray-500">AI-powered compatibility suggestions</p>
                         </div>
                       </FormItem>
@@ -414,13 +415,13 @@ export default function RegisterPage() {
             </Card>
 
             {/* Section 3: Birth Details for Soul ID */}
-            <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+            <Card className="bg-card/50 border-border/50 backdrop-blur-xl p-8 rounded-3xl">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
                   <CalendarIcon className="w-6 h-6 text-amber-400" />
                   Birth Details for Soul ID
                 </h2>
-                <p className="text-gray-400 text-sm mt-1">Your cosmic coordinates</p>
+                <p className="text-muted-foreground text-sm mt-1">Your cosmic coordinates</p>
               </div>
 
               <div className="space-y-6">
@@ -430,7 +431,7 @@ export default function RegisterPage() {
                   name="dateOfBirth"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Date of Birth</FormLabel>
+                      <FormLabel className="text-foreground/80">Date of Birth</FormLabel>
                       <div className="relative">
                         <FormControl>
                           <Input
@@ -442,7 +443,7 @@ export default function RegisterPage() {
                             }}
                             max={format(new Date(), 'yyyy-MM-dd')}
                             min="1900-01-01"
-                            className="bg-white/5 border-white/10 text-white h-12 pr-10"
+                            className="bg-muted/20 border-border/50 text-foreground h-12 pr-10"
                           />
                         </FormControl>
                         <Popover>
@@ -451,19 +452,19 @@ export default function RegisterPage() {
                               type="button"
                               variant="ghost"
                               size="icon"
-                              className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 hover:bg-white/10"
+                              className="absolute right-1 top-1/2 -translate-y-1/2 h-10 w-10 hover:bg-muted/20"
                             >
-                              <CalendarIcon className="h-5 w-5 text-gray-400" />
+                              <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                             </Button>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0 bg-gray-900 border-white/10" align="end">
+                          <PopoverContent className="w-auto p-0 bg-card border-border/50" align="end">
                             <Calendar
                               mode="single"
                               selected={field.value}
                               onSelect={field.onChange}
                               disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                               initialFocus
-                              className="bg-gray-900 text-white"
+                              className="bg-card text-foreground"
                             />
                           </PopoverContent>
                         </Popover>
@@ -486,7 +487,7 @@ export default function RegisterPage() {
 
                     return (
                       <FormItem>
-                        <FormLabel className="text-gray-300">Time of Birth</FormLabel>
+                        <FormLabel className="text-foreground/80">Time of Birth</FormLabel>
                         <div className="grid grid-cols-3 gap-2">
                           <Select 
                             value={hour} 
@@ -495,12 +496,12 @@ export default function RegisterPage() {
                               updateTime(val, minute, period);
                             }}
                           >
-                            <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
+                            <SelectTrigger className="bg-muted/20 border-border/50 text-foreground h-12">
                               <SelectValue placeholder="Hour" />
                             </SelectTrigger>
-                            <SelectContent className="bg-gray-900 border-white/10">
+                            <SelectContent className="bg-card border-border/50">
                               {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
-                                <SelectItem key={h} value={h.toString().padStart(2, '0')} className="text-white">
+                                <SelectItem key={h} value={h.toString().padStart(2, '0')} className="text-foreground">
                                   {h.toString().padStart(2, '0')}
                                 </SelectItem>
                               ))}
@@ -514,12 +515,12 @@ export default function RegisterPage() {
                               updateTime(hour, val, period);
                             }}
                           >
-                            <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
+                            <SelectTrigger className="bg-muted/20 border-border/50 text-foreground h-12">
                               <SelectValue placeholder="Min" />
                             </SelectTrigger>
-                            <SelectContent className="bg-gray-900 border-white/10 max-h-[200px]">
+                            <SelectContent className="bg-card border-border/50 max-h-[200px]">
                               {Array.from({ length: 60 }, (_, i) => i).map((m) => (
-                                <SelectItem key={m} value={m.toString().padStart(2, '0')} className="text-white">
+                                <SelectItem key={m} value={m.toString().padStart(2, '0')} className="text-foreground">
                                   {m.toString().padStart(2, '0')}
                                 </SelectItem>
                               ))}
@@ -533,12 +534,12 @@ export default function RegisterPage() {
                               updateTime(hour, minute, val);
                             }}
                           >
-                            <SelectTrigger className="bg-white/5 border-white/10 text-white h-12">
+                            <SelectTrigger className="bg-muted/20 border-border/50 text-foreground h-12">
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent className="bg-gray-900 border-white/10">
-                              <SelectItem value="AM" className="text-white">AM</SelectItem>
-                              <SelectItem value="PM" className="text-white">PM</SelectItem>
+                            <SelectContent className="bg-card border-border/50">
+                              <SelectItem value="AM" className="text-foreground">AM</SelectItem>
+                              <SelectItem value="PM" className="text-foreground">PM</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -554,12 +555,12 @@ export default function RegisterPage() {
                   name="placeOfBirth"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Place of Birth</FormLabel>
+                      <FormLabel className="text-foreground/80">Place of Birth</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter city name (e.g., New Delhi, India)"
                           {...field}
-                          className="bg-white/5 border-white/10 text-white h-12 placeholder:text-gray-500"
+                          className="bg-muted/20 border-border/50 text-foreground h-12 placeholder:text-muted-foreground"
                         />
                       </FormControl>
                       <p className="text-xs text-gray-500 mt-1">Enter your birth city and country</p>
@@ -575,7 +576,7 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 size="lg"
-                className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-bold h-14 px-12 text-lg"
+                className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-bold h-14 px-12 text-lg"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Creating Account...' : 'Generate My Soul ID'}

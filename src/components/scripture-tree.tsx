@@ -56,22 +56,22 @@ export function ScriptureTree({
           return null;
         }
         return (
-          <AccordionItem value={category} key={category}>
-            <AccordionTrigger className="px-2 py-2 text-sm font-medium text-accent hover:no-underline">
+          <AccordionItem value={category} key={category} className="border-border/50">
+            <AccordionTrigger className="px-2 py-2 text-sm font-headline font-bold text-primary hover:no-underline hover:text-primary/80">
               {category}
             </AccordionTrigger>
             <AccordionContent>
-              <div className="flex flex-col gap-1 pl-4 border-l border-border ml-2">
+              <div className="flex flex-col gap-1 pl-4 border-l border-border/50 ml-2">
                 {categoryScriptures.map((scripture) => (
                   <Button
                     key={scripture.id}
                     variant="ghost"
                     asChild
                     className={cn(
-                      "justify-start text-left font-normal h-auto py-1 px-2",
+                      "justify-start text-left font-body font-normal h-auto py-1.5 px-2",
                       selectedScriptureId === scripture.id
-                        ? "bg-primary/20 text-primary"
-                        : "text-foreground/80 hover:bg-primary/10 hover:text-foreground"
+                        ? "bg-primary/10 text-primary font-medium"
+                        : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
                     )}
                   >
                     <Link href={`/scriptures/${scripture.id}`}>

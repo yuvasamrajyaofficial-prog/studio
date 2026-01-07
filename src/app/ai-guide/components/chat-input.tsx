@@ -1,111 +1,99 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { Send, Mic, Paperclip, Smile, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {  Send, Paperclip, Mic, StopCircle } from 'lucide-react';
-import TextareaAutosize from 'react-textarea-autosize';
+import { Textarea } from '@/components/ui/textarea';
 
 interface ChatInputProps {
-  value?: string;
-  onChange?: (value: string) => void;
-  onSend: (message?: string) => void;
+  onSendMessage: (message: string) => void;
   isLoading?: boolean;
-  disabled?: boolean;
 }
 
-export function ChatInput({ value, onChange, onSend, isLoading, disabled }: ChatInputProps) {
-  const [internalInput, setInternalInput] = useState('');
+export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
+  const [message, setMessage] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Use controlled value if provided, otherwise use internal state
-  const inputValue = value !== undefined ? value : internalInput;
-  const setInputValue = onChange || setInternalInput;
-
-  const handleSubmit = () => {
-    if (!inputValue.trim() || isLoading || disabled) return;
-    
-    onSend(inputValue);
-    
-    // Clear input only if uncontrolled
-    if (value === undefined) {
-      setInternalInput('');
+  const handleSend = () => {
+    if (message.trim() && !isLoading) {
+      onSendMessage(message);
+      setMessage('');
     }
-    
-    textareaRef.current?.focus();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSubmit();
+      handleSend();
     }
   };
 
+  // Auto-resize textarea
   useEffect(() => {
-    textareaRef.current?.focus();
-  }, []);
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
+    }
+  }, [message]);
 
   return (
-    <div className="border-t border-white/10 bg-[#0a0118]/80 backdrop-blur-xl p-4">
+    <div className="border-t border-border/50 bg-background/80 backdrop-blur-xl p-4">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-end gap-2">
-          {/* File upload button */}
-          <button
-            disabled={disabled || isLoading}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50"
-          >
-            <Paperclip className="w-5 h-5" />
-          </button>
-
-          {/* Text input */}
-          <div className="flex-1 relative">
-            <TextareaAutosize
-              ref={textareaRef}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Ask your spiritual guide..."
-              disabled={disabled || isLoading}
-              minRows={1}
-              maxRows={8}
-              className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 pr-12 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none disabled:opacity-50"
-            />
-            
-            {/* Character count (optional) */}
-            {inputValue.length > 0 && (
-              <div className="absolute bottom-2 right-2 text-xs text-gray-500">
-                {inputValue.length}
-              </div>
-            )}
+          <div className="flex gap-1 mb-1">
+            <button 
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted/20 rounded-lg transition-colors disabled:opacity-50"
+              disabled={isLoading}
+            >
+              <Paperclip className="w-5 h-5" />
+            </button>
+            <button 
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted/20 rounded-lg transition-colors disabled:opacity-50"
+              disabled={isLoading}
+            >
+              <ImageIcon className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* Voice input button */}
-          <button
-            disabled={disabled || isLoading}
-            className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50"
+          <div className="flex-1 relative">
+            <Textarea
+              ref={textareaRef}
+              rows={1}
+              placeholder="Ask anything..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="w-full bg-muted/20 border border-border/50 rounded-2xl px-4 py-3 pr-12 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none disabled:opacity-50"
+              disabled={isLoading}
+            />
+            <button 
+              className="absolute right-3 bottom-3 p-1 text-muted-foreground hover:text-foreground hover:bg-muted/20 rounded-lg transition-colors disabled:opacity-50"
+              disabled={isLoading}
+            >
+              <Smile className="w-5 h-5" />
+            </button>
+          </div>
+
+          <Button 
+            onClick={handleSend}
+            disabled={!message.trim() || isLoading}
+            className="rounded-xl h-[46px] w-[46px] p-0 bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <Send className="w-5 h-5" />
+          </Button>
+          
+          <Button 
+            variant="outline"
+            size="icon"
+            className="rounded-xl h-[46px] w-[46px] border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/20"
+            disabled={isLoading}
           >
             <Mic className="w-5 h-5" />
-          </button>
-
-          {/* Send button */}
-          <Button
-            onClick={handleSubmit}
-            disabled={!inputValue.trim() || isLoading || disabled}
-            className="bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 disabled:opacity-50"
-          >
-            {isLoading ? (
-              <StopCircle className="w-5 h-5" />
-            ) : (
-              <Send className="w-5 h-5" />
-            )}
           </Button>
         </div>
-
-        {/* Helper text */}
-        <div className="mt-2 text-xs text-gray-500 text-center">
-          Press <kbd className="px-1 py-0.5 bg-white/10 rounded">Enter</kbd> to send,{' '}
-          <kbd className="px-1 py-0.5 bg-white/10 rounded">Shift + Enter</kbd> for new line
-        </div>
+        <p className="text-[10px] text-center text-muted-foreground mt-2">
+          Malola AI can provide spiritual guidance but always consult original scriptures for absolute truth.
+        </p>
       </div>
     </div>
   );

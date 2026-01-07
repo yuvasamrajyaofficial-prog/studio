@@ -113,7 +113,7 @@ export default function AISettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl" />
@@ -124,42 +124,42 @@ export default function AISettingsPage() {
         <div className="mb-8">
           <Link
             href="/ai-guide"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-4"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
           >
             <ChevronLeft className="w-5 h-5" />
             <span>Back to AI Guide</span>
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2">AI Settings</h1>
-          <p className="text-gray-400">
+          <h1 className="text-3xl font-bold text-foreground mb-2">AI Settings</h1>
+          <p className="text-muted-foreground">
             Configure your AI provider and API key to enable spiritual guidance
           </p>
         </div>
 
         {/* Main Settings Card */}
-        <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+        <Card className="bg-card border-border/50 backdrop-blur-xl p-8 rounded-3xl">
           {/* Provider Selection */}
           <div className="mb-8">
-            <Label className="text-white text-lg mb-4 block">Choose AI Provider</Label>
+            <Label className="text-foreground text-lg mb-4 block">Choose AI Provider</Label>
             <div className="grid md:grid-cols-3 gap-4">
               {/* Gemini */}
               <button
                 onClick={() => setSelectedProvider('gemini')}
                 className={`p-6 rounded-2xl border-2 transition-all ${
                   selectedProvider === 'gemini'
-                    ? 'border-purple-400 bg-purple-500/10'
-                    : 'border-white/10 hover:border-white/20 bg-white/5'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border/50 hover:border-border bg-muted/20'
                 }`}
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                    <Key className="w-5 h-5 text-white" />
+                    <Key className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">Gemini</h3>
+                    <h3 className="text-foreground font-bold">Gemini</h3>
                     <p className="text-xs text-green-400">Free tier</p>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm">Google's AI model</p>
+                <p className="text-muted-foreground text-sm">Google's AI model</p>
               </button>
 
               {/* OpenAI */}
@@ -167,20 +167,20 @@ export default function AISettingsPage() {
                 onClick={() => setSelectedProvider('openai')}
                 className={`p-6 rounded-2xl border-2 transition-all ${
                   selectedProvider === 'openai'
-                    ? 'border-purple-400 bg-purple-500/10'
-                    : 'border-white/10 hover:border-white/20 bg-white/5'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border/50 hover:border-border bg-muted/20'
                 }`}
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex items-center justify-center">
-                    <Key className="w-5 h-5 text-white" />
+                    <Key className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">OpenAI</h3>
+                    <h3 className="text-foreground font-bold">OpenAI</h3>
                     <p className="text-xs text-amber-400">Paid</p>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm">GPT-4 model</p>
+                <p className="text-muted-foreground text-sm">GPT-4 model</p>
               </button>
 
               {/* Claude */}
@@ -188,27 +188,27 @@ export default function AISettingsPage() {
                 onClick={() => setSelectedProvider('claude')}
                 className={`p-6 rounded-2xl border-2 transition-all ${
                   selectedProvider === 'claude'
-                    ? 'border-purple-400 bg-purple-500/10'
-                    : 'border-white/10 hover:border-white/20 bg-white/5'
+                    ? 'border-primary bg-primary/10'
+                    : 'border-border/50 hover:border-border bg-muted/20'
                 }`}
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
-                    <Key className="w-5 h-5 text-white" />
+                    <Key className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div>
-                    <h3 className="text-white font-bold">Claude</h3>
+                    <h3 className="text-foreground font-bold">Claude</h3>
                     <p className="text-xs text-amber-400">Paid</p>
                   </div>
                 </div>
-                <p className="text-gray-400 text-sm">Anthropic's AI</p>
+                <p className="text-muted-foreground text-sm">Anthropic's AI</p>
               </button>
             </div>
           </div>
 
           {/* API Key Input */}
           <div className="mb-6">
-            <Label htmlFor="apiKey" className="text-white text-lg mb-2 block">
+            <Label htmlFor="apiKey" className="text-foreground text-lg mb-2 block">
               API Key
             </Label>
             <div className="relative">
@@ -218,12 +218,12 @@ export default function AISettingsPage() {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 placeholder={`Enter your ${selectedProvider} API key...`}
-                className="bg-white/5 border-white/10 text-white pr-12"
+                className="bg-muted/20 border-border/50 text-foreground pr-12"
               />
               <button
                 type="button"
                 onClick={() => setShowKey(!showKey)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -241,7 +241,7 @@ export default function AISettingsPage() {
                 }
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300"
+                className="inline-flex items-center gap-2 text-sm text-primary hover:text-primary/80"
               >
                 Get {selectedProvider} API key
                 <ExternalLink className="w-3 h-3" />
@@ -275,7 +275,7 @@ export default function AISettingsPage() {
               onClick={handleTestKey}
               disabled={!apiKey.trim() || isTesting}
               variant="outline"
-              className="flex-1 border-white/20 text-white hover:bg-white/10"
+              className="flex-1 border-border/50 text-foreground hover:bg-muted"
             >
               {isTesting ? (
                 <>
@@ -307,8 +307,8 @@ export default function AISettingsPage() {
 
           {/* Current Status */}
           {currentSettings && currentSettings.isValid && (
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <p className="text-gray-400 text-sm">
+            <div className="mt-6 pt-6 border-t border-border/50">
+              <p className="text-muted-foreground text-sm">
                 ✅ Connected to {currentSettings.provider} •{' '}
                 {currentSettings.lastTested &&
                   `Last tested ${new Date(currentSettings.lastTested).toLocaleString()}`}
@@ -318,9 +318,9 @@ export default function AISettingsPage() {
         </Card>
 
         {/* Info Card */}
-        <Card className="bg-blue-500/10 border-blue-500/30 backdrop-blur-xl p-6 rounded-2xl mt-6">
-          <h3 className="text-white font-bold mb-2">🔒 Security & Privacy</h3>
-          <ul className="text-gray-300 text-sm space-y-1">
+        <Card className="bg-primary/10 border-primary/30 backdrop-blur-xl p-6 rounded-2xl mt-6">
+          <h3 className="text-foreground font-bold mb-2">🔒 Security & Privacy</h3>
+          <ul className="text-muted-foreground text-sm space-y-1">
             <li>• Your API key is encrypted before being stored</li>
             <li>• Keys are stored securely in your Firebase account</li>
             <li>• We never share your API key with third parties</li>

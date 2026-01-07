@@ -102,7 +102,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0118] via-[#1a0a2e] to-[#0f0518] relative overflow-hidden flex items-center justify-center">
+    <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
       <motion.div 
@@ -135,7 +135,7 @@ export default function LoginPage() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <Link href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft className="w-5 h-5" />
             <span>Back to Home</span>
           </Link>
@@ -158,7 +158,7 @@ export default function LoginPage() {
             <span className="font-serif text-3xl font-bold text-amber-400 tracking-wide">MALOLA</span>
           </Link>
           <motion.h1 
-            className="text-4xl font-bold text-white mb-2"
+            className="text-4xl font-bold text-foreground mb-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -166,7 +166,7 @@ export default function LoginPage() {
             Welcome Back
           </motion.h1>
           <motion.p 
-            className="text-gray-400"
+            className="text-muted-foreground"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -181,7 +181,7 @@ export default function LoginPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl p-8 rounded-3xl">
+          <Card className="bg-card/50 border-border/50 backdrop-blur-xl p-8 rounded-3xl">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* Email Field */}
@@ -190,7 +190,7 @@ export default function LoginPage() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Email</FormLabel>
+                    <FormLabel className="text-foreground/80">Email</FormLabel>
                       <FormControl>
                         <motion.div 
                           className="relative"
@@ -201,7 +201,7 @@ export default function LoginPage() {
                           <Input
                             type="email"
                             placeholder="your@email.com"
-                            className="bg-white/5 border-white/10 text-white h-12 pl-11 placeholder:text-gray-500 focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                            className="bg-muted/20 border-border/50 text-foreground h-12 pl-11 placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
                             {...field}
                           />
                         </motion.div>
@@ -217,7 +217,7 @@ export default function LoginPage() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-300">Password</FormLabel>
+                    <FormLabel className="text-foreground/80">Password</FormLabel>
                       <FormControl>
                         <motion.div 
                           className="relative"
@@ -228,7 +228,7 @@ export default function LoginPage() {
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter your password"
-                            className="bg-white/5 border-white/10 text-white h-12 pl-11 pr-11 placeholder:text-gray-500 focus:border-amber-400/50 focus:ring-2 focus:ring-amber-400/20 transition-all"
+                            className="bg-muted/20 border-border/50 text-foreground h-12 pl-11 pr-11 placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all"
                             {...field}
                           />
                           <button
@@ -284,7 +284,7 @@ export default function LoginPage() {
                 >
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-amber-500 to-purple-600 hover:from-amber-600 hover:to-purple-700 text-white h-12 text-lg font-bold rounded-full transition-all shadow-lg shadow-purple-500/30"
+                    className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground h-12 text-lg font-bold rounded-full transition-all shadow-lg shadow-primary/30"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -303,10 +303,10 @@ export default function LoginPage() {
             {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10"></div>
+                <div className="w-full border-t border-border/50"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-transparent text-gray-400">Or continue with</span>
+                <span className="px-4 bg-transparent text-muted-foreground">Or continue with</span>
               </div>
             </div>
 
@@ -317,7 +317,7 @@ export default function LoginPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full h-12 border-white/20 text-white hover:bg-white/10 transition-all"
+                  className="w-full h-12 border-border/50 text-foreground hover:bg-muted transition-all"
                   onClick={handleGoogleLogin}
                   disabled={isGoogleLoading}
                 >
@@ -340,7 +340,7 @@ export default function LoginPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full h-12 border-white/20 text-white hover:bg-white/10 transition-all"
+                  className="w-full h-12 border-border/50 text-foreground hover:bg-muted transition-all"
                   disabled
                 >
                   <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
@@ -355,7 +355,7 @@ export default function LoginPage() {
 
         {/* Register Link */}
         <motion.p 
-          className="text-center text-gray-400 mt-6"
+          className="text-center text-muted-foreground mt-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}

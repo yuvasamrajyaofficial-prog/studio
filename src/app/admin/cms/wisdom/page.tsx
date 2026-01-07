@@ -1,28 +1,34 @@
 'use client';
 
 import React from 'react';
+import { 
+  Sparkles, Calendar, Plus, Search,
+  MoreVertical, Edit, Trash2, Clock
+} from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
-export default function WisdomCMSPage() {
+export default function WisdomScheduler() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/admin/cms">
-            <ChevronLeft className="w-5 h-5" />
-          </Link>
-        </Button>
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-white">Daily Wisdom</h2>
-          <p className="text-gray-400">Schedule quotes and sadhanas.</p>
+          <h2 className="text-3xl font-bold text-foreground">Daily Wisdom</h2>
+          <p className="text-muted-foreground">Schedule quotes and sadhanas.</p>
         </div>
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+          <Plus className="w-4 h-4 mr-2" />
+          New Entry
+        </Button>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-xl p-12 text-center">
-        <p className="text-gray-400 mb-4">Wisdom scheduler coming soon.</p>
-        <Button disabled>Schedule Wisdom</Button>
+      <div className="bg-card/50 border border-border/50 rounded-xl p-12 text-center">
+        <Sparkles className="w-12 h-12 text-primary/40 mx-auto mb-4" />
+        <p className="text-muted-foreground mb-4">Wisdom scheduler coming soon.</p>
+        <Button variant="outline" className="border-border/50">
+          View History
+        </Button>
       </div>
     </div>
   );
