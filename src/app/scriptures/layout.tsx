@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Header } from '@/components/layout/header';
-import { EraSlider } from '@/components/era-slider';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScriptureTree } from '@/components/scripture-tree';
 import { ScriptureHierarchy } from '@/components/scripture-hierarchy';
@@ -16,11 +15,10 @@ export default function ScriptureLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [selectedEra, setSelectedEra] = useState('Kali');
   const [activeTab, setActiveTab] = useState('library');
   const pathname = usePathname();
 
-  // Filter scriptures based on selected Era
+  // Filter scriptures
   const filteredScriptures = scriptures;
 
   const isMainPage = pathname === '/scriptures';
@@ -44,13 +42,6 @@ export default function ScriptureLayout({
             !isMainPage && "hidden lg:flex" // Desktop always shows, mobile only on main page
           )}
         >
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-          >
-            <EraSlider selectedEra={selectedEra} onEraChange={setSelectedEra} />
-          </motion.div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col min-h-0">
             <TabsList className="grid w-full grid-cols-2 bg-white/5 p-1 rounded-xl">
