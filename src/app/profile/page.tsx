@@ -31,6 +31,7 @@ import { useTheme } from 'next-themes';
 import { toast } from 'sonner';
 
 import { Header } from '@/components/layout/header';
+import { BackButton } from '@/components/ui/back-button';
 
 export default function ProfilePage() {
   const router = useRouter();

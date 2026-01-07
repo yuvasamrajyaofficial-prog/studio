@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/badge"; // Using badge for tags
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, BookOpen, Clock, MapPin } from "lucide-react";
 import Link from "next/link";
