@@ -46,12 +46,12 @@ export default function HomePage() {
             {/* CTA Button */}
             <div className="flex flex-col items-center gap-4">
               {user ? (
-                <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14 px-10 text-lg shadow-lg shadow-primary/30">
+                <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 px-6 text-base md:h-14 md:px-10 md:text-lg shadow-lg shadow-primary/30">
                   <Link href="/cosmos">Enter the Cosmos</Link>
                 </Button>
               ) : (
                 <>
-                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14 px-10 text-lg shadow-lg shadow-primary/30">
+                  <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-10 px-6 text-base md:h-14 md:px-10 md:text-lg shadow-lg shadow-primary/30">
                     <Link href="/register">Start Your Journey</Link>
                   </Button>
                   
