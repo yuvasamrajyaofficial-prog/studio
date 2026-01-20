@@ -14,9 +14,12 @@ export function BottomNav() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150) {
+    // Hide if scrolling down and past 50px
+    if (latest > previous && latest > 50) {
       setHidden(true);
-    } else {
+    } 
+    // Show if scrolling up
+    else if (latest < previous) {
       setHidden(false);
     }
   });

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+// Accordion imports removed
 import { Button } from "@/components/ui/button";
 import type { Scripture, ScriptureCategory } from "@/lib/scriptures";
 import { orderedCategories } from "@/lib/scriptures";
@@ -46,45 +41,39 @@ export function ScriptureTree({
   }
 
   return (
-    <Accordion
-      type="multiple"
-      className="w-full"
-      defaultValue={availableCategories}
-    >
+    <div className="w-full space-y-6">
       {availableCategories.map((category) => {
         const categoryScriptures = scripturesByCategory[category];
         if (!categoryScriptures || categoryScriptures.length === 0) {
           return null;
         }
         return (
-          <AccordionItem value={category} key={category} className="border-border/50">
-            <AccordionTrigger className="px-2 py-2 text-sm font-headline font-bold text-primary hover:no-underline hover:text-primary/80">
+          <div key={category} className="space-y-2">
+            <h3 className="px-2 text-sm font-headline font-bold text-primary uppercase tracking-wider opacity-80">
               {category}
-            </AccordionTrigger>
-            <AccordionContent>
-              <div className="flex flex-col gap-1 pl-4 border-l border-border/50 ml-2">
-                {categoryScriptures.map((scripture) => (
-                  <Button
-                    key={scripture.id}
-                    variant="ghost"
-                    asChild
-                    className={cn(
-                      "justify-start text-left font-body font-normal h-auto py-1.5 px-2",
-                      selectedScriptureId === scripture.id
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
-                    )}
-                  >
-                    <Link href={`/scriptures/${scripture.id}`}>
-                      {scripture.title}
-                    </Link>
-                  </Button>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+            </h3>
+            <div className="flex flex-col gap-1 pl-2 border-l-2 border-primary/10 ml-2">
+              {categoryScriptures.map((scripture) => (
+                <Button
+                  key={scripture.id}
+                  variant="ghost"
+                  asChild
+                  className={cn(
+                    "justify-start text-left font-body font-normal h-auto py-2 px-3 rounded-lg transition-all",
+                    selectedScriptureId === scripture.id
+                      ? "bg-primary/10 text-primary font-medium translate-x-1"
+                      : "text-muted-foreground hover:bg-primary/5 hover:text-primary hover:translate-x-1"
+                  )}
+                >
+                  <Link href={`/scriptures/${scripture.id}`}>
+                    {scripture.title}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+          </div>
         );
       })}
-    </Accordion>
+    </div>
   );
 }
