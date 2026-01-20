@@ -1,0 +1,26 @@
+{
+  "name": "MALOLA - Cosmic Scriptures",
+  "short_name": "MALOLA",
+  "description": "Your AI-powered spiritual guide to ancient wisdom.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0518",
+  "theme_color": "#0f0518",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/mobile-home.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home Screen"
+    }
+  ]
+}
