@@ -17,6 +17,16 @@ export async function getScriptureSummaryAction(
     // Validate input against the Zod schema to ensure type safety and prevent injection.
     const validatedInput = SummarizeScriptureInputSchema.parse(input);
 
+    // RAG-Lite: Inject context if on a chapter page
+    if (validatedInput.pageContext?.path?.includes('/chapter/')) {
+      const { MOCK_CHAPTER } = await import('@/lib/mock-data');
+      const chapterText = MOCK_CHAPTER.verses.map(v => 
+        `Verse ${v.number}: ${v.translations[0].text} (${v.meaning || ''})`
+      ).join('\n');
+      
+      validatedInput.scriptureContent = `Context from current chapter (${MOCK_CHAPTER.title}):\n${chapterText}\n\nUser Query: ${validatedInput.scriptureContent}`;
+    }
+
     const result = await summarizeScripture(validatedInput);
 
     // Ensure the AI returns a valid, non-empty result.
