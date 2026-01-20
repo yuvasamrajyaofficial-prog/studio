@@ -30,6 +30,31 @@ export function VerseView({ verse, isParallel = true, onToggleParallel }: VerseV
   const [isPlaying, setIsPlaying] = useState(false);
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
 
+  React.useEffect(() => {
+    if (!isPlaying) {
+      window.speechSynthesis.cancel();
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(verse.translations.en);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    
+    utterance.onend = () => {
+      setIsPlaying(false);
+    };
+
+    utterance.onerror = () => {
+      setIsPlaying(false);
+    };
+
+    window.speechSynthesis.speak(utterance);
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, [isPlaying, verse.translations.en]);
+
   const fontSizes = {
     sm: 'text-lg',
     md: 'text-xl',
