@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CommentsSection } from "@/components/community/comments-section";
 
 // Mock Data - In real app, fetch from Firestore
 const MOCK_CHAPTER = {
@@ -60,6 +61,10 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
         scriptureId={id}
         nextChapterId="chapter-2"
       />
+      
+      <div className="mt-12">
+        <CommentsSection contentId={chapterId} contentType="scripture" />
+      </div>
     </div>
   );
 }
