@@ -49,6 +49,7 @@ export function ScriptureTree({
     <Accordion
       type="multiple"
       className="w-full"
+      defaultValue={availableCategories}
     >
       {availableCategories.map((category) => {
         const categoryScriptures = scripturesByCategory[category];
