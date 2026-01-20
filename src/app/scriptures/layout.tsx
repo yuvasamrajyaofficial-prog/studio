@@ -27,7 +27,10 @@ export default function ScriptureLayout({
     <div className="min-h-screen flex flex-col bg-background overflow-hidden">
       <Header />
       
-      <main className="flex-1 flex h-[calc(100vh-4rem)] overflow-hidden relative">
+      <main className={cn(
+        "flex-1 flex overflow-hidden relative",
+        "h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)]"
+      )}>
         {/* Sidebar with independent sliding */}
         <motion.aside 
           initial={{ x: -320, opacity: 0 }}
