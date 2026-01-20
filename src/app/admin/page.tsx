@@ -1,16 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, BookOpen, MessageSquare, TrendingUp, 
   Activity, Shield, Bell, ArrowUpRight, ArrowDownRight,
-  Clock, CheckCircle2, AlertCircle
+  Clock, CheckCircle2, AlertCircle, Database, LayoutDashboard
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from 'framer-motion';
+import { toast } from "sonner";
+
+// Content Management Components
+import { ScriptureForm } from "@/components/admin/scripture-form";
+import { ChapterList } from "@/components/admin/chapter-list";
+import { VerseManager } from "@/components/admin/verse-manager";
+
+// Actions & Types
+import { 
+  getScriptures, createScripture, updateScripture, deleteScripture,
+  getChapters, createChapter, deleteChapter,
+  getVerses, createVerse, deleteVerse
+} from "@/lib/admin/actions";
+import type { Scripture, Chapter, Verse } from "@/types/schema";
 
 export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState("overview");
+  
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
@@ -30,6 +47,219 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="bg-muted/50 p-1">
+          <TabsTrigger value="overview" className="gap-2">
+            <LayoutDashboard className="w-4 h-4" /> Overview
+          </TabsTrigger>
+          <TabsTrigger value="content" className="gap-2">
+            <Database className="w-4 h-4" /> Content Management
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6">
+          <OverviewTab />
+        </TabsContent>
+
+        <TabsContent value="content" className="space-y-6">
+          <ContentManagementTab />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
+
+function ContentManagementTab() {
+  const [scriptures, setScriptures] = useState<Scripture[]>([]);
+  const [selectedScripture, setSelectedScripture] = useState<Scripture | null>(null);
+  const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [selectedChapter, setSelectedChapter] = useState<Chapter | null>(null);
+  const [verses, setVerses] = useState<Verse[]>([]);
+  const [view, setView] = useState<'list' | 'scripture-detail' | 'chapter-detail'>('list');
+
+  // Fetch scriptures on mount
+  useEffect(() => {
+    loadScriptures();
+  }, []);
+
+  const loadScriptures = async () => {
+    const data = await getScriptures();
+    setScriptures(data as Scripture[]);
+  };
+
+  const loadChapters = async (scriptureId: string) => {
+    const data = await getChapters(scriptureId);
+    setChapters(data as Chapter[]);
+  };
+
+  const loadVerses = async (chapterId: string) => {
+    const data = await getVerses(chapterId);
+    setVerses(data as Verse[]);
+  };
+
+  // --- Handlers ---
+
+  const handleCreateScripture = async (data: Partial<Scripture>) => {
+    await createScripture(data);
+    await loadScriptures();
+    setView('list');
+  };
+
+  const handleSelectScripture = async (scripture: Scripture) => {
+    setSelectedScripture(scripture);
+    await loadChapters(scripture.id!);
+    setView('scripture-detail');
+  };
+
+  const handleCreateChapter = async (data: Partial<Chapter>) => {
+    if (!selectedScripture?.id) return;
+    await createChapter({ ...data, scriptureId: selectedScripture.id });
+    await loadChapters(selectedScripture.id);
+  };
+
+  const handleSelectChapter = async (chapter: Chapter) => {
+    setSelectedChapter(chapter);
+    await loadVerses(chapter.id!);
+    setView('chapter-detail');
+  };
+
+  const handleCreateVerse = async (data: Partial<Verse>) => {
+    if (!selectedScripture?.id || !selectedChapter?.id) return;
+    await createVerse({ 
+      ...data, 
+      scriptureId: selectedScripture.id,
+      chapterId: selectedChapter.id 
+    });
+    await loadVerses(selectedChapter.id);
+  };
+
+  // --- Render ---
+
+  if (view === 'list') {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-bold">All Scriptures</h3>
+          <Button onClick={() => setView('scripture-detail')} className="gap-2">
+            <BookOpen className="w-4 h-4" /> New Scripture
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {scriptures.map((scripture) => (
+            <Card 
+              key={scripture.id} 
+              className="p-6 cursor-pointer hover:border-primary/50 transition-all group"
+              onClick={() => handleSelectScripture(scripture)}
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                {scripture.isPublished && (
+                  <span className="bg-green-500/10 text-green-500 text-xs px-2 py-1 rounded-full font-medium">
+                    Published
+                  </span>
+                )}
+              </div>
+              <h4 className="font-headline font-bold text-lg mb-1">{scripture.title.en}</h4>
+              <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{scripture.description.en}</p>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="bg-muted px-2 py-1 rounded">{scripture.category}</span>
+                <span>•</span>
+                <span>{scripture.yuga}</span>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'scripture-detail') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4 mb-6">
+          <Button variant="ghost" onClick={() => {
+            setSelectedScripture(null);
+            setView('list');
+          }}>
+            ← Back to List
+          </Button>
+          <h3 className="text-xl font-bold">
+            {selectedScripture ? `Edit: ${selectedScripture.title.en}` : 'New Scripture'}
+          </h3>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">Metadata</h4>
+              <ScriptureForm 
+                initialData={selectedScripture || {}} 
+                onSubmit={handleCreateScripture} // TODO: Handle update separately
+              />
+            </Card>
+          </div>
+
+          <div className="space-y-8">
+            {selectedScripture && (
+              <Card className="p-6">
+                <ChapterList 
+                  chapters={chapters}
+                  onAddChapter={handleCreateChapter}
+                  onDeleteChapter={async (id) => {
+                    await deleteChapter(id);
+                    await loadChapters(selectedScripture.id!);
+                  }}
+                  onSelectChapter={handleSelectChapter}
+                />
+              </Card>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'chapter-detail') {
+    return (
+      <div className="space-y-6">
+         <div className="flex items-center gap-4 mb-6">
+          <Button variant="ghost" onClick={() => {
+            setSelectedChapter(null);
+            setView('scripture-detail');
+          }}>
+            ← Back to Scripture
+          </Button>
+          <div>
+            <h3 className="text-xl font-bold">
+              Chapter {selectedChapter?.number}: {selectedChapter?.title.en}
+            </h3>
+            <p className="text-sm text-muted-foreground">{selectedScripture?.title.en}</p>
+          </div>
+        </div>
+
+        <Card className="p-6">
+          <VerseManager 
+            verses={verses}
+            onAddVerse={handleCreateVerse}
+            onDeleteVerse={async (id) => {
+              await deleteVerse(id);
+              await loadVerses(selectedChapter!.id!);
+            }}
+          />
+        </Card>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+function OverviewTab() {
+  return (
+    <>
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
@@ -110,7 +340,7 @@ export default function AdminDashboard() {
           </div>
         </Card>
       </div>
-    </div>
+    </>
   );
 }
 

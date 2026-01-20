@@ -1,43 +1,162 @@
-import { collection, getDocs, query, orderBy, limit, where, getCountFromServer, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase/config';
-import { UserProfile } from '@/types/user';
+"use server";
 
-export async function getAllUsers() {
+import { db } from "@/lib/firebase/config";
+import { 
+  collection, 
+  doc, 
+  setDoc, 
+  updateDoc, 
+  deleteDoc, 
+  getDocs, 
+  query, 
+  where, 
+  orderBy,
+  addDoc
+} from "firebase/firestore";
+import { scriptureConverter, chapterConverter, verseConverter } from "@/lib/firebase/converters";
+import type { Scripture, Chapter, Verse } from "@/types/schema";
+import { revalidatePath } from "next/cache";
+
+// --- Scripture Actions ---
+
+export async function createScripture(data: Partial<Scripture>) {
   try {
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, orderBy('createdAt', 'desc'), limit(50));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as unknown as UserProfile));
+    const scripturesRef = collection(db, "scriptures").withConverter(scriptureConverter);
+    // Use slug as ID if possible, otherwise auto-gen
+    const docRef = data.slug 
+      ? doc(scripturesRef, data.slug) 
+      : doc(scripturesRef);
+    
+    await setDoc(docRef, data as Scripture);
+    revalidatePath("/admin");
+    revalidatePath("/scriptures");
+    return { success: true, id: docRef.id };
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error creating scripture:", error);
+    throw new Error("Failed to create scripture");
+  }
+}
+
+export async function updateScripture(id: string, data: Partial<Scripture>) {
+  try {
+    const docRef = doc(db, "scriptures", id).withConverter(scriptureConverter);
+    await updateDoc(docRef, data);
+    revalidatePath("/admin");
+    revalidatePath("/scriptures");
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating scripture:", error);
+    throw new Error("Failed to update scripture");
+  }
+}
+
+export async function deleteScripture(id: string) {
+  try {
+    await deleteDoc(doc(db, "scriptures", id));
+    revalidatePath("/admin");
+    revalidatePath("/scriptures");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting scripture:", error);
+    throw new Error("Failed to delete scripture");
+  }
+}
+
+export async function getScriptures() {
+  try {
+    const q = query(collection(db, "scriptures"), orderBy("title.en"));
+    const snapshot = await getDocs(q.withConverter(scriptureConverter));
+    return snapshot.docs.map(doc => doc.data());
+  } catch (error) {
+    console.error("Error fetching scriptures:", error);
     return [];
   }
 }
 
-export async function getDashboardStats() {
+// --- Chapter Actions ---
+
+export async function createChapter(data: Partial<Chapter>) {
   try {
-    const usersColl = collection(db, 'users');
-    const usersSnapshot = await getCountFromServer(usersColl);
+    const chaptersRef = collection(db, "chapters").withConverter(chapterConverter);
+    // ID format: scriptureId-chapterNumber (e.g., bhagavad-gita-1)
+    const id = `${data.scriptureId}-${data.number}`;
+    const docRef = doc(chaptersRef, id);
     
-    // Placeholder for other stats until we have real collections
-    return {
-      totalUsers: usersSnapshot.data().count,
-      activeSouls: Math.floor(usersSnapshot.data().count * 0.7), // Estimated
-      aiMessages: 12500, // Placeholder
-      systemAlerts: 0
-    };
+    await setDoc(docRef, data as Chapter);
+    revalidatePath("/admin");
+    return { success: true, id: docRef.id };
   } catch (error) {
-    console.error("Error fetching stats:", error);
-    return {
-      totalUsers: 0,
-      activeSouls: 0,
-      aiMessages: 0,
-      systemAlerts: 0
-    };
+    console.error("Error creating chapter:", error);
+    throw new Error("Failed to create chapter");
   }
 }
 
-export async function updateUserRole(userId: string, role: 'user' | 'admin' | 'moderator') {
-  const userRef = doc(db, 'users', userId);
-  await updateDoc(userRef, { role });
+export async function deleteChapter(id: string) {
+  try {
+    await deleteDoc(doc(db, "chapters", id));
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting chapter:", error);
+    throw new Error("Failed to delete chapter");
+  }
+}
+
+export async function getChapters(scriptureId: string) {
+  try {
+    const q = query(
+      collection(db, "chapters"), 
+      where("scriptureId", "==", scriptureId),
+      orderBy("number")
+    );
+    const snapshot = await getDocs(q.withConverter(chapterConverter));
+    return snapshot.docs.map(doc => doc.data());
+  } catch (error) {
+    console.error("Error fetching chapters:", error);
+    return [];
+  }
+}
+
+// --- Verse Actions ---
+
+export async function createVerse(data: Partial<Verse>) {
+  try {
+    const versesRef = collection(db, "verses").withConverter(verseConverter);
+    // ID format: scriptureId-chapterNumber-verseNumber
+    const id = `${data.scriptureId}-${data.chapterId?.split('-').pop()}-${data.number}`;
+    const docRef = doc(versesRef, id);
+    
+    await setDoc(docRef, data as Verse);
+    revalidatePath("/admin");
+    return { success: true, id: docRef.id };
+  } catch (error) {
+    console.error("Error creating verse:", error);
+    throw new Error("Failed to create verse");
+  }
+}
+
+export async function deleteVerse(id: string) {
+  try {
+    await deleteDoc(doc(db, "verses", id));
+    revalidatePath("/admin");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting verse:", error);
+    throw new Error("Failed to delete verse");
+  }
+}
+
+export async function getVerses(chapterId: string) {
+  try {
+    const q = query(
+      collection(db, "verses"), 
+      where("chapterId", "==", chapterId),
+      orderBy("number")
+    );
+    const snapshot = await getDocs(q.withConverter(verseConverter));
+    return snapshot.docs.map(doc => doc.data());
+  } catch (error) {
+    console.error("Error fetching verses:", error);
+    return [];
+  }
 }
