@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="192" height="192">
   <defs>
-    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6D28D9;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:1" />
+    <linearGradient id="bg-gradient-192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0412;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0a2e;stop-opacity:1" />
     </linearGradient>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+    <filter id="glow-192" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
       <feMerge>
         <feMergeNode in="coloredBlur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+    <radialGradient id="chakra-glow-192">
+      <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#c2185b;stop-opacity:0.2" />
+    </radialGradient>
   </defs>
   
-  <!-- Background -->
-  <rect width="200" height="200" fill="url(#bg-gradient)" rx="40"/>
+  <!-- Dark cosmic background -->
+  <rect width="200" height="200" fill="url(#bg-gradient-192)" rx="40"/>
   
-  <!-- Chakra (simplified for smaller size) -->
-  <g stroke="#FCD34D" fill="none" strokeWidth="2" filter="url(#glow)">
+  <!-- Glow effect -->
+  <circle cx="100" cy="100" r="70" fill="url(#chakra-glow-192)" opacity="0.5"/>
+  
+  <!-- Simplified Sudharshana Chakra for smaller size -->
+  <g stroke="#ff6b9d" fill="none" strokeWidth="1.5" filter="url(#glow-192)">
     <!-- Outer rim -->
-    <circle cx="100" cy="100" r="85"/>
-    <circle cx="100" cy="100" r="78"/>
+    <circle cx="100" cy="100" r="88" strokeWidth="2"/>
+    <circle cx="100" cy="100" r="83"/>
+    
+    <!-- Decorative dots -->
+    <g fill="#ff6b9d">
+      <circle cx="100" cy="12" r="1.5"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(30 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(60 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(90 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(120 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(150 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(180 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(210 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(240 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(270 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(300 100 100)"/>
+      <circle cx="100" cy="12" r="1.5" transform="rotate(330 100 100)"/>
+    </g>
     
     <!-- 12 Main spokes -->
     <g strokeWidth="2.5">
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(0 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(30 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(60 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(90 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(120 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(150 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(180 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(210 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(240 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(270 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(300 100 100)"/>
-      <line x1="100" y1="56" x2="100" y2="25" transform="rotate(330 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(0 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(30 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(60 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(90 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(120 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(150 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(180 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(210 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(240 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(270 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(300 100 100)"/>
+      <line x1="100" y1="56" x2="100" y2="20" transform="rotate(330 100 100)"/>
     </g>
     
     <!-- Inner ring -->
@@ -44,11 +67,12 @@
     
     <!-- Central hub -->
     <circle cx="100" cy="100" r="28" strokeWidth="2.5"/>
-    <circle cx="100" cy="100" r="15" strokeWidth="2.5"/>
+    <circle cx="100" cy="100" r="15" strokeWidth="2"/>
     
     <!-- Center -->
-    <g fill="#FCD34D">
-      <circle cx="100" cy="100" r="6" />
+    <g fill="#ff6b9d">
+      <circle cx="100" cy="100" r="7"/>
+      <circle cx="100" cy="100" r="3.5" fill="#ffd4e5"/>
     </g>
   </g>
 </svg>
