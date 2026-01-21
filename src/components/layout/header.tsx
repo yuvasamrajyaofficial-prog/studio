@@ -37,7 +37,7 @@ export function Header() {
           
           <Link href="/" className="flex items-center gap-3">
             <SudharshanaChakraIcon className="h-8 w-8 text-primary" />
-            <span className="font-serif text-2xl font-bold text-primary tracking-wide hidden md:inline-block">
+            <span className="font-serif text-xl sm:text-2xl font-bold text-primary tracking-wide">
               MALOLA
             </span>
           </Link>
