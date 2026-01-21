@@ -5,6 +5,8 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CommentsSection } from "@/components/community/comments-section";
+import { ShareButton } from "@/components/social/share-button";
+import { JsonLd } from "@/components/seo/json-ld";
 
 import { MOCK_CHAPTER } from "@/lib/mock-data";
 
@@ -19,10 +21,26 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="p-6 md:p-8 lg:p-12 max-w-5xl mx-auto">
-      <div className="mb-8">
-        <BackButton label="Back to Book" href={`/scriptures/${id}`} />
-      </div>
+    <>
+      <JsonLd
+        type="Article"
+        data={{
+          headline: `${chapter.name} - Scripture Chapter`,
+          description: chapter.summary || `Read ${chapter.name} from ancient scriptures`,
+          datePublished: new Date().toISOString(),
+          inLanguage: ["sa", "en"],
+        }}
+      />
+      
+      <div className="p-6 md:p-8 lg:p-12 max-w-5xl mx-auto">
+        <div className="mb-8 flex items-center justify-between">
+          <BackButton label="Back to Book" href={`/scriptures/${id}`} />
+          <ShareButton
+            title={chapter.name}
+            text={`Read ${chapter.name} on MALOLA`}
+            hashtags={["Spirituality", "AncientWisdom"]}
+          />
+        </div>
 
       <ScriptureReader 
         chapter={chapter} 
@@ -34,5 +52,6 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
         <CommentsSection contentId={chapterId} contentType="scripture" />
       </div>
     </div>
+    </>
   );
 }

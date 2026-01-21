@@ -14,12 +14,22 @@ import { ScripturesCarousel } from "@/components/home/scriptures-carousel";
 import { DailyWisdom } from "@/components/home/daily-wisdom";
 import { Testimonials } from "@/components/home/testimonials";
 import { Newsletter } from "@/components/home/newsletter";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export default function HomePage() {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20">
+    <>
+      <JsonLd
+        type="WebSite"
+        data={{
+          name: "MALOLA",
+          description: "Navigate the vast universe of ancient scriptures with an interactive guide",
+        }}
+      />
+      
+      <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20">
       <Header />
       
       <main className="flex-1">
