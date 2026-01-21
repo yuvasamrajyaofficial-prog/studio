@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { ShareButton } from "@/components/social/share-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BookOpen, Clock, Star } from "lucide-react";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 
 // Mock data - replace with Firestore fetch
 const MOCK_SCRIPTURE = {
@@ -49,6 +51,7 @@ export default async function ScriptureDetailPage({ params }: { params: Promise<
       />
 
       <div className="min-h-screen bg-background">
+        <Header />
         {/* Hero Section */}
         <div className="relative bg-gradient-to-b from-primary/10 to-background border-b border-border/50">
           <div className="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
@@ -166,7 +169,9 @@ export default async function ScriptureDetailPage({ params }: { params: Promise<
             ))}
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );
+}
 }
