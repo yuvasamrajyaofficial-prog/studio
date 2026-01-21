@@ -174,4 +174,3 @@ export default async function ScriptureDetailPage({ params }: { params: Promise<
     </>
   );
 }
-}
