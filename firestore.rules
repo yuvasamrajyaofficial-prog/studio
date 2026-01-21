@@ -1,142 +1,276 @@
 rules_version = '2';
+
+/**
+ * MALOLA - Firestore Security Rules
+ * Comprehensive rules for all application features
+ * Last updated: 2026-01-21
+ */
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- Helper Functions ---
+    // ============================================
+    // HELPER FUNCTIONS
+    // ============================================
 
     /**
-     * Checks if the user is authenticated.
+     * Checks if the user is authenticated
      */
     function isSignedIn() {
       return request.auth != null;
     }
     
     /**
-     * Checks if the currently signed-in user's UID matches the provided userId.
+     * Checks if the currently signed-in user's UID matches the provided userId
      */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
     /**
-     * Checks if the user is the owner of an existing document.
-     * Prevents modification or deletion of non-existent documents.
+     * Checks if the user owns an existing document
      */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
     /**
-     * Checks if the user has a verified KYC status via custom claims.
-     * IMPORTANT: This relies on a custom claim being set by a backend process.
+     * Checks if the user has verified KYC status (via custom claims)
      */
     function isKycVerified() {
-      return isSignedIn() && request.auth.token.kycVerified == true;
+      return isSignedIn() && request.auth.token.get('kycVerified', false) == true;
     }
 
     /**
-     * Checks if the user is an Admin.
-     * Grants access based on email allowlist (matching src/lib/admin-config.ts)
-     * or 'admin' role in the user profile.
+     * Checks if the user is an Admin
+     * Based on email allowlist from src/lib/admin-config.ts
      */
     function isAdminUser() {
       return isSignedIn() && (
-        // Email Allowlist Check
-        (request.auth.token.email.lower() == 'prashantbhiremath13@gmail.com' || 
-         request.auth.token.email.lower() == 'ph293815@gmail.com')
-        ||
-        // Role Check (if available on the resource being read, or if we trust the claim)
-        // Note: For 'create' rules, we can't check 'resource.data', so we rely on email 
-        // or we would need a custom claim 'admin' set on the token.
-        // For now, email check is the primary robust guard.
-        (resource != null && resource.data.role == 'admin')
+        request.auth.token.email.lower() in [
+          'prashantbhiremath13@gmail.com',
+          'ph293815@gmail.com'
+        ]
       );
     }
 
-    // --- Collection Rules ---
+    /**
+     * Validates that required fields exist in the data
+     */
+    function hasRequiredFields(data, fields) {
+      return fields.toSet().difference(data.keys().toSet()).size() == 0;
+    }
 
     /**
-     * @description Rules for the user profile collection.
-     * @path /users/{userId}
-     * @allow (create) An authenticated user creating their own user document.
-     * @allow (list) Admins only (for User Management).
-     * @principle Restricts access to a user's own data tree, enforcing strict data privacy.
+     * Checks if data size is within limit (for preventing abuse)
      */
+    function isValidSize(data, maxSize) {
+      return request.resource.size() < maxSize;
+    }
+
+    // ============================================
+    // USER PROFILES
+    // ============================================
+
     match /users/{userId} {
+      // Anyone can read their own profile, admins can read all
       allow get: if isOwner(userId) || isAdminUser();
-      allow list: if isAdminUser(); // Required for Admin Dashboard
-      // Note: Changed 'id' to 'uid' to match application code and prevent "Profile not found" error
-      allow create: if isOwner(userId) && (request.resource.data.uid == userId || request.resource.data.id == userId);
+      
+      // Only admins can list all users
+      allow list: if isAdminUser();
+      
+      // Users can create their own profile with matching UID
+      allow create: if isOwner(userId) 
+        && hasRequiredFields(request.resource.data, ['uid', 'email', 'createdAt'])
+        && request.resource.data.uid == userId
+        && isValidSize(request.resource.data, 500000); // 500KB limit
+      
+      // Users can update their own profile (but not critical fields)
+      // Admins can update any profile
       allow update: if (isExistingOwner(userId) || isAdminUser())
-        // Prevent regular users from changing critical fields
         && (isAdminUser() || (
           request.resource.data.uid == resource.data.uid
-          && request.resource.data.role == resource.data.role
-          && request.resource.data.kycStatus == resource.data.kycStatus
-        ));
+          && request.resource.data.email == resource.data.email
+          && request.resource.data.createdAt == resource.data.createdAt
+          && (!('role' in request.resource.data) || request.resource.data.role == resource.data.get('role', 'user'))
+          && (!('kycStatus' in request.resource.data) || request.resource.data.kycStatus == resource.data.get('kycStatus', 'pending'))
+        ))
+        && isValidSize(request.resource.data, 500000);
+      
+      // Users can delete their own profile, admins can delete any
       allow delete: if isExistingOwner(userId) || isAdminUser();
     }
 
-    /**
-     * @description Rules for the public scripture collection.
-     * @path /scriptures/{scriptureId}
-     * @allow (get) Any user, including unauthenticated ones.
-     * @allow (write) Admins only.
-     */
+    // ============================================
+    // SCRIPTURES (PUBLIC CONTENT)
+    // ============================================
+
     match /scriptures/{scriptureId} {
+      // Anyone can read scriptures (including unauthenticated)
       allow get, list: if true;
-      allow create, update, delete: if isAdminUser();
       
-      // Allow access to subcollections (chapters, verses)
-      match /{document=**} {
+      // Only admins can create/modify scriptures
+      allow create: if isAdminUser()
+        && hasRequiredFields(request.resource.data, ['title', 'author', 'createdAt']);
+      allow update, delete: if isAdminUser();
+      
+      // Chapters subcollection
+      match /chapters/{chapterId} {
         allow get, list: if true;
-        allow write: if isAdminUser();
+        allow create: if isAdminUser()
+          && hasRequiredFields(request.resource.data, ['name', 'number']);
+        allow update, delete: if isAdminUser();
+        
+        // Verses subcollection
+        match /verses/{verseId} {
+          allow get, list: if true;
+          allow create: if isAdminUser()
+            && hasRequiredFields(request.resource.data, ['number', 'sanskrit', 'english']);
+          allow update, delete: if isAdminUser();
+        }
       }
     }
 
-    /**
-     * @description Rules for the blog/article collection.
-     * @path /blogs/{blogId}
-     * @allow (get) Any user.
-     * @allow (write) Admins only.
-     */
+    // ============================================
+    // BLOGS & ARTICLES
+    // ============================================
+
     match /blogs/{blogId} {
+      // Anyone can read blogs
       allow get, list: if true;
-      allow create, update, delete: if isAdminUser();
-    }
-    
-    /**
-     * @description Rules for the user projects collection.
-     * @path /projects/{projectId}
-     * @allow (create) An authenticated user can create a project for themselves.
-     * @deny (list) Listing all projects is forbidden to protect user privacy.
-     */
-    match /projects/{projectId} {
-      allow list: if false;
-      allow get, delete, update: if isOwner(resource.data.ownerUid) || isAdminUser();
-      allow create: if isOwner(request.resource.data.ownerUid);
+      
+      // Only admins can create/modify blogs
+      allow create: if isAdminUser()
+        && hasRequiredFields(request.resource.data, ['title', 'content', 'author', 'createdAt']);
+      allow update, delete: if isAdminUser();
     }
 
-    /**
-     * @description Rules for the user-created voice models collection.
-     * @path /voices/{voiceId}
-     * @allow (create) An authenticated and KYC-verified user can create a voice model.
-     */
-    match /voices/{voiceId} {
-      allow list: if false;
-      allow get, delete, update: if isOwner(resource.data.ownerUid) || isAdminUser();
-      allow create: if isOwner(request.resource.data.ownerUid) && isKycVerified();
+    // ============================================
+    // COMMENTS (COMMUNITY FEATURE)
+    // ============================================
+
+    match /comments/{commentId} {
+      // Anyone can read comments
+      allow get, list: if true;
+      
+      // Authenticated users can create comments
+      allow create: if isSignedIn()
+        && hasRequiredFields(request.resource.data, ['userId', 'userName', 'content', 'contentId', 'contentType', 'createdAt'])
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.content.size() > 0
+        && request.resource.data.content.size() <= 2000; // 2000 char limit
+      
+      // Users can update/delete their own comments, admins can modify any
+      allow update, delete: if isOwner(resource.data.userId) || isAdminUser();
     }
 
-    /**
-     * @description Rules for the global application configuration.
-     * @path /appConfig/{configId}
-     * @allow (get, list) Any user can read configuration.
-     * @allow (write) Admins only.
-     */
+    // ============================================
+    // NEWSLETTER SIGNUPS
+    // ============================================
+
+    match /newsletters/{emailId} {
+      // Only admins can list all newsletter signups
+      allow list: if isAdminUser();
+      allow get: if isAdminUser();
+      
+      // Anyone can subscribe (even unauthenticated)
+      allow create: if hasRequiredFields(request.resource.data, ['email', 'subscribedAt'])
+        && request.resource.data.email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+      
+      // Only admins can delete subscriptions
+      allow delete: if isAdminUser();
+      allow update: if false; // Newsletter entries should not be updated
+    }
+
+    // ============================================
+    // AI SETTINGS (USER API KEYS)
+    // ============================================
+
+    match /aiSettings/{userId} {
+      // Users can only access their own AI settings
+      allow get: if isOwner(userId);
+      allow list: if false; // Never allow listing AI settings
+      
+      // Users can create/update their own AI settings
+      allow create, update: if isOwner(userId)
+        && hasRequiredFields(request.resource.data, ['provider', 'apiKey'])
+        && request.resource.data.provider in ['gemini', 'openai', 'claude']
+        && isValidSize(request.resource.data, 10000); // 10KB limit
+      
+      // Users can delete their own AI settings
+      allow delete: if isOwner(userId);
+    }
+
+    // ============================================
+    // DAILY WISDOM QUOTES
+    // ============================================
+
+    match /dailyWisdom/{wisdomId} {
+      // Anyone can read daily wisdom
+      allow get, list: if true;
+      
+      // Only admins can create/modify daily wisdom
+      allow create: if isAdminUser()
+        && hasRequiredFields(request.resource.data, ['quote', 'author', 'date']);
+      allow update, delete: if isAdminUser();
+    }
+
+    // ============================================
+    // APP CONFIGURATION
+    // ============================================
+
     match /appConfig/{configId} {
+      // Anyone can read app configuration
       allow get, list: if true;
+      
+      // Only admins can modify configuration
       allow create, update, delete: if isAdminUser();
+    }
+
+    // ============================================
+    // ADMIN LOGS (FOR AUDIT TRAIL)
+    // ============================================
+
+    match /adminLogs/{logId} {
+      // Only admins can read logs
+      allow get, list: if isAdminUser();
+      
+      // Only system can create logs (via backend)
+      allow create: if false;
+      
+      // Logs are immutable
+      allow update, delete: if false;
+    }
+
+    // ============================================
+    // USER ACTIVITY TRACKING
+    // ============================================
+
+    match /userActivity/{userId} {
+      // Users can read their own activity
+      allow get: if isOwner(userId);
+      allow list: if false;
+      
+      // Users can create/update their own activity
+      allow create, update: if isOwner(userId)
+        && isValidSize(request.resource.data, 100000); // 100KB limit
+      
+      // Activity records should not be deleted (except by admins)
+      allow delete: if isAdminUser();
+      
+      // Activity subcollections (reading history, etc.)
+      match /{document=**} {
+        allow read: if isOwner(userId);
+        allow write: if isOwner(userId);
+      }
+    }
+
+    // ============================================
+    // FALLBACK RULE
+    // ============================================
+    // Deny all other access by default
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
