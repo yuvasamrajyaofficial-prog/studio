@@ -24,6 +24,15 @@ const fontHeadline = Noto_Serif_Devanagari({
 export const metadata: Metadata = {
   title: "MALOLA - Global Cultural & Spiritual Intelligence",
   description: "Navigate the vast universe of ancient scriptures with an interactive guide.",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icons/icon-192.svg', sizes: '192x192', type: 'image/svg+xml' },
+      { url: '/icons/icon-512.svg', sizes: '512x512', type: 'image/svg+xml' },
+    ],
+    apple: '/icons/icon-512.svg',
+  },
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
