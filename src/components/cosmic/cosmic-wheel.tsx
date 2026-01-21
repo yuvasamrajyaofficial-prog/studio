@@ -14,17 +14,17 @@ export function CosmicWheel() {
   const [activeLayer, setActiveLayer] = useState<string | null>(null);
 
   return (
-    <div className="relative w-full max-w-[800px] lg:max-w-[900px] aspect-square mx-auto flex items-center justify-center py-12 md:py-20">
+    <div className="relative w-full max-w-[300px] sm:max-w-[400px] md:max-w-[600px] lg:max-w-[800px] aspect-square mx-auto flex items-center justify-center py-8 md:py-12 lg:py-20 overflow-visible">
       {/* Center Sun/Core */}
-      <div className="absolute z-50 w-24 h-24 rounded-full bg-gradient-to-br from-yellow-300 via-amber-500 to-orange-600 shadow-[0_0_50px_rgba(255,165,0,0.6)] flex items-center justify-center">
-        <span className="text-black font-bold text-xl">KAALA</span>
+      <div className="absolute z-50 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-yellow-300 via-amber-500 to-orange-600 shadow-[0_0_30px_rgba(255,165,0,0.6)] md:shadow-[0_0_50px_rgba(255,165,0,0.6)] flex items-center justify-center">
+        <span className="text-black font-bold text-sm sm:text-base md:text-xl">KAALA</span>
       </div>
 
       {/* Rotating Layers */}
       {WHEEL_LAYERS.map((layer, index) => (
         <WheelLayer
           key={layer.id}
-          radius={100 + index * 60}
+          radius={60 + index * 40} // Reduced radius for mobile
           speed={layer.speed}
           color={layer.color}
           segments={layer.segments}
@@ -35,14 +35,14 @@ export function CosmicWheel() {
         />
       ))}
 
-      {/* Info Panel Overlay */}
+      {/* Info Panel Overlay - Hidden on mobile */}
       <AnimatePresence>
         {activeLayer && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
-            className="absolute -right-64 top-1/2 -translate-y-1/2 w-60 bg-slate-900/90 border border-slate-700 p-4 rounded-lg backdrop-blur-md shadow-xl"
+            className="hidden lg:block absolute -right-64 top-1/2 -translate-y-1/2 w-60 bg-slate-900/90 border border-slate-700 p-4 rounded-lg backdrop-blur-md shadow-xl"
           >
             <h3 className="text-xl font-bold text-amber-400 mb-2">
               {WHEEL_LAYERS.find((l) => l.id === activeLayer)?.label}
