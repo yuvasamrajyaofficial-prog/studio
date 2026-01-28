@@ -283,7 +283,7 @@ export default function AIGuidePage() {
   }
 
   return (
-    <div className="h-screen flex bg-background overflow-hidden">
+    <div className="h-[100dvh] flex bg-background overflow-hidden">
       {/* Sidebar */}
       <ChatSidebar
         isOpen={isSidebarOpen}
@@ -296,7 +296,7 @@ export default function AIGuidePage() {
       />
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-screen">
+      <div className="flex-1 flex flex-col h-[100dvh]">
         {/* Mobile Header */}
         <div className="lg:hidden flex items-center gap-3 p-4 border-b border-border/50 bg-card/80 backdrop-blur-xl">
           <Button

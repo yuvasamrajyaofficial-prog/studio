@@ -51,8 +51,8 @@ export function ChatSidebar({
       {/* Sidebar */}
       <div
         className={`
-          fixed lg:sticky top-0 left-0 h-screen
-          w-80 bg-card/95 backdrop-blur-xl border-r border-border/50
+          fixed lg:sticky top-0 left-0 h-[100dvh]
+          w-[85vw] max-w-80 sm:w-80 bg-card/95 backdrop-blur-xl border-r border-border/50
           flex flex-col z-50 transition-transform duration-300
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
