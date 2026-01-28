@@ -62,7 +62,7 @@ export default function CosmosPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         {/* Hero Welcome Section */}
         <section className="relative min-h-[50vh] flex flex-col items-center justify-center overflow-hidden py-12">
           {/* Background Effects */}

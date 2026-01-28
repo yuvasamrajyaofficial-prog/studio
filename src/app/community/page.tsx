@@ -13,7 +13,7 @@ export default function CommunityPage() {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         {/* Hero Section */}
         <section className="relative min-h-[40vh] flex flex-col items-center justify-center overflow-hidden py-16 bg-gradient-to-b from-background via-background/90 to-background">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />

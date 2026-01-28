@@ -28,8 +28,8 @@ export default function ScriptureLayout({
       <Header />
       
       <main className={cn(
-        "flex-1 flex overflow-hidden relative pb-16 md:pb-0", // Add padding bottom for mobile nav
-        "h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)]"
+        "flex-1 flex overflow-hidden relative pb-16 md:pb-0 pt-16", // Add pt-16 for fixed header
+        "h-screen" // Use full screen height since header is fixed
       )}>
         {/* Sidebar with independent sliding */}
         <motion.aside 

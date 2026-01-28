@@ -180,7 +180,7 @@ export default function ProfilePage() {
       <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 container mx-auto px-4 py-6 md:py-8 max-w-6xl flex-1">
+      <div className="relative z-10 container mx-auto px-4 py-6 md:py-8 max-w-6xl flex-1 pt-20">
         {/* Header Actions */}
         <div className="mb-6 flex items-center justify-between">
           <BackButton label="Back to Cosmos" href="/cosmos" />

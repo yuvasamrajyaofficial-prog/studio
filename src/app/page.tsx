@@ -32,7 +32,7 @@ export default function HomePage() {
       <div className="min-h-screen flex flex-col bg-background selection:bg-primary/20">
       <Header />
       
-      <main className="flex-1">
+      <main className="flex-1 pt-16">
         {/* Hero Section */}
         <section className="relative min-h-[60vh] md:min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-8 md:py-0">
           {/* Background Effects */}

@@ -39,7 +39,7 @@ export default function BlogDetailsPage() {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex-1 container mx-auto px-4 py-8">
+        <main className="flex-1 container mx-auto px-4 py-8 pt-24">
           <div className="h-8 w-24 bg-muted animate-pulse mb-8 rounded" />
           <div className="h-12 w-3/4 bg-muted animate-pulse mb-4 rounded" />
           <div className="h-6 w-1/2 bg-muted animate-pulse mb-8 rounded" />
@@ -54,7 +54,7 @@ export default function BlogDetailsPage() {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex-1 container mx-auto px-4 py-20 text-center">
+        <main className="flex-1 container mx-auto px-4 py-20 text-center pt-32">
           <h1 className="text-3xl font-bold mb-4">Blog Post Not Found</h1>
           <p className="text-muted-foreground mb-8">The article you are looking for does not exist.</p>
           <Button asChild>

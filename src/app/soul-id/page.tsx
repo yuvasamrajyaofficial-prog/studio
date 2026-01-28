@@ -55,7 +55,7 @@ export default function SoulIDPage() {
     <div className="min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/30">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
+      <main className="flex-1 flex items-center justify-center p-4 relative overflow-hidden pt-20">
         {/* Background Effects */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none animate-pulse-slow" />
