@@ -104,7 +104,7 @@ Drawing from the **Bhagavata Purana's** teaching that _"dharma, artha, kama, and
 
 ## 🎯 Core Product Features
 
-![MALOLA Features Dashboard](./public/images/MALOLA_features_dashboard.png)
+![MALOLA Features Dashboard](./public/images/soullink_features_dashboard.png)
 
 ### 1. 🧘 The AI Guru Engine
 
