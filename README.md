@@ -16,8 +16,14 @@ From the **Bhagavata Purana** (भागवत पुराण), we learn that c
 
 MALOLA embodies this sacred union—where the **compassionate embrace of the Divine Mother** meets the **infinite wisdom of Lord Krishna**, creating a sanctuary for spiritual seekers in the digital age.
 
+> **Devanagari (Sanskrit):**  
 > _"यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः।  
-> तत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम॥"_  
+> तत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम॥"_
+>
+> **Kannada (ಕನ್ನಡ):**  
+> _"ಯತ್ರ ಯೋಗೇಶ್ವರಃ ಕೃಷ್ಣೋ ಯತ್ರ ಪಾರ್ಥೋ ಧನುರ್ಧರಃ।  
+> ತತ್ರ ಶ್ರೀರ್ವಿಜಯೋ ಭೂತಿರ್ಧ್ರುವಾ ನೀತಿರ್ಮತಿರ್ಮಮ॥"_
+>
 > — Bhagavad Gita 18.78
 >
 > "Where there is Krishna, the Lord of Yoga, and where there is Arjuna, the archer, there will also be prosperity, victory, happiness, and sound morality."
@@ -47,8 +53,13 @@ Our philosophy is grounded in the teachings of:
 
 As the **Bhagavata Purana (1.2.6)** declares:
 
+> **Devanagari (Sanskrit):**  
 > _"स वै पुंसां परो धर्मो यतो भक्तिरधोक्षजे।  
 > अहैतुक्यप्रतिहता ययात्मा सम्प्रसीदति॥"_
+>
+> **Kannada (ಕನ್ನಡ):**  
+> _"ಸ ವೈ ಪುಂಸಾಂ ಪರೋ ಧರ್ಮೋ ಯತೋ ಭಕ್ತಿರಧೋಕ್ಷಜೇ।  
+> ಅಹೈತುಕ್ಯಪ್ರತಿಹತಾ ಯಯಾತ್ಮಾ ಸಂಪ್ರಸೀದತಿ॥"_
 >
 > "The supreme dharma for humanity is that which brings unwavering devotion to the Transcendent, causing the self to become fully content."
 
@@ -78,7 +89,12 @@ Drawing from the **Bhagavata Purana's** teaching that _"dharma, artha, kama, and
 - 📊 **Karmic Growth Tracking** - As the **Bhagavad Gita (2.47)** teaches: _"Karmanye vadhikaraste ma phaleshu kadachana"_ (You have a right to perform your duty, but not to the fruits). We gamify spiritual growth while keeping you detached from outcomes
 
 > **From the Bhagavata Purana (11.2.42):**
+>
+> **Devanagari (Sanskrit):**  
 > _"भक्त्या संजातया भक्त्या बिभ्रद्भक्तिरसाश्रयम्।"_
+>
+> **Kannada (ಕನ್ನಡ):**  
+> _"ಭಕ್ತ್ಯಾ ಸಂಜಾತಯಾ ಭಕ್ತ್ಯಾ ಬಿಭ್ರದ್ಭಕ್ತಿರಸಾಶ್ರಯಮ್।"_
 >
 > "Devotion is born of devotion; one who has the shelter of devotional nectar develops even deeper devotion."
 >
@@ -461,9 +477,15 @@ Built with deep reverence for:
 
 **MALOLA** - Your Cosmic Compass for Mental Peace
 
+> **Devanagari (Sanskrit):**  
 > **ॐ सह नाववतु। सह नौ भुनक्तु। सह वीर्यं करवावहै।**  
 > **तेजस्वि नावधीतमस्तु मा विद्विषावहै।**  
 > **ॐ शान्तिः शान्तिः शान्तिः॥**
+>
+> **Kannada (ಕನ್ನಡ):**  
+> **ಓಂ ಸಹ ನಾವವತು। ಸಹ ನೌ ಭುನಕ್ತು। ಸಹ ವೀರ್ಯಂ ಕರವಾವಹೈ।**  
+> **ತೇಜಸ್ವಿ ನಾವಧೀತಮಸ್ತು ಮಾ ವಿದ್ವಿಷಾವಹೈ।**  
+> **ಓಂ ಶಾಂತಿಃ ಶಾಂತಿಃ ಶಾಂತಿಃ॥**
 >
 > _Om, may we together be protected. May we together be nourished._  
 > _May we work together with great energy. May our study be enlightening._  
@@ -472,8 +494,9 @@ Built with deep reverence for:
 >
 > — Taittiriya Upanishad (Shanti Mantra)
 
-_Made with ❤️ and 🧘 by Prashant B Hiremath_  
-_Blessed by the eternal wisdom of the Vedas, Puranas, and Bhagavata_
+_Made with ❤️ and 🧘 by Prashant B Hiremath (ಪ್ರಶಾಂತ್ ಬಿ ಹಿರೇಮಠ)_  
+_Blessed by the eternal wisdom of the Vedas, Puranas, and Bhagavata_  
+_ವೇದ, ಪುರಾಣ ಮತ್ತು ಭಾಗವತದ ಶಾಶ್ವತ ಜ್ಞಾನದಿಂದ ಆಶೀರ್ವದಿತವಾಗಿದೆ_
 
 </div>
 
