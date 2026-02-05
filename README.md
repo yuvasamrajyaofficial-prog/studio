@@ -147,16 +147,63 @@ Drawing from the **Bhagavata Purana's** teaching that _"dharma, artha, kama, and
 
 ---
 
-### 4. 📖 The Living Library
+### 4. 📖 The Cosmic Scriptures Explorer
 
-**Ancient Wisdom, Modernized**
+**Ancient Wisdom Through Time - Interactive Tree of Knowledge**
 
-- **40,000+ texts**: Vedas, Upanishads, Puranas, Bhagavad Gita, regional scriptures
-- AI-powered summaries in simple language
-- Flipbook reading experience with audio narration
-- Search by emotion: "I feel lost" → Relevant scripture passages
+![Cosmic Scriptures Explorer](./public/images/cosmic_scriptures_explorer.png)
 
-**Content Pipeline**: OCR (Google Vision AI) → Translation (Gemini) → Audio (ElevenLabs)
+MALOLA's signature feature - a **visual journey through 5,000 years of Vedic wisdom** using an interactive Cosmic Tree interface.
+
+#### 🌳 Interactive Tree Navigation
+
+Navigate scriptures through a beautiful tree visualization where:
+
+- **Trunk** represents the eternal Vedas (root knowledge)
+- **Branches** categorize texts into:
+  - **Epics** (Itihasas: Ramayana, Mahabharata)
+  - **Regional Texts** (Kannada Vachanas, Tamil Thirukural, etc.)
+  - **Philosophical Works** (Upanishads, Brahma Sutras, Yoga Sutras)
+
+#### ⏳ Era-Based Filtering (Yuga System)
+
+Experience scriptures through the lens of the **four yugas** (cosmic ages):
+
+- **Satya Yuga** (सत्य युग / ಸತ್ಯ ಯುಗ) - Age of Truth: Vedas, early Upanishads
+- **Treta Yuga** (त्रेता युग / ತ್ರೇತಾ ಯುಗ) - Age of Three-Quarters: Ramayana, Vishnu Purana
+- **Dvapara Yuga** (द्वापर युग / ದ್ವಾಪರ ಯುಗ) - Age of Half: Mahabharata, Bhagavad Gita
+- **Kali Yuga** (कलि युग / ಕಲಿ ಯುಗ) - Current Age: Modern commentaries, regional bhakti literature
+
+**Why Eras Matter**: The **Bhagavata Purana** teaches that dharma manifests differently in each yuga. Our AI provides **contextual interpretations** based on the yuga, helping you understand how teachings evolved through cosmic time.
+
+#### 🗂️ Scripture Treemap
+
+Three main categories for easy browsing:
+
+| Category                | Examples                            | Count         |
+| ----------------------- | ----------------------------------- | ------------- |
+| **Ancient Scriptures**  | 4 Vedas, 108 Upanishads, 18 Puranas | 15,000+ texts |
+| **Regional Texts**      | Vachanas, Abhanga, Thirukkural      | 12,000+ texts |
+| **Philosophical Works** | Brahma Sutras, 6 Darshanas          | 13,000+ texts |
+
+#### ✨ AI-Powered Features
+
+- **Contextual Summarization**: Gemini AI explains each text based on selected era and your spiritual level
+- **Emotion-Based Search**: "I feel lost" → Bhagavad Gita 2.47, Katha Upanishad passages
+- **Bias Detection**: AI highlights cultural/temporal biases (e.g., caste-based verses) with historical context
+- **Multi-Language Support**: Read in 40+ languages with audio narration (ElevenLabs TTS)
+- **Flipbook Experience**: Beautiful page-turning interface reminiscent of ancient palm-leaf manuscripts
+
+#### 🎨 Design Philosophy
+
+Inspired by the **Cosmic Tree of Life** (Kalpavriksha / ಕಲ್ಪವೃಕ್ಷ):
+
+- **Colors**: Deep indigo (#4B0082) background evoking the cosmic night sky
+- **Accents**: Golden (#FFD700) highlights like ancient manuscript illuminations
+- **Animations**: Subtle glowing effects as you navigate eras
+- **Font**: Playfair Display (serif) for titles, PT Sans for body text
+
+**Content Pipeline**: OCR (Google Vision AI) → Sanskrit Parsing → Translation (Gemini) → Audio (ElevenLabs) → Firestore Database
 
 ---
 
