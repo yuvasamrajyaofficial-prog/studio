@@ -1,8 +1,8 @@
-# Soullink - YC Application Package
+# MALOLA - YC Application Package
 
 ## 📋 What's Included
 
-This package contains all materials for the Soullink Y Combinator application:
+This package contains all materials for the MALOLA Y Combinator application:
 
 ### Core Documentation
 
@@ -14,10 +14,10 @@ This package contains all materials for the Soullink Y Combinator application:
 
 All images are located in `/public/images/`:
 
-- `soullink_features_dashboard.png` - Core product features visualization
+- `MALOLA_features_dashboard.png` - Core product features visualization
 - `soul_matching_visualization.png` - Soul matching algorithm infographic
 
-### Detailed Documentation (`/docs/soullink-vision/`)
+### Detailed Documentation (`/docs/MALOLA-vision/`)
 
 - **philosophy_mission.md** - Core values and mission statement
 - **implementation_plan.md** - Complete product roadmap
@@ -31,7 +31,7 @@ All images are located in `/public/images/`:
 
 ## 🎯 Quick Pitch
 
-**Soullink** bridges 5,000 years of Vedic Wisdom with Modern AI to create the world's first AI-powered Digital Temple for mental wellness.
+**MALOLA** bridges 5,000 years of Vedic Wisdom with Modern AI to create the world's first AI-powered Digital Temple for mental wellness.
 
 ### Key Metrics
 
@@ -107,7 +107,7 @@ All images are located in `/public/images/`:
 ## 🎬 Next Steps
 
 1. **Review README.md** for complete vision and execution plan
-2. **Explore `/docs/soullink-vision/`** for deep-dive on strategy
+2. **Explore `/docs/MALOLA-vision/`** for deep-dive on strategy
 3. **Request product demo** to experience the AI Guru
 4. **Schedule founder call** to discuss YC fit
 

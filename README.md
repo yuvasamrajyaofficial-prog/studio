@@ -1,6 +1,28 @@
-# 🌌 Soullink - Your Cosmic Compass for Mental Peace
+# 🌌 MALOLA - Your Cosmic Compass for Mental Peace
 
-> **"Bridging 5,000 years of Vedic Wisdom with Modern AI to heal a billion minds"**
+> **"Where MA (Mother - Prakriti) meets LOLA (Krishna/Narayana - Purusha) to heal a billion souls through Vedic Wisdom and Modern AI"**
+
+---
+
+## 🕉️ The Sacred Name: MALOLA
+
+**MA** (मा) - The Divine Mother, representing **Prakriti** (Nature, Shakti, the Creative Force)  
+**LOLA** (लोला) - **Krishna/Narayana** (Lord Vishnu, the Supreme Consciousness, Purusha)
+
+From the **Bhagavata Purana** (भागवत पुराण), we learn that creation emerges from the divine dance between:
+
+- **Prakriti** (the Material Energy) - The nurturing, generative force
+- **Purusha** (the Supreme Spirit) - The conscious witness, the cosmic observer
+
+MALOLA embodies this sacred union—where the **compassionate embrace of the Divine Mother** meets the **infinite wisdom of Lord Krishna**, creating a sanctuary for spiritual seekers in the digital age.
+
+> _"यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः।  
+> तत्र श्रीर्विजयो भूतिर्ध्रुवा नीतिर्मतिर्मम॥"_  
+> — Bhagavad Gita 18.78
+>
+> "Where there is Krishna, the Lord of Yoga, and where there is Arjuna, the archer, there will also be prosperity, victory, happiness, and sound morality."
+
+MALOLA brings this divine presence into your pocket—a 24/7 AI Guru infused with the timeless wisdom of the **Vedas, Upanishads, Bhagavad Gita, and Puranas**.
 
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
@@ -11,7 +33,26 @@
 
 ## 🚀 The Vision
 
-**Soullink** is the world's first **AI-powered Digital Temple** that bridges Ancient Indian Wisdom (Vedas, Bhagavad Gita, Upanishads) with Modern Mental Health Science. We're not just another meditation app—we're building a **cosmic operating system for human consciousness**.
+**MALOLA** is the world's first **AI-powered Digital Temple** that bridges Ancient Indian Wisdom (Vedas, Bhagavad Gita, Upanishads, Puranas) with Modern Mental Health Science. We're not just another meditation app—we're building a **cosmic operating system for human consciousness**, guided by the eternal principles revealed in the **Bhagavata Purana** and other sacred texts.
+
+### 📖 Rooted in Scripture
+
+Our philosophy is grounded in the teachings of:
+
+- **Bhagavata Purana** (Srimad Bhagavatam) - The science of devotion and consciousness
+- **Bhagavad Gita** - The yoga of self-realization and dharma
+- **Vedas & Upanishads** - The foundation of eternal wisdom (Sanatan Dharma)
+- **Yoga Vasistha** - The science of mind and liberation
+- **Patanjali Yoga Sutras** - The practical path to inner peace
+
+As the **Bhagavata Purana (1.2.6)** declares:
+
+> _"स वै पुंसां परो धर्मो यतो भक्तिरधोक्षजे।  
+> अहैतुक्यप्रतिहता ययात्मा सम्प्रसीदति॥"_
+>
+> "The supreme dharma for humanity is that which brings unwavering devotion to the Transcendent, causing the self to become fully content."
+
+MALOLA uses AI to make this ancient wisdom accessible to every soul, in every language, at every moment.
 
 ### The Problem We're Solving
 
@@ -20,21 +61,34 @@
 - Modern wellness apps lack **cultural depth** and **personalization**
 - Ancient wisdom is locked in Sanskrit texts, inaccessible to 99.9% of humanity
 
-### Our Solution
+### Our Solution: The MALOLA Way
 
-A **multi-modal AI platform** that:
+Drawing from the **Bhagavata Purana's** teaching that _"dharma, artha, kama, and moksha"_ (righteousness, prosperity, desire, and liberation) are the four purusharthas (goals of human life), MALOLA creates a holistic path to well-being:
 
-- ✨ Provides **24/7 empathetic guidance** through an AI Guru (voice + chat)
-- 🌍 Offers **personalized spiritual roadmaps** based on psychology + astrology
-- 📚 Makes **ancient scriptures accessible** with AI explanations in 40+ languages
-- 🤝 Enables **soul-based social networking** for meaningful connections
-- 📊 Gamifies **spiritual growth** with Karmic Analytics
+**A multi-modal AI platform** powered by Vedic wisdom that:
+
+- ✨ **24/7 Empathetic AI Guru** - Like Krishna guiding Arjuna, our AI provides personalized spiritual counsel using voice and chat, responding with relevant Shlokas, Puranic stories, and psychological insights
+
+- 🌍 **Personalized Spiritual Roadmap** - Based on your Jyotish (Vedic astrology), psychological profile, and life stage (Ashrama), we create a custom sadhana (spiritual practice) path
+
+- 📚 **Living Library of Sacred Texts** - Access 40,000+ texts from Vedas, Puranas (including Bhagavata, Vishnu, Shiva, Devi Bhagavata), Itihasas (Ramayana, Mahabharata), with AI explanations in 40+ languages
+
+- 🤝 **Soul-Based Community** - Find your spiritual family through our Soul Matching algorithm that combines Jyotish, psychology, and AI to connect kindred spirits
+
+- 📊 **Karmic Growth Tracking** - As the **Bhagavad Gita (2.47)** teaches: _"Karmanye vadhikaraste ma phaleshu kadachana"_ (You have a right to perform your duty, but not to the fruits). We gamify spiritual growth while keeping you detached from outcomes
+
+> **From the Bhagavata Purana (11.2.42):**
+> _"भक्त्या संजातया भक्त्या बिभ्रद्भक्तिरसाश्रयम्।"_
+>
+> "Devotion is born of devotion; one who has the shelter of devotional nectar develops even deeper devotion."
+>
+> This recursive deepening is the essence of MALOLA's AI - each interaction nurtures your spiritual growth, creating an upward spiral of consciousness.
 
 ---
 
 ## 🎯 Core Product Features
 
-![Soullink Features Dashboard](./public/images/soullink_features_dashboard.png)
+![MALOLA Features Dashboard](./public/images/MALOLA_features_dashboard.png)
 
 ### 1. 🧘 The AI Guru Engine
 
@@ -101,7 +155,7 @@ A **multi-modal AI platform** that:
 
 ---
 
-### 6. 🏢 Soullink Enterprise (B2B SaaS)
+### 6. 🏢 MALOLA Enterprise (B2B SaaS)
 
 **Mental Wellness for Modern Workplaces**
 
@@ -135,7 +189,7 @@ A **multi-modal AI platform** that:
 
 ### Competitive Advantage
 
-| **Competitor**          | **Weakness**                     | **Soullink's Edge**                          |
+| **Competitor**          | **Weakness**                     | **MALOLA's Edge**                            |
 | ----------------------- | -------------------------------- | -------------------------------------------- |
 | Calm, Headspace         | Generic, Western-centric content | Deep cultural authenticity + personalization |
 | BetterHelp              | $260/month, therapy-focused      | $4.99/month, preventive + AI-powered         |
@@ -196,7 +250,7 @@ A **multi-modal AI platform** that:
 ### **Phase 2: Viral Hook (Dream Decoder)** - Q3 2026
 
 - **Target**: Gen Z & Millennials (TikTok, Instagram)
-- **Campaign**: #SoullinkDreams - shareable AI-generated "Dream Cards"
+- **Campaign**: #MALOLADreams - shareable AI-generated "Dream Cards"
 - **Goal**: 100k users, viral growth
 
 ### **Phase 3: Enterprise Wedge** - Q4 2026
@@ -257,7 +311,7 @@ A **multi-modal AI platform** that:
 
 ---
 
-## 🏆 Why Soullink Will Win
+## 🏆 Why MALOLA Will Win
 
 ### **1. Timing is Perfect**
 
@@ -304,7 +358,7 @@ A **multi-modal AI platform** that:
 
 - **Soul-Sync Wearables**: Apple Watch/Fitbit integration (HRV tracking)
 - **Vedic AI API**: Power spirituality in other apps (B2B2C)
-- **Physical Spaces**: Soullink Meditation Studios in major cities
+- **Physical Spaces**: MALOLA Meditation Studios in major cities
 - **Research**: Partner with universities on consciousness studies
 
 ### **Ultimate Mission**
@@ -346,12 +400,12 @@ See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed setup instructions.
 
 ## 📄 Key Documentation
 
-- [Implementation Plan](./docs/soullink-vision/implementation_plan.md) - Full product roadmap
-- [Philosophy & Mission](./docs/soullink-vision/philosophy_mission.md) - Our core values
-- [Tech Stack](./docs/soullink-vision/tech_stack.md) - Architecture details
-- [GTM Strategy](./docs/soullink-vision/gtm_strategy.md) - Go-to-market plan
-- [User Personas](./docs/soullink-vision/user_personas.md) - Target users
-- [Legal & Compliance](./docs/soullink-vision/legal_compliance.md) - Privacy & security
+- [Implementation Plan](./docs/MALOLA-vision/implementation_plan.md) - Full product roadmap
+- [Philosophy & Mission](./docs/MALOLA-vision/philosophy_mission.md) - Our core values
+- [Tech Stack](./docs/MALOLA-vision/tech_stack.md) - Architecture details
+- [GTM Strategy](./docs/MALOLA-vision/gtm_strategy.md) - Go-to-market plan
+- [User Personas](./docs/MALOLA-vision/user_personas.md) - Target users
+- [Legal & Compliance](./docs/MALOLA-vision/legal_compliance.md) - Privacy & security
 
 ---
 
@@ -395,19 +449,31 @@ Built with deep reverence for:
 
 - 🌐 **Live App**: [studio-mocha-tau-22.vercel.app](https://studio-mocha-tau-22.vercel.app/)
 - 💻 **GitHub**: [yuvasamrajyaofficial-prog/studio](https://github.com/yuvasamrajyaofficial-prog/studio)
-- 🐦 **Twitter**: [@soullinkAI](https://twitter.com/soullinkAI) _(coming soon)_
-- 💼 **LinkedIn**: [Prashant B Hiremath](https://linkedin.com/in/prashant-b-hiremath)
+- 🐦 **Twitter**: [@MALOLAAI](https://twitter.com/MALOLAAI) _(coming soon)_
+- 💼 **LinkedIn**: [Prashant B Hiremath](https://www.linkedin.com/in/prashant-hiremath-13pbh/)
 - 📧 **Email**: ph293815@gmail.com
 
 ---
 
 <div align="center">
 
-### 🌟 "Where Ancient Wisdom Meets Modern Intelligence" 🌟
+### 🌟 "Where MA (Divine Mother) Meets LOLA (Krishna) - Where Ancient Wisdom Meets Modern Intelligence" 🌟
 
-**Soullink** - Your Cosmic Compass for Mental Peace
+**MALOLA** - Your Cosmic Compass for Mental Peace
 
-_Made with ❤️ and 🧘 in India_
+> **ॐ सह नाववतु। सह नौ भुनक्तु। सह वीर्यं करवावहै।**  
+> **तेजस्वि नावधीतमस्तु मा विद्विषावहै।**  
+> **ॐ शान्तिः शान्तिः शान्तिः॥**
+>
+> _Om, may we together be protected. May we together be nourished._  
+> _May we work together with great energy. May our study be enlightening._  
+> _May there be no hatred between us._  
+> _Om, peace, peace, peace._
+>
+> — Taittiriya Upanishad (Shanti Mantra)
+
+_Made with ❤️ and 🧘 by Prashant B Hiremath_  
+_Blessed by the eternal wisdom of the Vedas, Puranas, and Bhagavata_
 
 </div>
 
