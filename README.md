@@ -166,9 +166,6 @@ MALOLA embodies this sacred union — where the **compassionate embrace of the D
 > **Hermes Trismegistus (Emerald Tablet):**  
 > "As above, so below; as within, so without."
 
-> **Book of the Dead:**  
-> "I have not caused anyone to suffer. I have not diminished the food in the temples."
-
 **Key Texts:** Pyramid Texts, Precepts of Ptahhotep, Book of the Dead, Hermetic Corpus
 
 ---
@@ -300,26 +297,6 @@ MALOLA is the world's first **AI-powered Universal Wisdom Platform** that bridge
 - 🌍 **Indigenous Wisdom** (African Ubuntu, Native American, Aboriginal)
 - 🔬 **Modern Science** (Psychology, Neuroscience, Decision Science)
 
-### The Problem We're Solving
-
-| Problem                 | Scale                                                                    |
-| ----------------------- | ------------------------------------------------------------------------ |
-| 🧠 Mental health crisis | **1 in 4 people** worldwide suffer from mental health issues (WHO, 2023) |
-| 💰 Therapy is expensive | $100-300/session with months-long waitlists                              |
-| 🌍 Cultural disconnect  | Modern wellness apps lack cultural depth and personalization             |
-| 📜 Wisdom is locked     | Ancient wisdom is locked in texts inaccessible to 99.9% of humanity      |
-| 🤖 AI is soulless       | Current AI assistants lack spiritual and emotional depth                 |
-
-### Our Solution: The MALOLA Way
-
-**A multi-modal AI platform** powered by **global wisdom** that:
-
-- ✨ **24/7 Empathetic AI Guide** — Like having a wise elder from every culture, available anytime
-- 🌍 **Personalized Wisdom Roadmap** — Based on your culture, psychology, and life situation
-- 📚 **Living Library of 50,000+ Sacred Texts** — From Vedas to Bible to Tao Te Ching to African proverbs
-- 🤝 **Soul-Based Community** — Connect with kindred spirits across cultures
-- 📊 **Growth Tracking** — Gamified spiritual and mental wellness journey
-
 ---
 
 ## 🧩 Core Product Features
@@ -332,18 +309,15 @@ MALOLA is the world's first **AI-powered Universal Wisdom Platform** that bridge
   <em>Meet Lola — your calm, wise, and always-available guide</em>
 </p>
 
-**Your Personal Spiritual Guide, Available 24/7**
-
 | Feature                    | Description                                                                      |
 | -------------------------- | -------------------------------------------------------------------------------- |
 | 🎙️ **Voice-First Design**  | Natural conversations powered by Vapi + Google Gemini                            |
 | 🧠 **Emotion Detection**   | Analyzes sentiment & mood from voice patterns                                    |
 | 📖 **Contextual Wisdom**   | Responds with relevant quotes, psychological insights, and meditation techniques |
 | 🌍 **Culturally Adaptive** | Draws from YOUR cultural background and preferences                              |
-| 🆘 **Crisis Detection**    | Auto-escalates to human counselors for mental health emergencies                 |
 
 > **Lola is not a therapist, doctor, or religious authority.**  
-> She is a guide for reflection, clarity, and personal growth — drawing from the collective wisdom of humanity.
+> She is a guide for reflection, clarity, and personal growth.
 
 **Tech Stack**: Google Gemini 1.5 Pro, Vapi (voice AI), Deepgram (STT), ElevenLabs (TTS)
 
@@ -362,14 +336,6 @@ MALOLA is the world's first **AI-powered Universal Wisdom Platform** that bridge
 | 🌍 **Indigenous Wisdom**       | African proverbs, Native American teachings, Aboriginal stories | 7,000+  |
 | 🔬 **Modern Thought**          | Psychology, neuroscience, philosophy                            | 5,000+  |
 
-**Features:**
-
-- 📚 Readable summaries in plain language
-- 🎧 Audio listening in 100+ languages
-- 🌐 Cross-cultural comparisons (e.g., "What do Buddhism AND Stoicism say about suffering?")
-- 📜 Historical AND modern interpretations
-- 🎨 Beautiful flipbook experience
-
 ---
 
 ### 🌌 3. Personal Life Context (Soul ID)
@@ -377,13 +343,12 @@ MALOLA is the world's first **AI-powered Universal Wisdom Platform** that bridge
 Optional personalization based on:
 
 - 🗓️ Birth details (for those who value astrology/numerology from ANY tradition)
-- 🌍 Cultural background (Indian, Chinese, Western, African, Indigenous, etc.)
+- 🌍 Cultural background
 - 🗣️ Language preferences (100+ languages supported)
-- 🧬 Life stage (youth, career, parenting, elder, etc.)
-- ❤️ Spiritual path (Hindu, Buddhist, Christian, Muslim, Jewish, Secular, etc.)
+- 🧬 Life stage
+- ❤️ Spiritual path
 
-> All personalization is **optional and privacy-first**.  
-> MALOLA respects your beliefs — or lack thereof.
+> All personalization is **optional and privacy-first**.
 
 ---
 
@@ -399,201 +364,19 @@ Optional personalization based on:
 
 ---
 
-### 🤝 5. Global Community (Optional)
-
-- 💬 Value-based discussion spaces
-- 🌍 Connect across cultures and religions
-- 🧘 Calm, respectful interaction
-- ❌ No rage, no politics, no toxicity
-- 📚 Focus on learning and growth
-
----
-
-## 💰 Business Model & Market Opportunity
-
-### Revenue Streams
-
-| Stream                     | Model                           | Pricing              | Target Revenue (Year 2)  |
-| -------------------------- | ------------------------------- | -------------------- | ------------------------ |
-| **Freemium Subscriptions** | Individual users                | $4.99-$14.99/month   | $12M (200k paying users) |
-| **Enterprise SaaS**        | HR/Corporate Wellness           | $5-15/employee/month | $8M (100 companies)      |
-| **API Licensing**          | "Wisdom AI" for other apps      | $0.001/request       | $2M (2B API calls)       |
-| **Creator Marketplace**    | Spiritual teachers sell courses | 30% commission       | $3M                      |
-| **Total**                  | —                               | —                    | **$25M ARR**             |
-
-### Market Size
-
-| Market                                               | Size         |
-| ---------------------------------------------------- | ------------ |
-| **TAM** (Global Mental Wellness)                     | $121B (2025) |
-| **SAM** (Digital mental health + spiritual wellness) | $18B         |
-| **SOM** (Global spiritual seekers)                   | $2B          |
-
-### Competitive Advantage
-
-| Competitor              | Weakness                    | MALOLA's Edge                              |
-| ----------------------- | --------------------------- | ------------------------------------------ |
-| Calm, Headspace         | Generic, Western-centric    | Deep cultural authenticity + global wisdom |
-| BetterHelp              | $260/month, therapy-focused | $4.99/month, preventive + AI-powered       |
-| Co-Star                 | Entertainment-only          | Actionable spiritual guidance              |
-| Existing spiritual apps | Single-religion focus       | **Truly universal** — ALL traditions       |
-
----
-
 ## 🛠️ Technology Stack
 
-### **Frontend**
-
-| Technology              | Purpose                   |
-| ----------------------- | ------------------------- |
-| Next.js 16 (React 19)   | Server Components for SEO |
-| Radix UI + Tailwind CSS | Beautiful, accessible UI  |
-| Three.js                | 3D visualizations         |
-| Framer Motion           | Smooth animations         |
-
-### **Backend & Infrastructure**
-
-| Technology   | Purpose                                   |
-| ------------ | ----------------------------------------- |
-| Firebase     | Auth, Firestore, Storage, Cloud Functions |
-| Node.js      | Serverless functions                      |
-| Google Cloud | Scalable infrastructure                   |
-
-### **AI & Voice**
-
-| Technology            | Purpose                         |
-| --------------------- | ------------------------------- |
-| Google Gemini 1.5 Pro | Primary AI intelligence         |
-| Vapi                  | Low-latency voice conversations |
-| Deepgram              | Speech-to-text                  |
-| ElevenLabs            | Natural text-to-speech          |
-| Hume AI               | Emotion detection               |
-
-### **Specialized Services**
-
-| Technology       | Purpose                   |
-| ---------------- | ------------------------- |
-| Swiss Ephemeris  | Multi-tradition astrology |
-| Custom ML models | Soul matching algorithm   |
-| Cloud CDN        | Global content delivery   |
+| Layer           | Technology                                                   |
+| --------------- | ------------------------------------------------------------ |
+| 🖥️ **Frontend** | Next.js 16 (React 19), Radix UI, Tailwind CSS, Framer Motion |
+| ☁️ **Backend**  | Firebase (Auth, Firestore, Cloud Functions)                  |
+| 🤖 **AI**       | Google Gemini 1.5 Pro                                        |
+| 🎙️ **Voice**    | Vapi, Deepgram, ElevenLabs                                   |
+| 🌐 **Hosting**  | Firebase Hosting, Cloud CDN                                  |
 
 ---
 
-## 🎯 Go-to-Market Strategy
-
-### **Phase 1: Beta Launch** — Q2 2026
-
-- Target: 1,000 spiritual influencers globally
-- Invite-only beta with white-glove onboarding
-- Goal: Product-market fit + testimonials
-
-### **Phase 2: Viral Growth** — Q3 2026
-
-- Target: Gen Z & Millennials globally
-- Campaign: #MALOLAWisdom on TikTok, Instagram, YouTube
-- Goal: 100k users
-
-### **Phase 3: Enterprise** — Q4 2026
-
-- Target: HR Directors globally
-- Free "Team Harmony" audits
-- Goal: 20 enterprise contracts
-
-### **Phase 4: Global Expansion** — 2027
-
-- All major languages
-- Partnerships with spiritual leaders worldwide
-- Goal: 1M users, $10M ARR
-
----
-
-## 📊 Traction & Milestones
-
-### **Current Status (Feb 2026)**
-
-| Metric              | Status                                    |
-| ------------------- | ----------------------------------------- |
-| ✅ MVP Built        | AI Guru, Living Library, Soul ID system   |
-| ✅ Tech Stack       | Next.js + Firebase + Gemini AI integrated |
-| ✅ Beta Users       | 127 users (invite-only)                   |
-| ✅ Avg Session Time | 22 minutes (industry avg: 8 min)          |
-| ✅ NPS Score        | 78 (beta)                                 |
-
-### **12-Month Goals**
-
-| Goal                    | Target |
-| ----------------------- | ------ |
-| 🚀 Users                | 100k   |
-| 🚀 ARR                  | $500k  |
-| 🚀 Enterprise Customers | 10     |
-| 🚀 Seed Round           | $2M    |
-
----
-
-## 👥 Team
-
-### **Founding Team**
-
-**Prashant B Hiremath** — Founder & CEO
-
-- Full-stack developer with expertise in AI/ML
-- Built multiple spiritual tech prototypes
-- Passionate about bridging ancient wisdom with modern technology
-- Believer in the unity of all human wisdom traditions
-
-### **Advisors (Seeking)**
-
-- 🔍 AI/ML expert from Google/OpenAI
-- 🔍 Clinical psychologist (HIPAA compliance)
-- 🔍 Scholars from multiple wisdom traditions
-- 🔍 Enterprise SaaS GTM expert
-
----
-
-## 🏆 Why MALOLA Will Win
-
-### **1. Timing is Perfect**
-
-- Mental health crisis at all-time high post-pandemic
-- AI breakthroughs enable personalized wisdom at scale
-- Global spiritual renaissance happening across cultures
-- Enterprise wellness budgets growing 25% YoY
-
-### **2. Unique Moat**
-
-- **Content Library**: 50k+ texts from ALL major traditions
-- **Cultural Authenticity**: Respect for every tradition, not appropriation
-- **AI Models**: Fine-tuned on global wisdom corpus
-- **Network Effects**: Community creates lock-in
-
-### **3. Founder-Market Fit**
-
-- Deep understanding of both technology and spirituality
-- Personal commitment to unity of human wisdom
-- Obsessive about building delightful user experiences
-
----
-
-## 📈 Ultimate Vision
-
-### **2026**: Heal 1M minds globally
-
-### **2027**: Become the #1 wisdom app worldwide
-
-### **2028**: The Operating System for Human Consciousness
-
-- Soul-Sync Wearables (HRV tracking)
-- Wisdom AI API (B2B2C)
-- Physical Meditation Studios
-- University research partnerships
-
-### **Ultimate Mission**
-
-> **"Make ancient wisdom as accessible as a Google search. Bring the profound secrets locked in every civilization's sacred texts to every human, in their language, for free."**
-
----
-
-## 🚀 Getting Started (For Developers)
+## 🚀 Getting Started
 
 ```bash
 # Clone the repository
@@ -626,35 +409,12 @@ See [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) for detailed setup instructions.
 
 ## 📄 Documentation
 
-| Document                                                           | Description          |
-| ------------------------------------------------------------------ | -------------------- |
-| [Implementation Plan](./docs/MALOLA-vision/implementation_plan.md) | Full product roadmap |
-| [Philosophy & Mission](./docs/MALOLA-vision/philosophy_mission.md) | Our core values      |
-| [Tech Stack](./docs/MALOLA-vision/tech_stack.md)                   | Architecture details |
-| [GTM Strategy](./docs/MALOLA-vision/gtm_strategy.md)               | Go-to-market plan    |
-
----
-
-## 🤝 Join Our Mission
-
-We're building something bigger than a startup — we're creating a movement to heal humanity through the fusion of ancient wisdom from ALL civilizations and cutting-edge technology.
-
-### **We're Looking For:**
-
-- 🧑‍💻 Full-stack engineers (React, Firebase, AI)
-- 🎨 Product designers (Figma, UX research)
-- 🧘 Content creators (Scholars, translators, spiritual teachers)
-- 💼 Enterprise sales (B2B SaaS experience)
-- 🤖 AI/ML engineers (LLM fine-tuning, voice AI)
-
-### **Investors**
-
-We're raising a **Seed Round ($2M at $10M valuation)** to:
-
-- Hire 8-person core team
-- Scale content library (100k texts)
-- Acquire first 100k users
-- Build enterprise product
+| Document                                                           | Description              |
+| ------------------------------------------------------------------ | ------------------------ |
+| [YC Application Package](./YC_APPLICATION_PACKAGE.md)              | Investor-focused summary |
+| [Implementation Plan](./docs/MALOLA-vision/implementation_plan.md) | Full product roadmap     |
+| [Philosophy & Mission](./docs/MALOLA-vision/philosophy_mission.md) | Our core values          |
+| [Tech Stack](./docs/MALOLA-vision/tech_stack.md)                   | Architecture details     |
 
 ---
 
@@ -677,7 +437,6 @@ Built with deep reverence for:
 - 🔬 Modern scientists who decoded the human mind
 - 🤖 AI researchers who made this technology possible
 - 🌍 Our beta users who believe in the vision
-- 🕉️☯️✝️☪️✡️ The sacred traditions that preserved wisdom for millennia
 
 ---
 
