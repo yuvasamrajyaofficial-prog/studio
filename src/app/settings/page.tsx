@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/auth-context";
+import { updateUserProfile } from "@/lib/firebase/firestore";
+import { updateProfile } from "firebase/auth";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +19,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   User, Bell, Shield, BookOpen, Sparkles,
-  Globe, Moon, Volume2, Download, Trash2
+  Globe, Moon, Volume2, Download, Trash2, Key
 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -29,6 +31,26 @@ export default function SettingsPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  // Form State
+  const [displayName, setDisplayName] = useState("");
+  const [bio, setBio] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [aiProvider, setAiProvider] = useState("gemini");
+  const [theme, setTheme] = useState("system");
+  const [language, setLanguage] = useState("en");
+
+  // Initialize state from profile
+  useEffect(() => {
+    if (userProfile) {
+      setDisplayName(userProfile.displayName || user?.displayName || "");
+      setBio(userProfile.bio || "");
+      setApiKey(userProfile.settings?.ai?.apiKey || "");
+      setAiProvider(userProfile.settings?.ai?.provider || "gemini");
+      setTheme(userProfile.preferences?.theme || "system");
+      setLanguage(userProfile.preferences?.language || "en");
+    }
+  }, [userProfile, user]);
+
   if (!user) {
     router.push("/login");
     return null;
@@ -36,10 +58,37 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     setLoading(true);
-    // TODO: Save to Firestore
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast.success("Settings saved successfully");
-    setLoading(false);
+    try {
+      // 1. Update Auth Profile (Display Name)
+      if (user && displayName !== user.displayName) {
+        await updateProfile(user, { displayName });
+      }
+
+      // 2. Update Firestore Profile
+      await updateUserProfile(user.uid, {
+        displayName,
+        bio,
+        settings: {
+          ...userProfile?.settings,
+          ai: {
+            apiKey,
+            provider: aiProvider as 'gemini' | 'openai' | 'claude'
+          }
+        },
+        preferences: {
+          ...userProfile?.preferences,
+          theme: theme as 'light' | 'dark',
+          language
+        }
+      });
+
+      toast.success("Settings saved successfully");
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      toast.error("Failed to save settings");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,8 +107,11 @@ export default function SettingsPage() {
             <TabsTrigger value="account" className="gap-2">
               <User className="w-4 h-4" /> Account
             </TabsTrigger>
+            <TabsTrigger value="ai" className="gap-2">
+              <Sparkles className="w-4 h-4" /> AI & Intelligence
+            </TabsTrigger>
             <TabsTrigger value="preferences" className="gap-2">
-              <Sparkles className="w-4 h-4" /> Preferences
+              <Globe className="w-4 h-4" /> Preferences
             </TabsTrigger>
             <TabsTrigger value="scripture" className="gap-2">
               <BookOpen className="w-4 h-4" /> Scripture
@@ -79,7 +131,8 @@ export default function SettingsPage() {
                   <Label htmlFor="displayName">Display Name</Label>
                   <Input 
                     id="displayName" 
-                    defaultValue={userProfile?.preferences?.displayName || user.displayName || ""}
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
                     placeholder="Your name"
                   />
                 </div>
@@ -89,7 +142,7 @@ export default function SettingsPage() {
                   <Input 
                     id="email" 
                     type="email"
-                    defaultValue={user.email || ""}
+                    value={user.email || ""}
                     disabled
                     className="bg-muted"
                   />
@@ -102,12 +155,65 @@ export default function SettingsPage() {
                   <Label htmlFor="bio">Bio (Optional)</Label>
                   <Input 
                     id="bio" 
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                     placeholder="Tell us about yourself..."
                   />
                 </div>
 
                 <Button onClick={handleSave} disabled={loading}>
                   {loading ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* AI Settings Tab */}
+          <TabsContent value="ai" className="space-y-6">
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <h2 className="text-xl font-bold">AI Configuration</h2>
+              </div>
+              
+              <div className="space-y-6">
+                <div>
+                  <Label>AI Provider</Label>
+                  <Select value={aiProvider} onValueChange={setAiProvider}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Provider" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="gemini">Google Gemini</SelectItem>
+                      <SelectItem value="openai">OpenAI (GPT-4)</SelectItem>
+                      <SelectItem value="claude">Anthropic Claude</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Select which AI model you want to power your experience.
+                  </p>
+                </div>
+
+                <div>
+                  <Label htmlFor="apiKey">API Key</Label>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input 
+                      id="apiKey" 
+                      type="password"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder={`Enter your ${aiProvider} API Key`}
+                      className="pl-9"
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Your key is stored locally on your device and never shared.
+                  </p>
+                </div>
+
+                 <Button onClick={handleSave} disabled={loading}>
+                  {loading ? "Saving..." : "Save AI Settings"}
                 </Button>
               </div>
             </Card>
@@ -124,7 +230,7 @@ export default function SettingsPage() {
               <div className="space-y-4">
                 <div>
                   <Label>Interface Language</Label>
-                  <Select defaultValue="en">
+                  <Select value={language} onValueChange={setLanguage}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -133,20 +239,6 @@ export default function SettingsPage() {
                       <SelectItem value="hi">हिन्दी (Hindi)</SelectItem>
                       <SelectItem value="sa">संस्कृत (Sanskrit)</SelectItem>
                       <SelectItem value="kn">ಕನ್ನಡ (Kannada)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Label>Scripture Language</Label>
-                  <Select defaultValue="both">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="sa">Sanskrit Only</SelectItem>
-                      <SelectItem value="en">English Only</SelectItem>
-                      <SelectItem value="both">Both (Recommended)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -167,7 +259,7 @@ export default function SettingsPage() {
                       Choose your preferred theme
                     </p>
                   </div>
-                  <Select defaultValue="system">
+                  <Select value={theme} onValueChange={setTheme}>
                     <SelectTrigger className="w-32">
                       <SelectValue />
                     </SelectTrigger>
