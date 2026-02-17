@@ -38,7 +38,7 @@ export function Header() {
   useEffect(() => {
     const controlHeader = () => {
       if (typeof window !== 'undefined') {
-        if (window.scrollY > lastScrollY && window.scrollY > 100) { // Scrolling down
+        if (window.scrollY > lastScrollY && window.scrollY > 150) { // Scrolling down
           setIsVisible(false);
         } else { // Scrolling up
           setIsVisible(true);
@@ -131,7 +131,7 @@ export function Header() {
                     <Menu className="h-6 w-6" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="bg-background border-border/50 text-foreground w-[300px]">
+                <SheetContent side="right" className="bg-background border-border/50 text-foreground w-[85vw] max-w-[300px] z-[60]">
                   <SheetHeader>
                     <SheetTitle className="text-left text-primary font-serif text-xl flex items-center gap-2">
                       <SudharshanaChakraIcon className="h-6 w-6" />

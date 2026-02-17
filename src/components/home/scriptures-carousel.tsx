@@ -44,7 +44,7 @@ export function ScripturesCarousel() {
         <div className="container mx-auto px-4">
           <div className="flex gap-6 overflow-hidden">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="w-72 h-80 flex-shrink-0 rounded-2xl bg-muted animate-pulse" />
+              <div key={i} className="w-[85vw] md:w-72 h-80 flex-shrink-0 rounded-2xl bg-muted animate-pulse" />
             ))}
           </div>
         </div>
@@ -97,7 +97,7 @@ export function ScripturesCarousel() {
               className="flex-shrink-0 snap-start"
             >
               <Link href={`/scriptures/${scripture.id}`}>
-                <Card className="w-72 h-80 overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group cursor-pointer">
+                <Card className="w-[85vw] md:w-72 h-80 overflow-hidden border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 group cursor-pointer">
                   {/* Image */}
                   <div className="h-40 overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent z-10" />
@@ -136,7 +136,7 @@ export function ScripturesCarousel() {
             className="flex-shrink-0 snap-start"
           >
             <Link href="/scriptures">
-              <Card className="w-72 h-80 flex flex-col items-center justify-center border-border/50 bg-gradient-to-br from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 transition-all duration-300 group cursor-pointer">
+              <Card className="w-[85vw] md:w-72 h-80 flex flex-col items-center justify-center border-border/50 bg-gradient-to-br from-primary/10 to-accent/10 hover:from-primary/20 hover:to-accent/20 transition-all duration-300 group cursor-pointer">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <ArrowRight className="w-8 h-8 text-primary" />
                 </div>
