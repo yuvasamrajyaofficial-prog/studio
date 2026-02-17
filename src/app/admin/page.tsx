@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Users, BookOpen, MessageSquare, TrendingUp, 
   Activity, Shield, Bell, ArrowUpRight, ArrowDownRight,
-  Clock, CheckCircle2, AlertCircle, Database, LayoutDashboard
+  Clock, CheckCircle2, AlertCircle, Database, LayoutDashboard,
+  FileText
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,6 +17,8 @@ import { toast } from "sonner";
 import { ScriptureForm } from "@/components/admin/scripture-form";
 import { ChapterList } from "@/components/admin/chapter-list";
 import { VerseManager } from "@/components/admin/verse-manager";
+import { BlogForm } from "@/components/admin/blog-form";
+import { BlogList } from "@/components/admin/blog-list";
 
 // Actions & Types
 import { 
@@ -23,6 +26,9 @@ import {
   getChapters, createChapter, deleteChapter,
   getVerses, createVerse, deleteVerse
 } from "@/lib/admin/actions";
+import { 
+  getAllBlogs, createBlog, updateBlog, deleteBlog, BlogPost 
+} from "@/lib/admin/blog-actions";
 import type { Scripture, Chapter, Verse } from "@/types/schema";
 
 export default function AdminDashboard() {
@@ -53,7 +59,10 @@ export default function AdminDashboard() {
             <LayoutDashboard className="w-4 h-4" /> Overview
           </TabsTrigger>
           <TabsTrigger value="content" className="gap-2">
-            <Database className="w-4 h-4" /> Content Management
+            <Database className="w-4 h-4" /> Scriptures
+          </TabsTrigger>
+          <TabsTrigger value="blogs" className="gap-2">
+            <FileText className="w-4 h-4" /> Blogs
           </TabsTrigger>
         </TabsList>
 
@@ -64,7 +73,99 @@ export default function AdminDashboard() {
         <TabsContent value="content" className="space-y-6">
           <ContentManagementTab />
         </TabsContent>
+
+        <TabsContent value="blogs" className="space-y-6">
+          <BlogManagementTab />
+        </TabsContent>
       </Tabs>
+    </div>
+  );
+}
+
+function BlogManagementTab() {
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState<BlogPost | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    loadBlogs();
+  }, []);
+
+  const loadBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getAllBlogs();
+      setBlogs(data);
+    } catch (error) {
+      console.error("Failed to load blogs:", error);
+      toast.error("Failed to load blogs");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreate = async (data: Partial<BlogPost>) => {
+    try {
+      await createBlog(data);
+      await loadBlogs();
+      setIsEditing(false);
+    } catch (error) {
+      throw error; // Let form handle it
+    }
+  };
+
+  const handleUpdate = async (data: Partial<BlogPost>) => {
+    if (!selectedBlog?.id) return;
+    try {
+      await updateBlog(selectedBlog.id, data);
+      await loadBlogs();
+      setIsEditing(false);
+      setSelectedBlog(undefined);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteBlog(id);
+    await loadBlogs();
+  };
+
+  if (isEditing) {
+    return (
+      <Card className="p-6">
+        <BlogForm 
+          initialData={selectedBlog} 
+          onSubmit={selectedBlog ? handleUpdate : handleCreate}
+          onCancel={() => {
+            setIsEditing(false);
+            setSelectedBlog(undefined);
+          }}
+        />
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-bold">Blog Posts</h3>
+        <Button onClick={() => setIsEditing(true)} className="gap-2">
+          <FileText className="w-4 h-4" /> New Post
+        </Button>
+      </div>
+
+      <Card className="p-6">
+        <BlogList 
+          blogs={blogs} 
+          onEdit={(blog) => {
+            setSelectedBlog(blog);
+            setIsEditing(true);
+          }}
+          onDelete={handleDelete}
+        />
+      </Card>
     </div>
   );
 }
@@ -225,7 +326,7 @@ function ContentManagementTab() {
   if (view === 'chapter-detail') {
     return (
       <div className="space-y-6">
-         <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6">
           <Button variant="ghost" onClick={() => {
             setSelectedChapter(null);
             setView('scripture-detail');
