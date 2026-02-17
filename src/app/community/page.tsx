@@ -1,229 +1,135 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { Card } from '@/components/ui/card';
+import { PostComposer } from '@/components/community/post-composer';
+import { PostCard } from '@/components/community/post-card';
 import { Button } from '@/components/ui/button';
-import { Users, MessageCircle, Calendar, BookOpen, Heart, Star, Shield, Globe } from 'lucide-react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { getPosts } from '@/lib/community/actions';
+import { Post } from '@/types/community';
+import { Loader2, Users, Flame, Hash } from 'lucide-react';
 
 export default function CommunityPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTag, setActiveTag] = useState('All');
+
+  const tags = ['All', 'General', 'Scriptures', 'Meditation', 'Life Advice', 'Philosophy'];
+
+  const loadPosts = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getPosts(20, activeTag === 'All' ? undefined : activeTag);
+      setPosts(data);
+    } catch (error) {
+      console.error('Failed to load posts:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadPosts();
+  }, [activeTag]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       
-      <main className="flex-1 pt-16">
-        {/* Hero Section */}
-        <section className="relative min-h-[40vh] flex flex-col items-center justify-center overflow-hidden py-16 bg-gradient-to-b from-background via-background/90 to-background">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl" />
-          
-          <div className="container mx-auto px-4 relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-4"
-            >
-              <div className="mb-6 inline-block">
-                <Users className="w-20 h-20 text-primary mx-auto" />
-              </div>
-              <h1 className="font-serif text-4xl md:text-6xl font-bold text-foreground mb-4">
-                Soul Circles
-              </h1>
-              <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground">
-                Connect with like-minded seekers, share your spiritual journey, and grow together
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Community Features */}
-        <section className="py-16 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              
-              <CommunityCard
-                icon={MessageCircle}
-                title="Discussion Forums"
-                description="Engage in meaningful conversations about scriptures, philosophy, and spiritual practices"
-                href="#forums"
-                gradient="from-blue-500/20 to-cyan-500/20"
-                borderColor="border-blue-500/30"
-              />
-
-              <CommunityCard
-                icon={Calendar}
-                title="Live Events"
-                description="Join virtual satsangs, meditation sessions, and scripture study groups"
-                href="#events"
-                gradient="from-purple-500/20 to-pink-500/20"
-                borderColor="border-purple-500/30"
-              />
-
-              <CommunityCard
-                icon={BookOpen}
-                title="Study Groups"
-                description="Collaborate with others to explore ancient texts and wisdom traditions"
-                href="#study-groups"
-                gradient="from-amber-500/20 to-orange-500/20"
-                borderColor="border-amber-500/30"
-              />
-
-              <CommunityCard
-                icon={Heart}
-                title="Finding Your Circle"
-                description="Discover communities based on your Soul ID, interests, and spiritual path"
-                href="#circles"
-                gradient="from-pink-500/20 to-rose-500/20"
-                borderColor="border-pink-500/30"
-              />
-
-              <CommunityCard
-                icon={Globe}
-                title="Global Sangha"
-                description="Connect with seekers worldwide in your language and cultural context"
-                href="#global"
-                gradient="from-green-500/20 to-emerald-500/20"
-                borderColor="border-green-500/30"
-              />
-
-              <CommunityCard
-                icon={Shield}
-                title="Safe Space"
-                description="Community guidelines ensure respectful, authentic spiritual dialogue"
-                href="#guidelines"
-                gradient="from-indigo-500/20 to-blue-500/20"
-                borderColor="border-indigo-500/30"
-              />
-
-            </div>
-          </div>
-        </section>
-
-        {/* Featured Circles */}
-        <section className="py-16 bg-muted/20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Featured Soul Circles</h2>
+      <main className="flex-1 pt-20 pb-12">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              <CircleCard
-                title="Bhagavad Gita Study"
-                members="1,234"
-                description="Weekly discussions on Krishna's teachings to Arjuna"
-                tags={["Philosophy", "Vedanta", "Karma Yoga"]}
-              />
-              
-              <CircleCard
-                title="Meditation Practitioners"
-                members="892"
-                description="Daily group meditation sessions and technique sharing"
-                tags={["Meditation", "Mindfulness", "Pranayama"]}
-              />
-              
-              <CircleCard
-                title="Sanskrit Learners"
-                members="567"
-                description="Learn to read and chant ancient texts in their original language"
-                tags={["Language", "Mantras", "Chanting"]}
-              />
-              
-              <CircleCard
-                title="Ayurveda & Wellness"
-                members="1,045"
-                description="Holistic health practices rooted in ancient wisdom"
-                tags={["Ayurveda", "Health", "Lifestyle"]}
-              />
+            {/* Left Sidebar - Navigation */}
+            <div className="hidden lg:block space-y-6">
+              <div className="bg-card/50 border-border/50 rounded-xl p-4 sticky top-24">
+                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                  <Flame className="w-5 h-5 text-primary" />
+                  Popular Tags
+                </h3>
+                <div className="space-y-2">
+                  {tags.map(tag => (
+                    <Button
+                      key={tag}
+                      variant={activeTag === tag ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => setActiveTag(tag)}
+                    >
+                      <Hash className="w-4 h-4 mr-2 opacity-70" />
+                      {tag}
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-primary/20 to-accent/20">
-          <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Join Our Growing Community
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Connect with thousands of spiritual seekers worldwide and deepen your practice together
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold">
-                Create Your Circle
-              </Button>
-              <Button size="lg" variant="outline" className="border-border/50 text-foreground hover:bg-muted/20">
-                Browse Communities
-              </Button>
+            {/* Main Feed */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="mb-8">
+                <h1 className="text-3xl font-bold font-serif mb-2">Soul Circles</h1>
+                <p className="text-muted-foreground">Share your journey, ask questions, and connect with fellow seekers.</p>
+              </div>
+
+              {/* Mobile Tag Filter */}
+              <div className="lg:hidden flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
+                 {tags.map(tag => (
+                    <Button
+                      key={tag}
+                      size="sm"
+                      variant={activeTag === tag ? "secondary" : "outline"}
+                      className="whitespace-nowrap"
+                      onClick={() => setActiveTag(tag)}
+                    >
+                      {tag}
+                    </Button>
+                  ))}
+              </div>
+
+              <PostComposer />
+
+              <div className="space-y-4">
+                {isLoading ? (
+                  <div className="flex justify-center py-12">
+                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  </div>
+                ) : posts.length > 0 ? (
+                  posts.map(post => (
+                    <PostCard key={post.id} post={post} />
+                  ))
+                ) : (
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p>No posts found. Be the first to share!</p>
+                  </div>
+                )}
+              </div>
             </div>
+
+            {/* Right Sidebar - Info */}
+            <div className="hidden lg:block space-y-6">
+              <div className="bg-card/50 border-border/50 rounded-xl p-6 sticky top-24">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <Users className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold">Community Rules</h3>
+                  </div>
+                </div>
+                <ul className="text-sm space-y-3 text-muted-foreground list-disc pl-4">
+                  <li>Be respectful and kind to others.</li>
+                  <li>Keep discussions spiritual and constructive.</li>
+                  <li>No spam or self-promotion.</li>
+                  <li>Respect diverse viewpoints.</li>
+                </ul>
+              </div>
+            </div>
+
           </div>
-        </section>
+        </div>
       </main>
       
       <Footer />
     </div>
-  );
-}
-
-function CommunityCard({
-  icon: Icon,
-  title,
-  description,
-  href,
-  gradient,
-  borderColor
-}: {
-  icon: any;
-  title: string;
-  description: string;
-  href: string;
-  gradient: string;
-  borderColor: string;
-}) {
-  return (
-    <Link href={href}>
-      <Card className={`p-6 h-full bg-gradient-to-br ${gradient} backdrop-blur-sm border ${borderColor} hover:border-border transition-all duration-300 hover:scale-105 group cursor-pointer`}>
-        <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-          <Icon className="h-6 w-6 text-primary" />
-        </div>
-        <h3 className="text-xl font-bold text-foreground mb-2">{title}</h3>
-        <p className="text-muted-foreground text-sm">{description}</p>
-      </Card>
-    </Link>
-  );
-}
-
-function CircleCard({
-  title,
-  members,
-  description,
-  tags
-}: {
-  title: string;
-  members: string;
-  description: string;
-  tags: string[];
-}) {
-  return (
-    <Card className="p-6 bg-card/50 border-border/50 hover:border-border transition-colors">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-xl font-bold text-foreground">{title}</h3>
-        <div className="flex items-center gap-1 text-primary">
-          <Users className="w-4 h-4" />
-          <span className="text-sm font-medium">{members}</span>
-        </div>
-      </div>
-      <p className="text-muted-foreground text-sm mb-4">{description}</p>
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-xs font-medium"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </Card>
   );
 }
