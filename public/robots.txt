@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /settings
+Disallow: /api
+
+# Host
+Host: https://malola.app
+
+# Sitemaps
+Sitemap: https://malola.app/sitemap.xml
