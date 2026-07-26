@@ -15,9 +15,9 @@ import {
   getVerses, 
   createVerse, 
   updateVerse, 
-  deleteVerse,
-  recalculateScriptureCounts
-} from '@/lib/scriptures/actions';
+  deleteVerse 
+} from '@/lib/admin/scripture-actions';
+import { recalculateScriptureCounts } from '@/lib/scriptures/actions';
 import { Chapter, Verse } from '@/types/scripture';
 
 export default function ChapterEditorPage() {
