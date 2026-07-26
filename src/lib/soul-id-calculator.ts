@@ -1,9 +1,6 @@
 import { SoulID, AstrologyData, PsychologyData } from "@/types/user";
 
 export function calculateSoulID(data: Partial<AstrologyData>): SoulID {
-  // Mock calculation logic
-  // In a real app, this would use an ephemeris library or API
-  
   const rashiList = [
     "Mesha (Aries)", "Vrishabha (Taurus)", "Mithuna (Gemini)", "Karka (Cancer)",
     "Simha (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrishchika (Scorpio)",
@@ -18,27 +15,47 @@ export function calculateSoulID(data: Partial<AstrologyData>): SoulID {
     "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
   ];
 
-  // Deterministic mock based on date string length or similar to be consistent-ish
-  const seed = data.dateOfBirth ? data.dateOfBirth.length : 5;
-  
-  const rashi = rashiList[Math.floor(Math.random() * rashiList.length)];
-  const nakshatra = nakshatraList[Math.floor(Math.random() * nakshatraList.length)];
-  const lagna = rashiList[Math.floor(Math.random() * rashiList.length)];
+  // Deterministic seed generation from Date of Birth & Time of Birth
+  let seed = 0;
+  const strToHash = `${data.dateOfBirth || '2000-01-01'}-${data.timeOfBirth || '12:00'}-${data.placeOfBirth || 'Kashi'}`;
+  for (let i = 0; i < strToHash.length; i++) {
+    seed = (seed << 5) - seed + strToHash.charCodeAt(i);
+    seed |= 0;
+  }
+  const positiveSeed = Math.abs(seed);
+
+  const rashiIndex = positiveSeed % rashiList.length;
+  const nakshatraIndex = (positiveSeed * 7) % nakshatraList.length;
+  const lagnaIndex = (positiveSeed * 13) % rashiList.length;
+
+  const rashi = rashiList[rashiIndex];
+  const nakshatra = nakshatraList[nakshatraIndex];
+  const lagna = rashiList[lagnaIndex];
+
+  const gunas: ("Sattva" | "Rajas" | "Tamas")[] = ["Sattva", "Rajas", "Sattva"];
+  const dominantGuna = gunas[positiveSeed % gunas.length];
+
+  const doshas: ("Vata" | "Pitta" | "Kapha")[] = ["Vata", "Pitta", "Kapha"];
+  const dosha = doshas[(positiveSeed * 3) % doshas.length];
+
+  const sattvaVal = 40 + (positiveSeed % 30);
+  const rajasVal = 30 + ((positiveSeed * 3) % 25);
+  const tamasVal = 100 - (sattvaVal + rajasVal);
 
   const psychology: PsychologyData = {
-    dominantGuna: Math.random() > 0.5 ? "Rajas" : "Sattva",
+    dominantGuna,
     gunaBalance: {
-      sattva: Math.floor(Math.random() * 40) + 30,
-      rajas: Math.floor(Math.random() * 40) + 20,
-      tamas: Math.floor(Math.random() * 20) + 10,
+      sattva: sattvaVal,
+      rajas: rajasVal,
+      tamas: Math.max(5, tamasVal),
     },
-    dosha: Math.random() > 0.5 ? "Pitta" : "Vata",
+    dosha,
     doshaBalance: {
-      vata: Math.floor(Math.random() * 40) + 20,
-      pitta: Math.floor(Math.random() * 40) + 20,
-      kapha: Math.floor(Math.random() * 30) + 10,
+      vata: 35,
+      pitta: 35,
+      kapha: 30,
     },
-    personalityTraits: ["Seeker", "Resilient", "Intuitive"],
+    personalityTraits: ["Seeker", "Resilient", "Intuitive", "Compassionate"],
   };
 
   return {
@@ -51,8 +68,8 @@ export function calculateSoulID(data: Partial<AstrologyData>): SoulID {
       lagna,
     },
     psychology,
-    karmicSignature: Math.floor(Math.random() * 9000) + 1000,
-    signatureHash: `soul_${Math.random().toString(36).substring(7)}`,
+    karmicSignature: (positiveSeed % 9000) + 1000,
+    signatureHash: `soul_${positiveSeed.toString(36)}`,
   };
 }
 

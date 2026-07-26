@@ -11,6 +11,7 @@ import {
   limit, 
   doc,
   updateDoc,
+  deleteDoc,
   increment,
   setDoc,
   getDoc,
@@ -63,27 +64,24 @@ export async function getPosts(max: number = 20, tag?: string) {
   }
 }
 
-// --- Likes ---
+// --- Likes (Full Toggle Logic) ---
 
 export async function likePost(postId: string, userId: string) {
   try {
-    // Check if already liked
     const likeRef = doc(db, "users", userId, "likes", postId);
     const likeSnap = await getDoc(likeRef);
     
     if (likeSnap.exists()) {
-      // Unlike
+      // Unlike post
+      await deleteDoc(likeRef);
       await updateDoc(doc(db, "posts", postId), {
         likesCount: increment(-1)
       });
-      // In a real app we'd delete the like doc, but for simplicity we'll just toggle count on post
-      // Actually let's do it right
-      // await deleteDoc(likeRef); 
-      // For now, prevent multiple likes but don't implement full toggle logic strictly to save time in this iteration
-      return { success: false, message: "Already liked" }; 
+      revalidatePath("/community");
+      return { success: true, liked: false }; 
     }
     
-    // Like
+    // Like post
     await setDoc(likeRef, {
       postId,
       userId,
@@ -95,25 +93,53 @@ export async function likePost(postId: string, userId: string) {
     });
     
     revalidatePath("/community");
-    return { success: true };
+    return { success: true, liked: true };
   } catch (error) {
-    console.error("Error liking post:", error);
-    throw new Error("Failed to like post");
+    console.error("Error toggling like on post:", error);
+    throw new Error("Failed to toggle like on post");
   }
 }
 
 export async function hasUserLiked(postId: string, userId: string) {
-    if (!userId) return false;
-    try {
-        const likeRef = doc(db, "users", userId, "likes", postId);
-        const likeSnap = await getDoc(likeRef);
-        return likeSnap.exists();
-    } catch (error) {
-        console.error("Error checking like status:", error);
-        return false;
-    }
+  if (!userId) return false;
+  try {
+    const likeRef = doc(db, "users", userId, "likes", postId);
+    const likeSnap = await getDoc(likeRef);
+    return likeSnap.exists();
+  } catch (error) {
+    console.error("Error checking like status:", error);
+    return false;
+  }
 }
 
+// --- Moderation Reporting ---
+
+export async function reportPost(
+  postId: string, 
+  userId: string, 
+  reason: string, 
+  content: string, 
+  authorName: string
+) {
+  try {
+    const reportsRef = collection(db, "reports");
+    await addDoc(reportsRef, {
+      targetType: "post",
+      targetId: postId,
+      postId,
+      content: content.substring(0, 150),
+      authorName,
+      reportedBy: userId,
+      reason,
+      status: "pending",
+      createdAt: serverTimestamp(),
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error reporting post:", error);
+    throw new Error("Failed to submit report");
+  }
+}
 
 // --- Comments ---
 

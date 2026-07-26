@@ -5,6 +5,7 @@ import {
   User, 
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut as firebaseSignOut,
   onAuthStateChanged,
   GoogleAuthProvider,
@@ -21,6 +22,7 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, displayName?: string) => Promise<User>;
   signIn: (email: string, password: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   signInWithGoogle: () => Promise<User>;
   signOut: () => Promise<void>;
 }
@@ -95,6 +97,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
+  const resetPassword = async (email: string) => {
+    await sendPasswordResetEmail(auth, email);
+  };
+
   const signInWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -130,7 +136,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
       } catch (profileError) {
         console.error("Error creating user profile:", profileError);
-        // Don't block sign-in if profile creation fails, but log it
       }
 
       return user;
@@ -145,7 +150,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, userProfile, loading, signUp, signIn, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, userProfile, loading, signUp, signIn, resetPassword, signInWithGoogle, signOut }}>
       {!loading && children}
     </AuthContext.Provider>
   );

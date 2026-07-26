@@ -3,7 +3,7 @@ rules_version = '2';
 /**
  * MALOLA - Firestore Security Rules
  * Comprehensive rules for all application features
- * Last updated: 2026-02-17
+ * Last updated: 2026-07-26
  */
 
 service cloud.firestore {
@@ -13,31 +13,18 @@ service cloud.firestore {
     // HELPER FUNCTIONS
     // ============================================
 
-    /**
-     * Checks if the user is authenticated
-     */
     function isSignedIn() {
       return request.auth != null;
     }
     
-    /**
-     * Checks if the currently signed-in user's UID matches the provided userId
-     */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /**
-     * Checks if the user owns an existing document
-     */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
-    /**
-     * Checks if the user is an Admin
-     * Based on email allowlist
-     */
     function isAdminUser() {
       return isSignedIn() && (
         request.auth.token.email.lower() in [
@@ -47,16 +34,10 @@ service cloud.firestore {
       );
     }
 
-    /**
-     * Validates that required fields exist in the data
-     */
     function hasRequiredFields(data, fields) {
       return fields.toSet().difference(data.keys().toSet()).size() == 0;
     }
 
-    /**
-     * Checks if data size is within limit (for preventing abuse)
-     */
     function isValidSize(data, maxSize) {
       return request.resource.size() < maxSize;
     }
@@ -66,58 +47,43 @@ service cloud.firestore {
     // ============================================
 
     match /users/{userId} {
-      // Anyone can read their own profile, admins can read all
       allow get: if isOwner(userId) || isAdminUser();
-      
-      // Only admins can list all users
       allow list: if isAdminUser();
       
-      // Users can create their own profile with matching UID
       allow create: if isOwner(userId) 
         && hasRequiredFields(request.resource.data, ['uid', 'email'])
         && request.resource.data.uid == userId
-        && isValidSize(request.resource.data, 500000); // 500KB limit
+        && isValidSize(request.resource.data, 500000);
       
-      // Users can update their own profile (but not critical fields)
-      // Admins can update any profile
       allow update: if (isExistingOwner(userId) || isAdminUser())
         && isValidSize(request.resource.data, 500000);
       
-      // Users can delete their own profile, admins can delete any
       allow delete: if isExistingOwner(userId) || isAdminUser();
 
-      // User Likes Subcollection
       match /likes/{likeId} {
         allow read, write: if isOwner(userId);
       }
     }
 
     // ============================================
-    // COMMUNITY PLATFORM (Posts, Comments)
+    // COMMUNITY PLATFORM (Posts, Comments, Reports)
     // ============================================
 
     match /posts/{postId} {
-      // Public Read
       allow get, list: if true;
 
-      // Create: Authenticated users can create posts
       allow create: if isSignedIn()
         && hasRequiredFields(request.resource.data, ['authorId', 'content'])
         && request.resource.data.authorId == request.auth.uid
-        && isValidSize(request.resource.data, 100000); // 100KB limit
+        && isValidSize(request.resource.data, 100000);
 
-      // Update: formatting rules for likes/comments counters vs content editing
       allow update: if isSignedIn() && (
-        // Case 1: Author updating content
         (resource.data.authorId == request.auth.uid) ||
-        // Case 2: Any auth user updating counters (for likes/comments)
         (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount', 'commentsCount']))
       );
 
-      // Delete: Only Author or Admin
       allow delete: if resource.data.authorId == request.auth.uid || isAdminUser();
 
-      // Comments Subcollection
       match /comments/{commentId} {
         allow get, list: if true;
         allow create: if isSignedIn()
@@ -127,23 +93,23 @@ service cloud.firestore {
       }
     }
 
+    match /reports/{reportId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isAdminUser();
+    }
+
     // ============================================
     // SCRIPTURES (PUBLIC CONTENT)
     // ============================================
 
     match /scriptures/{scriptureId} {
-      // Anyone can read scriptures
       allow get, list: if true;
-      
-      // Only admins can create/modify scriptures
       allow write: if isAdminUser();
       
-      // Chapters subcollection
       match /chapters/{chapterId} {
         allow get, list: if true;
         allow write: if isAdminUser();
         
-        // Verses subcollection
         match /verses/{verseId} {
           allow get, list: if true;
           allow write: if isAdminUser();
@@ -156,10 +122,35 @@ service cloud.firestore {
     // ============================================
 
     match /blogs/{blogId} {
-      // Anyone can read blogs
       allow get, list: if true;
-      
-      // Only admins can create/modify blogs
+      allow write: if isAdminUser();
+    }
+
+    // ============================================
+    // DAILY WISDOM & SADHANAS
+    // ============================================
+
+    match /wisdom/{wisdomId} {
+      allow get, list: if true;
+      allow write: if isAdminUser();
+    }
+
+    match /dailyWisdom/{wisdomId} {
+      allow get, list: if true;
+      allow write: if isAdminUser();
+    }
+
+    // ============================================
+    // SYSTEM CONFIGURATION
+    // ============================================
+
+    match /system_config/{configId} {
+      allow get, list: if true;
+      allow write: if isAdminUser();
+    }
+
+    match /appConfig/{configId} {
+      allow get, list: if true;
       allow write: if isAdminUser();
     }
 
@@ -168,10 +159,7 @@ service cloud.firestore {
     // ============================================
 
     match /media/{mediaId} {
-      // Anyone can read/list media items
       allow read, list: if true;
-      
-      // Only admins can create/modify media items
       allow write: if isAdminUser();
     }
 
@@ -186,23 +174,8 @@ service cloud.firestore {
     }
 
     // ============================================
-    // DAILY WISDOM & CONFIG
-    // ============================================
-
-    match /dailyWisdom/{wisdomId} {
-      allow get, list: if true;
-      allow write: if isAdminUser();
-    }
-
-    match /appConfig/{configId} {
-      allow get, list: if true;
-      allow write: if isAdminUser();
-    }
-
-    // ============================================
     // FALLBACK RULE
     // ============================================
-    // Deny all other access by default
     match /{document=**} {
       allow read, write: if false;
     }
