@@ -2,6 +2,7 @@ export interface Scripture {
   id: string;
   title: {
     en: string;
+    kn?: string;
     sa?: string;
     hi?: string;
     [key: string]: string | undefined;
@@ -9,11 +10,13 @@ export interface Scripture {
   slug: string;
   description: {
     en: string;
+    kn?: string;
+    hi?: string;
     [key: string]: string | undefined;
   };
   author?: string;
   coverImage?: string;
-  languages: string[];
+  languages: string[]; // e.g. ["kn", "en", "hi", "sa"]
   tags?: string[];
   tradition?: string;
   yuga?: string;
@@ -29,11 +32,15 @@ export interface Chapter {
   number: number;
   title: {
     en: string;
+    kn?: string;
     sa?: string;
+    hi?: string;
     [key: string]: string | undefined;
   };
   summary?: {
     en: string;
+    kn?: string;
+    hi?: string;
     [key: string]: string | undefined;
   };
   versesCount: number;
@@ -47,12 +54,14 @@ export interface Verse {
   chapterId: string;
   number: number;
   text: {
-    original: string; // Sanskrit/Source
+    original: string; // Sanskrit/Source (Devanagari or Kannada script)
     transliteration?: string;
     [key: string]: string | undefined;
   };
   translations: {
     en: string;
+    kn?: string;
+    hi?: string;
     [key: string]: string | undefined;
   };
   meaning?: string;
@@ -60,6 +69,8 @@ export interface Verse {
   audioUrl?: string;
   commentary?: {
     en?: string;
+    kn?: string;
+    hi?: string;
     sa?: string;
     [key: string]: string | undefined;
   };

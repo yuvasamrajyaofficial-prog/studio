@@ -3,7 +3,7 @@
 import { Verse } from "@/types/scripture";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlayCircle, Share2, Bookmark, BookOpen, Languages } from "lucide-react";
+import { PlayCircle, BookOpen, Languages } from "lucide-react";
 import { useState } from "react";
 import { AudioPlayer } from "./audio-player";
 import { ShareButton } from "@/components/social/share-button";
@@ -16,12 +16,25 @@ interface VerseViewerProps {
 export function VerseViewer({ verse, showAudio = true }: VerseViewerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showMeaning, setShowMeaning] = useState(false);
-  const [selectedLang, setSelectedLang] = useState<'en' | 'hi' | 'sa'>('en');
+  const [selectedLang, setSelectedLang] = useState<'kn' | 'en' | 'hi'>('kn');
 
   const originalText = verse.text?.original || '';
   const transliteration = verse.text?.transliteration || '';
-  const translationText = verse.translations?.[selectedLang] || verse.translations?.en || verse.meaning || '';
-  const commentaryText = verse.commentary?.[selectedLang] || verse.commentary?.en || '';
+  
+  // Get active translation (falling back gracefully: KN -> EN -> HI)
+  const translationText = 
+    verse.translations?.[selectedLang] || 
+    verse.translations?.kn || 
+    verse.translations?.en || 
+    verse.translations?.hi || 
+    verse.meaning || '';
+
+  // Get active commentary
+  const commentaryText = 
+    verse.commentary?.[selectedLang] || 
+    verse.commentary?.kn || 
+    verse.commentary?.en || 
+    verse.commentary?.hi || '';
 
   return (
     <Card className="mb-6 border-l-4 border-l-primary/50 hover:border-l-primary transition-colors bg-card/60 border-border/50">
@@ -32,27 +45,36 @@ export function VerseViewer({ verse, showAudio = true }: VerseViewerProps) {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Language Switcher */}
+            {/* Language Switcher: Kannada, English, Hindi */}
             <div className="flex items-center gap-1 bg-muted/40 p-1 rounded-lg border border-border/50 text-xs">
               <Languages className="w-3.5 h-3.5 ml-1 text-muted-foreground" />
               <button 
+                onClick={() => setSelectedLang('kn')}
+                className={`px-2 py-0.5 rounded font-semibold transition-colors ${selectedLang === 'kn' ? 'bg-primary text-primary-foreground font-bold shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                title="Kannada Translation"
+              >
+                ಕನ್ನಡ (KN)
+              </button>
+              <button 
                 onClick={() => setSelectedLang('en')}
-                className={`px-2 py-0.5 rounded ${selectedLang === 'en' ? 'bg-primary text-primary-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-2 py-0.5 rounded font-semibold transition-colors ${selectedLang === 'en' ? 'bg-primary text-primary-foreground font-bold shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                title="English Translation"
               >
                 EN
               </button>
               <button 
                 onClick={() => setSelectedLang('hi')}
-                className={`px-2 py-0.5 rounded ${selectedLang === 'hi' ? 'bg-primary text-primary-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'}`}
+                className={`px-2 py-0.5 rounded font-semibold transition-colors ${selectedLang === 'hi' ? 'bg-primary text-primary-foreground font-bold shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                title="Hindi Translation"
               >
-                HI
+                हिंदी (HI)
               </button>
             </div>
 
             <ShareButton 
               title={`Verse ${verse.number}`}
               text={originalText}
-              hashtags={["Verse", "AncientWisdom"]}
+              hashtags={["Verse", "MalolaScriptures", "Wisdom"]}
             />
           </div>
         </div>
@@ -69,10 +91,14 @@ export function VerseViewer({ verse, showAudio = true }: VerseViewerProps) {
           )}
         </div>
 
-        {/* Translation */}
+        {/* Translation Section */}
         {translationText && (
           <div className="bg-primary/5 p-4 rounded-xl border border-primary/10 mb-4">
-            <p className="text-sm font-semibold text-primary mb-1 uppercase tracking-wider text-[10px]">Translation</p>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] font-bold text-primary uppercase tracking-wider">
+                {selectedLang === 'kn' ? 'ಕನ್ನಡ ಅನುವಾದ (Kannada Translation)' : selectedLang === 'hi' ? 'हिंदी अनुवाद (Hindi Translation)' : 'English Translation'}
+              </span>
+            </div>
             <p className="text-base text-foreground/90 leading-relaxed font-sans">
               {translationText}
             </p>
@@ -89,19 +115,21 @@ export function VerseViewer({ verse, showAudio = true }: VerseViewerProps) {
               onClick={() => setShowMeaning(!showMeaning)}
             >
               <BookOpen className="w-3.5 h-3.5 text-purple-400" />
-              {showMeaning ? "Hide Purport & Commentary" : "Read Purport & Commentary"}
+              {showMeaning ? "Hide Purport & Commentary" : "Read Purport & Commentary (ಭಾಷ್ಯ)"}
             </Button>
 
             {showMeaning && (
               <div className="mt-3 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 text-muted-foreground leading-relaxed text-sm animate-in fade-in slide-in-from-top-2">
-                <p className="text-xs font-semibold text-purple-400 mb-2 uppercase tracking-wider">Philosophical Commentary (Bhashya)</p>
+                <p className="text-xs font-semibold text-purple-400 mb-2 uppercase tracking-wider">
+                  Philosophical Commentary / Bhashya ({selectedLang.toUpperCase()})
+                </p>
                 {commentaryText}
               </div>
             )}
           </div>
         )}
 
-        {/* Audio Player */}
+        {/* Audio Recitation Player */}
         {showAudio && verse.audioUrl && (
           <div className="mt-6 pt-4 border-t border-border/40">
             {!isPlaying ? (
@@ -112,7 +140,7 @@ export function VerseViewer({ verse, showAudio = true }: VerseViewerProps) {
                 onClick={() => setIsPlaying(true)}
               >
                 <PlayCircle className="h-4 w-4" />
-                Listen to Recitation
+                Listen to Recitation (ಶ್ರವಣ)
               </Button>
             ) : (
               <AudioPlayer 
