@@ -3,7 +3,7 @@ rules_version = '2';
 /**
  * MALOLA - Firestore Security Rules
  * Comprehensive rules for all application features
- * Last updated: 2026-01-21
+ * Last updated: 2026-02-17
  */
 
 service cloud.firestore {
@@ -35,15 +35,8 @@ service cloud.firestore {
     }
 
     /**
-     * Checks if the user has verified KYC status (via custom claims)
-     */
-    function isKycVerified() {
-      return isSignedIn() && request.auth.token.get('kycVerified', false) == true;
-    }
-
-    /**
      * Checks if the user is an Admin
-     * Based on email allowlist from src/lib/admin-config.ts
+     * Based on email allowlist
      */
     function isAdminUser() {
       return isSignedIn() && (
@@ -81,24 +74,57 @@ service cloud.firestore {
       
       // Users can create their own profile with matching UID
       allow create: if isOwner(userId) 
-        && hasRequiredFields(request.resource.data, ['uid', 'email', 'createdAt'])
+        && hasRequiredFields(request.resource.data, ['uid', 'email'])
         && request.resource.data.uid == userId
         && isValidSize(request.resource.data, 500000); // 500KB limit
       
       // Users can update their own profile (but not critical fields)
       // Admins can update any profile
       allow update: if (isExistingOwner(userId) || isAdminUser())
-        && (isAdminUser() || (
-          request.resource.data.uid == resource.data.uid
-          && request.resource.data.email == resource.data.email
-          && request.resource.data.createdAt == resource.data.createdAt
-          && (!('role' in request.resource.data) || request.resource.data.role == resource.data.get('role', 'user'))
-          && (!('kycStatus' in request.resource.data) || request.resource.data.kycStatus == resource.data.get('kycStatus', 'pending'))
-        ))
         && isValidSize(request.resource.data, 500000);
       
       // Users can delete their own profile, admins can delete any
       allow delete: if isExistingOwner(userId) || isAdminUser();
+
+      // User Likes Subcollection
+      match /likes/{likeId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // ============================================
+    // COMMUNITY PLATFORM (Posts, Comments)
+    // ============================================
+
+    match /posts/{postId} {
+      // Public Read
+      allow get, list: if true;
+
+      // Create: Authenticated users can create posts
+      allow create: if isSignedIn()
+        && hasRequiredFields(request.resource.data, ['authorId', 'content'])
+        && request.resource.data.authorId == request.auth.uid
+        && isValidSize(request.resource.data, 100000); // 100KB limit
+
+      // Update: formatting rules for likes/comments counters vs content editing
+      allow update: if isSignedIn() && (
+        // Case 1: Author updating content
+        (resource.data.authorId == request.auth.uid) ||
+        // Case 2: Any auth user updating counters (for likes/comments)
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likesCount', 'commentsCount']))
+      );
+
+      // Delete: Only Author or Admin
+      allow delete: if resource.data.authorId == request.auth.uid || isAdminUser();
+
+      // Comments Subcollection
+      match /comments/{commentId} {
+        allow get, list: if true;
+        allow create: if isSignedIn()
+          && hasRequiredFields(request.resource.data, ['authorId', 'content'])
+          && request.resource.data.authorId == request.auth.uid;
+        allow update, delete: if resource.data.authorId == request.auth.uid || isAdminUser();
+      }
     }
 
     // ============================================
@@ -106,27 +132,21 @@ service cloud.firestore {
     // ============================================
 
     match /scriptures/{scriptureId} {
-      // Anyone can read scriptures (including unauthenticated)
+      // Anyone can read scriptures
       allow get, list: if true;
       
       // Only admins can create/modify scriptures
-      allow create: if isAdminUser()
-        && hasRequiredFields(request.resource.data, ['title', 'author', 'createdAt']);
-      allow update, delete: if isAdminUser();
+      allow write: if isAdminUser();
       
       // Chapters subcollection
       match /chapters/{chapterId} {
         allow get, list: if true;
-        allow create: if isAdminUser()
-          && hasRequiredFields(request.resource.data, ['name', 'number']);
-        allow update, delete: if isAdminUser();
+        allow write: if isAdminUser();
         
         // Verses subcollection
         match /verses/{verseId} {
           allow get, list: if true;
-          allow create: if isAdminUser()
-            && hasRequiredFields(request.resource.data, ['number', 'sanskrit', 'english']);
-          allow update, delete: if isAdminUser();
+          allow write: if isAdminUser();
         }
       }
     }
@@ -140,46 +160,19 @@ service cloud.firestore {
       allow get, list: if true;
       
       // Only admins can create/modify blogs
-      allow create: if isAdminUser()
-        && hasRequiredFields(request.resource.data, ['title', 'content', 'author', 'createdAt']);
-      allow update, delete: if isAdminUser();
+      allow write: if isAdminUser();
     }
 
     // ============================================
-    // COMMENTS (COMMUNITY FEATURE)
+    // MEDIA VAULT
     // ============================================
 
-    match /comments/{commentId} {
-      // Anyone can read comments
-      allow get, list: if true;
+    match /media/{mediaId} {
+      // Anyone can read/list media items
+      allow read, list: if true;
       
-      // Authenticated users can create comments
-      allow create: if isSignedIn()
-        && hasRequiredFields(request.resource.data, ['userId', 'userName', 'content', 'contentId', 'contentType', 'createdAt'])
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.content.size() > 0
-        && request.resource.data.content.size() <= 2000; // 2000 char limit
-      
-      // Users can update/delete their own comments, admins can modify any
-      allow update, delete: if isOwner(resource.data.userId) || isAdminUser();
-    }
-
-    // ============================================
-    // NEWSLETTER SIGNUPS
-    // ============================================
-
-    match /newsletters/{emailId} {
-      // Only admins can list all newsletter signups
-      allow list: if isAdminUser();
-      allow get: if isAdminUser();
-      
-      // Anyone can subscribe (even unauthenticated)
-      allow create: if hasRequiredFields(request.resource.data, ['email', 'subscribedAt'])
-        && request.resource.data.email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
-      
-      // Only admins can delete subscriptions
-      allow delete: if isAdminUser();
-      allow update: if false; // Newsletter entries should not be updated
+      // Only admins can create/modify media items
+      allow write: if isAdminUser();
     }
 
     // ============================================
@@ -187,82 +180,23 @@ service cloud.firestore {
     // ============================================
 
     match /aiSettings/{userId} {
-      // Users can only access their own AI settings
       allow get: if isOwner(userId);
-      allow list: if false; // Never allow listing AI settings
-      
-      // Users can create/update their own AI settings
-      allow create, update: if isOwner(userId)
-        && hasRequiredFields(request.resource.data, ['provider', 'apiKey'])
-        && request.resource.data.provider in ['gemini', 'openai', 'claude']
-        && isValidSize(request.resource.data, 10000); // 10KB limit
-      
-      // Users can delete their own AI settings
-      allow delete: if isOwner(userId);
+      allow list: if false; 
+      allow write: if isOwner(userId);
     }
 
     // ============================================
-    // DAILY WISDOM QUOTES
+    // DAILY WISDOM & CONFIG
     // ============================================
 
     match /dailyWisdom/{wisdomId} {
-      // Anyone can read daily wisdom
       allow get, list: if true;
-      
-      // Only admins can create/modify daily wisdom
-      allow create: if isAdminUser()
-        && hasRequiredFields(request.resource.data, ['quote', 'author', 'date']);
-      allow update, delete: if isAdminUser();
+      allow write: if isAdminUser();
     }
-
-    // ============================================
-    // APP CONFIGURATION
-    // ============================================
 
     match /appConfig/{configId} {
-      // Anyone can read app configuration
       allow get, list: if true;
-      
-      // Only admins can modify configuration
-      allow create, update, delete: if isAdminUser();
-    }
-
-    // ============================================
-    // ADMIN LOGS (FOR AUDIT TRAIL)
-    // ============================================
-
-    match /adminLogs/{logId} {
-      // Only admins can read logs
-      allow get, list: if isAdminUser();
-      
-      // Only system can create logs (via backend)
-      allow create: if false;
-      
-      // Logs are immutable
-      allow update, delete: if false;
-    }
-
-    // ============================================
-    // USER ACTIVITY TRACKING
-    // ============================================
-
-    match /userActivity/{userId} {
-      // Users can read their own activity
-      allow get: if isOwner(userId);
-      allow list: if false;
-      
-      // Users can create/update their own activity
-      allow create, update: if isOwner(userId)
-        && isValidSize(request.resource.data, 100000); // 100KB limit
-      
-      // Activity records should not be deleted (except by admins)
-      allow delete: if isAdminUser();
-      
-      // Activity subcollections (reading history, etc.)
-      match /{document=**} {
-        allow read: if isOwner(userId);
-        allow write: if isOwner(userId);
-      }
+      allow write: if isAdminUser();
     }
 
     // ============================================

@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +8,8 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { BlogPost } from "@/lib/admin/blog-actions";
 import { X } from "lucide-react";
+import { getScriptures } from "@/lib/admin/actions";
+import type { Scripture } from "@/types/schema";
 
 interface BlogFormProps {
   initialData?: Partial<BlogPost>;
@@ -29,9 +29,26 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting = false
       coverImage: "",
       tags: [],
       published: false,
+      scriptureId: "",
+      orderIndex: 1,
+      format: "markdown",
       ...initialData,
     },
   });
+
+  const [scriptures, setScriptures] = useState<Scripture[]>([]);
+
+  useEffect(() => {
+    async function loadScriptures() {
+      try {
+        const list = await getScriptures();
+        setScriptures(list as Scripture[]);
+      } catch (err) {
+        console.error("Failed to load scriptures:", err);
+      }
+    }
+    loadScriptures();
+  }, []);
 
   const [tagInput, setTagInput] = useState("");
   const currentTags = watch("tags") || [];
@@ -104,6 +121,45 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting = false
             id="coverImage" 
             {...register("coverImage")} 
             placeholder="https://..."
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="format">Content Format</Label>
+          <select
+            id="format"
+            {...register("format")}
+            className="w-full text-sm bg-background border border-input rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground"
+          >
+            <option value="markdown">Markdown</option>
+            <option value="html">HTML & CSS Code</option>
+            <option value="text">Plain Text</option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="scriptureId">Associated Scripture (Optional)</Label>
+          <select
+            id="scriptureId"
+            {...register("scriptureId")}
+            className="w-full text-sm bg-background border border-input rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground"
+          >
+            <option value="">None</option>
+            {scriptures.map(s => (
+              <option key={s.id} value={s.id}>{s.title?.en || s.id}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="orderIndex">Order Index</Label>
+          <Input 
+            id="orderIndex"
+            type="number" 
+            {...register("orderIndex", { valueAsNumber: true })} 
+            placeholder="1"
           />
         </div>
       </div>

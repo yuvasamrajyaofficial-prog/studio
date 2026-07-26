@@ -2,6 +2,8 @@
 
 import { summarizeScripture } from '@/ai/flows/contextual-scripture-summarization';
 import { translateText } from '@/ai/flows/translate-text-flow';
+import { emotionScriptureSearch, type EmotionSearchInput } from '@/ai/flows/emotion-scripture-search';
+import { generateSpeech, type GenerateSpeechInput } from '@/ai/flows/tts-flow';
 import {
   SummarizeScriptureInputSchema,
   TranslateTextInputSchema,
@@ -86,6 +88,42 @@ export async function translateTextAction(input: TranslateTextInput) {
     return {
       error: 'An unexpected error occurred while translating the text.',
       translatedText: null,
+    };
+  }
+}
+
+export async function emotionSearchAction(query: string) {
+  try {
+    if (!query || query.trim().length === 0) {
+      return { error: 'Please enter a feeling or situation.', data: null };
+    }
+    const input: EmotionSearchInput = { query: query.trim() };
+    const result = await emotionScriptureSearch(input);
+    return { error: null, data: result };
+  } catch (error) {
+    console.error('Error in emotionSearchAction:', error);
+    return {
+      error: 'Unable to search scriptures right now. Please try again.',
+      data: null,
+    };
+  }
+}
+
+export async function generateVerseAudioAction(text: string) {
+  try {
+    if (!text || text.trim().length === 0) {
+      return { error: 'No text provided for narration.', audio: null };
+    }
+    // Limit text length to avoid excessive API usage
+    const truncated = text.trim().slice(0, 1000);
+    const input: GenerateSpeechInput = { text: truncated, voice: 'Algenib' };
+    const result = await generateSpeech(input);
+    return { error: null, audio: result.audio };
+  } catch (error) {
+    console.error('Error in generateVerseAudioAction:', error);
+    return {
+      error: 'Unable to generate audio narration right now.',
+      audio: null,
     };
   }
 }

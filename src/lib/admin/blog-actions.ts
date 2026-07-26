@@ -22,6 +22,9 @@ export interface BlogPost {
   author: string;
   tags: string[];
   published: boolean;
+  scriptureId?: string;
+  orderIndex?: number;
+  format?: 'markdown' | 'html' | 'text';
   createdAt: any;
   updatedAt: any;
 }

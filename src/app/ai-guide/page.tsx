@@ -12,6 +12,7 @@ import {
   loadUserChats, 
   createChat, 
   saveMessage, 
+  saveMessageFeedback,
   updateChatTitle, 
   deleteChat as deleteFirestoreChat,
   getChat
@@ -269,13 +270,29 @@ export default function AIGuidePage() {
   };
 
   // Message feedback
-  const handleFeedback = (messageId: string, type: 'up' | 'down') => {
-    // TODO: Save feedback to Firestore
-    console.log('Feedback:', messageId, type);
-    toast({
-      title: 'Feedback Received',
-      description: `You voted ${type} on this message.`,
-    });
+  const handleFeedback = async (messageId: string, type: 'up' | 'down') => {
+    if (!user || !activeChat) return;
+    
+    try {
+      await saveMessageFeedback(user.uid, activeChat, messageId, type);
+      
+      // Update local state to reflect feedback
+      setMessages(prev => prev.map(m => 
+        m.id === messageId ? { ...m, feedback: type } : m
+      ));
+      
+      toast({
+        title: 'Feedback Saved',
+        description: `Your feedback has been recorded.`,
+      });
+    } catch (error) {
+      console.error('Failed to save feedback:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to record feedback.',
+        variant: 'destructive',
+      });
+    }
   };
 
   if (!user) {

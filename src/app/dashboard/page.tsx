@@ -24,15 +24,23 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
-    // TODO: Fetch real stats from Firestore
-    // For now, using mock data
-    setStats({
-      versesRead: 127,
-      timeSpent: 840, // minutes
-      currentStreak: 7,
-      totalSessions: 23,
-    });
-  }, [user]);
+    if (userProfile?.stats) {
+      setStats({
+        versesRead: userProfile.stats.versesRead || 0,
+        timeSpent: userProfile.stats.timeSpent || 0,
+        currentStreak: userProfile.stats.currentStreak || 0,
+        totalSessions: userProfile.stats.totalSessions || 0,
+      });
+    } else {
+      // Fallback if no stats yet (new user)
+      setStats({
+        versesRead: 0,
+        timeSpent: 0,
+        currentStreak: 0,
+        totalSessions: 0,
+      });
+    }
+  }, [user, userProfile]);
 
   if (!user) {
     router.push("/login");

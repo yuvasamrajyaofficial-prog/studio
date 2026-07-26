@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
-import { Bot, User, ThumbsUp, ThumbsDown, Copy, RotateCcw } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Bot, User, ThumbsUp, ThumbsDown, Copy, RotateCcw, Volume2, Pause, Play, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { generateVerseAudioAction } from '@/app/actions';
+import { toast } from 'sonner';
 
 interface Message {
   id: string;
@@ -19,6 +21,84 @@ interface ChatMessagesProps {
   onCopy?: (content: string) => void;
   onRegenerate?: (messageId: string) => void;
   onFeedback?: (messageId: string, type: 'up' | 'down') => void;
+}
+
+function MessageAudioButton({ text }: { text: string }) {
+  const [state, setState] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handlePlay = async () => {
+    if (state === 'playing') {
+      audioRef.current?.pause();
+      setState('paused');
+      return;
+    }
+    if (state === 'paused' && audioRef.current) {
+      try {
+        await audioRef.current.play();
+        setState('playing');
+      } catch (err) {
+        console.error('Playback failed:', err);
+        setState('idle');
+      }
+      return;
+    }
+
+    setState('loading');
+    try {
+      const { error: err, audio } = await generateVerseAudioAction(text);
+      if (err || !audio) {
+        toast.error(err || 'Failed to generate audio.');
+        setState('idle');
+        return;
+      }
+
+      const audioEl = new Audio(audio);
+      audioRef.current = audioEl;
+      audioEl.onended = () => setState('idle');
+      audioEl.onerror = () => {
+        toast.error('Audio playback error.');
+        setState('idle');
+      };
+      await audioEl.play();
+      setState('playing');
+    } catch (e) {
+      console.error(e);
+      toast.error('Voice playback failed.');
+      setState('idle');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={handlePlay}
+      disabled={state === 'loading'}
+      className="h-7 sm:h-8 text-xs text-muted-foreground hover:text-foreground px-2 sm:px-3 gap-1"
+    >
+      {state === 'loading' ? (
+        <Loader2 className="w-3 h-3 animate-spin" />
+      ) : state === 'playing' ? (
+        <Pause className="w-3 h-3" />
+      ) : state === 'paused' ? (
+        <Play className="w-3 h-3" />
+      ) : (
+        <Volume2 className="w-3 h-3" />
+      )}
+      <span>
+        {state === 'loading' ? 'Loading' : state === 'playing' ? 'Pause' : state === 'paused' ? 'Resume' : 'Listen'}
+      </span>
+    </Button>
+  );
 }
 
 export function ChatMessages({ messages, isLoading, onCopy, onRegenerate, onFeedback }: ChatMessagesProps) {
@@ -86,7 +166,7 @@ export function ChatMessages({ messages, isLoading, onCopy, onRegenerate, onFeed
 
             {/* Action buttons for assistant messages */}
             {message.role === 'assistant' && !message.isStreaming && (
-              <div className="flex flex-wrap gap-1 sm:gap-2 pt-2">
+              <div className="flex flex-wrap gap-1 sm:gap-2 pt-2 items-center">
                 <Button 
                   variant="ghost" 
                   size="sm" 
@@ -105,6 +185,10 @@ export function ChatMessages({ messages, isLoading, onCopy, onRegenerate, onFeed
                   <RotateCcw className="w-3 h-3 mr-1" />
                   <span className="hidden sm:inline">Regenerate</span>
                 </Button>
+
+                {/* TTS audio readout */}
+                <MessageAudioButton text={message.content} />
+
                 <div className="flex-1 min-w-[20px]" />
                 <button 
                   onClick={() => onFeedback?.(message.id, 'up')}

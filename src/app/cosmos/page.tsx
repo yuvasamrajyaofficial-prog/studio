@@ -7,7 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
-import { BookOpen, Sparkles, Heart, Users, Star, Zap } from 'lucide-react';
+import { BookOpen, Sparkles, Heart, Users, Star, Zap, Video } from 'lucide-react';
 import Link from 'next/link';
 import type { SoulID } from '@/types/user';
 import { useAuth } from '@/contexts/auth-context';
@@ -128,6 +128,17 @@ export default function CosmosPage() {
                 gradient="from-blue-500/10 to-cyan-500/10"
                 borderColor="border-blue-500/20"
                 iconColor="text-blue-500"
+              />
+
+              {/* Media Vault */}
+              <DashboardCard
+                icon={Video}
+                title="Cosmic Media Vault"
+                description="Explore daily scripture guides, videos, and PDFs"
+                href="/media"
+                gradient="from-red-500/10 to-amber-500/10"
+                borderColor="border-red-500/20"
+                iconColor="text-red-500"
               />
 
               {/* AI Guru */}

@@ -5,13 +5,17 @@ import {
   Users, BookOpen, MessageSquare, TrendingUp, 
   Activity, Shield, Bell, ArrowUpRight, ArrowDownRight,
   Clock, CheckCircle2, AlertCircle, Database, LayoutDashboard,
-  FileText
+  FileText, Video, Loader2, Play, Eye, Trash2
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from 'framer-motion';
 import { toast } from "sonner";
+
+// Media and Storage actions
+import { getMediaItems, createMediaItem, updateMediaItem, deleteMediaItem, type MediaItem } from "@/lib/firebase/media";
+import { uploadMediaFile, deleteFile } from "@/lib/firebase/storage";
 
 // Content Management Components
 import { ScriptureForm } from "@/components/admin/scripture-form";
@@ -64,6 +68,9 @@ export default function AdminDashboard() {
           <TabsTrigger value="blogs" className="gap-2">
             <FileText className="w-4 h-4" /> Blogs
           </TabsTrigger>
+          <TabsTrigger value="media" className="gap-2">
+            <Video className="w-4 h-4" /> Media Vault
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -76,6 +83,10 @@ export default function AdminDashboard() {
 
         <TabsContent value="blogs" className="space-y-6">
           <BlogManagementTab />
+        </TabsContent>
+
+        <TabsContent value="media" className="space-y-6">
+          <MediaManagementTab />
         </TabsContent>
       </Tabs>
     </div>
@@ -206,6 +217,14 @@ function ContentManagementTab() {
     setView('list');
   };
 
+  const handleUpdateScripture = async (data: Partial<Scripture>) => {
+    if (!selectedScripture?.id) return;
+    await updateScripture(selectedScripture.id, data);
+    await loadScriptures();
+    setView('list');
+    setSelectedScripture(null);
+  };
+
   const handleSelectScripture = async (scripture: Scripture) => {
     setSelectedScripture(scripture);
     await loadChapters(scripture.id!);
@@ -298,7 +317,7 @@ function ContentManagementTab() {
               <h4 className="font-semibold mb-4">Metadata</h4>
               <ScriptureForm 
                 initialData={selectedScripture || {}} 
-                onSubmit={handleCreateScripture} // TODO: Handle update separately
+                onSubmit={selectedScripture ? handleUpdateScripture : handleCreateScripture}
               />
             </Card>
           </div>
@@ -484,3 +503,338 @@ function HealthItem({ title, status, isHealthy }: any) {
     </div>
   );
 }
+
+function MediaManagementTab() {
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
+  const [scriptures, setScriptures] = useState<Scripture[]>([]);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [type, setType] = useState<'image' | 'video' | 'pdf'>('image');
+  const [scriptureId, setScriptureId] = useState('');
+  const [orderIndex, setOrderIndex] = useState(1);
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadMediaItems();
+    loadScriptures();
+  }, []);
+
+  const loadMediaItems = async () => {
+    setLoading(true);
+    try {
+      const items = await getMediaItems();
+      setMediaItems(items);
+      if (items.length > 0) {
+        const nextOrder = Math.max(...items.map(item => item.orderIndex || 0)) + 1;
+        setOrderIndex(nextOrder);
+      }
+    } catch (err) {
+      console.error('Failed to load media:', err);
+      toast.error('Error fetching media items.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadScriptures = async () => {
+    try {
+      const list = await getScriptures();
+      setScriptures(list);
+    } catch (err) {
+      console.error('Failed to load scriptures:', err);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      
+      if (selectedFile.type.startsWith('video/')) {
+        setType('video');
+      } else if (selectedFile.type.startsWith('image/')) {
+        setType('image');
+      } else if (selectedFile.type === 'application/pdf' || selectedFile.name.endsWith('.pdf')) {
+        setType('pdf');
+      }
+      
+      if (!title) {
+        setTitle(selectedFile.name.split('.').slice(0, -1).join('.'));
+      }
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) {
+      toast.error('Please choose a file to upload.');
+      return;
+    }
+    if (!title.trim()) {
+      toast.error('Brief title required.');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      toast.info('Uploading file to storage, please wait...');
+      const fileUrl = await uploadMediaFile(file);
+      
+      const decodedUrl = decodeURIComponent(fileUrl);
+      const parts = decodedUrl.split('/o/');
+      const storagePath = parts.length > 1 ? parts[1].split('?')[0] : `media-vault/${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+
+      await createMediaItem({
+        title,
+        description,
+        fileUrl,
+        storagePath,
+        fileType: type,
+        fileName: file.name,
+        orderIndex: Number(orderIndex),
+        scriptureId: scriptureId || undefined
+      });
+
+      toast.success('Media file uploaded successfully!');
+      setTitle('');
+      setDescription('');
+      setType('image');
+      setScriptureId('');
+      setFile(null);
+      
+      const fileInput = document.getElementById('media-file-input') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+
+      loadMediaItems();
+    } catch (err) {
+      console.error('Upload error:', err);
+      toast.error('Failed to upload media item.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDelete = async (itemId: string, fileUrl: string, storagePath?: string) => {
+    if (!confirm('Are you sure you want to permanently delete this media file?')) return;
+    
+    try {
+      await deleteMediaItem(itemId);
+      
+      let pathToDelete = storagePath;
+      if (!pathToDelete) {
+        const decodedUrl = decodeURIComponent(fileUrl);
+        const parts = decodedUrl.split('/o/');
+        if (parts.length > 1) {
+          pathToDelete = parts[1].split('?')[0];
+        }
+      }
+      
+      if (pathToDelete) {
+        await deleteFile(pathToDelete);
+      }
+      
+      toast.success('Media artifact deleted.');
+      loadMediaItems();
+    } catch (err) {
+      console.error('Delete error:', err);
+      toast.error('Failed to delete media artifact.');
+    }
+  };
+
+  const handleUpdateOrder = async (itemId: string, newOrder: number) => {
+    try {
+      await updateMediaItem(itemId, { orderIndex: newOrder });
+      toast.success('Re-ordering successful!');
+      loadMediaItems();
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update ordering.');
+    }
+  };
+
+  return (
+    <div className="grid lg:grid-cols-3 gap-6">
+      <Card className="p-6 border-border/50 bg-card/50 backdrop-blur-sm lg:col-span-1 h-fit">
+        <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-foreground">
+          <Video className="w-5 h-5 text-primary animate-pulse" /> Upload Daily Media
+        </h3>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Media Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Overview of Bhagavad Gita Yuga Timeline"
+              className="w-full text-sm bg-muted/30 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground animate-none"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Description / Notes</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Explain the contents or context..."
+              rows={3}
+              className="w-full text-sm bg-muted/30 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Media Type</label>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value as any)}
+              className="w-full text-sm bg-muted/30 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground"
+            >
+              <option value="image">Image / Graphic Diagram</option>
+              <option value="video">AI Generated Video</option>
+              <option value="pdf">Sanskrit Text PDF / E-Book</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-foreground">Scripture Reference (Optional)</label>
+            <select
+              value={scriptureId}
+              onChange={(e) => setScriptureId(e.target.value)}
+              className="w-full text-sm bg-muted/30 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground"
+            >
+              <option value="">No Reference</option>
+              {scriptures.map((scrip) => (
+                <option key={scrip.id} value={scrip.id}>
+                  {scrip.title.en}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-foreground">Order Index</label>
+              <input
+                type="number"
+                value={orderIndex}
+                onChange={(e) => setOrderIndex(Number(e.target.value))}
+                min="0"
+                className="w-full text-sm bg-muted/30 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground animate-none"
+              />
+            </div>
+            
+            <div className="space-y-2 flex flex-col justify-end">
+              <span className="text-xs text-muted-foreground mb-2">Used for custom sorting.</span>
+            </div>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <label className="text-sm font-semibold text-foreground block">Choose File</label>
+            <input
+              id="media-file-input"
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*,video/*,application/pdf"
+              className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/20 file:text-primary hover:file:bg-primary/30 cursor-pointer"
+              required
+            />
+            {file && (
+              <p className="text-xs text-muted-foreground font-mono mt-1">
+                Size: {(file.size / (1024 * 1024)).toFixed(2)} MB
+              </p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            disabled={uploading}
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 transition-all flex items-center justify-center gap-2"
+          >
+            {uploading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              'Upload and Publish'
+            )}
+          </Button>
+        </form>
+      </Card>
+
+      <Card className="p-6 border-border/50 bg-card/50 backdrop-blur-sm lg:col-span-2">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-foreground">Published Artifact Library</h3>
+          <Button variant="outline" size="sm" onClick={loadMediaItems}>Refresh</Button>
+        </div>
+
+        {loading ? (
+          <div className="py-12 flex justify-center items-center">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        ) : mediaItems.length === 0 ? (
+          <div className="py-12 text-center text-muted-foreground">
+            No media files uploaded yet. Add your first PDF, Image, or Video.
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="text-xs uppercase bg-muted/30 border-b border-border/50 text-muted-foreground font-mono">
+                <tr>
+                  <th className="py-3 px-4">Order</th>
+                  <th className="py-3 px-4">Title / Type</th>
+                  <th className="py-3 px-4">Filename</th>
+                  <th className="py-3 px-4">Scripture</th>
+                  <th className="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/30">
+                {mediaItems.map((item) => (
+                  <tr key={item.id} className="hover:bg-muted/10">
+                    <td className="py-3 px-4 w-20">
+                      <input
+                        type="number"
+                        defaultValue={item.orderIndex}
+                        onBlur={(e) => handleUpdateOrder(item.id!, Number(e.target.value))}
+                        className="w-14 bg-muted/40 border border-border/50 rounded p-1 text-center font-semibold text-foreground animate-none"
+                      />
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="font-semibold text-foreground">{item.title}</div>
+                      <div className="text-xs capitalize font-mono text-muted-foreground mt-0.5">{item.fileType}</div>
+                    </td>
+                    <td className="py-3 px-4 max-w-[150px] truncate font-mono text-xs text-muted-foreground">
+                      {item.fileName}
+                    </td>
+                    <td className="py-3 px-4 text-xs text-muted-foreground">
+                      {scriptures.find(s => s.id === item.scriptureId)?.title.en || 'General'}
+                    </td>
+                    <td className="py-3 px-4 text-right space-x-2">
+                      <Button variant="ghost" size="icon" asChild className="h-8 w-8 hover:text-primary">
+                        <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
+                          <Eye className="w-4 h-4" />
+                        </a>
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => handleDelete(item.id!, item.fileUrl, item.storagePath)}
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+

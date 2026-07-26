@@ -1,117 +1,187 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const YUGAS = [
   {
     id: "satya",
     name: "Satya Yuga",
-    color: "from-yellow-200 to-yellow-500",
-    duration: "1,728,000 Years",
-    virtue: "100% Dharma",
-    desc: "The Age of Truth. Humanity is governed by gods, and every manifestation or work is close to the purest ideal. There is no need for writing, as people communicate directly by thought.",
+    subtitle: "Age of Truth",
+    color: "#FFD700",
+    glow: "rgba(255,215,0,0.4)",
+    bg: "from-yellow-900/40 to-yellow-700/20",
+    border: "border-yellow-400/40",
+    duration: "1,728,000 Yrs",
+    virtue: 100,
     icon: "✨",
+    desc: "The Golden Age. Humanity lives in perfect harmony with the cosmos. Truth reigns supreme and consciousness is at its peak.",
+    scriptures: ["Vedas", "Upanishads", "Original Sutras"],
   },
   {
     id: "treta",
     name: "Treta Yuga",
-    color: "from-gray-100 to-gray-400",
-    duration: "1,296,000 Years",
-    virtue: "75% Dharma",
-    desc: "The Silver Age. Virtue diminishes slightly. Emperors rise to conquer the world, and wars become necessary to establish Dharma. Rituals and sacrifices become the primary path to the divine.",
+    subtitle: "Silver Age",
+    color: "#C0C0C0",
+    glow: "rgba(192,192,192,0.35)",
+    bg: "from-slate-700/40 to-slate-500/20",
+    border: "border-slate-300/40",
+    duration: "1,296,000 Yrs",
+    virtue: 75,
     icon: "🔥",
+    desc: "Virtue diminishes slightly. The age of great emperors and epic sacrifices. Courage and ritual become the path to the divine.",
+    scriptures: ["Ramayana", "Rigveda", "Yoga Sutras"],
   },
   {
     id: "dwapara",
     name: "Dwapara Yuga",
-    color: "from-amber-600 to-amber-800",
-    duration: "864,000 Years",
-    virtue: "50% Dharma",
-    desc: "The Bronze Age. Disease and death become more common. The Vedas are divided into four parts. Truth becomes harder to discern, and people become competitive and pleasure-seeking.",
+    subtitle: "Bronze Age",
+    color: "#CD7F32",
+    glow: "rgba(205,127,50,0.35)",
+    bg: "from-amber-900/40 to-amber-700/20",
+    border: "border-amber-500/40",
+    duration: "864,000 Yrs",
+    virtue: 50,
     icon: "⚖️",
+    desc: "The age of duality. The Vedas are divided into four. Truth and illusion become difficult to distinguish from each other.",
+    scriptures: ["Mahabharata", "Bhagavad Gita", "Puranas"],
   },
   {
     id: "kali",
     name: "Kali Yuga",
-    color: "from-slate-700 to-slate-900",
-    duration: "432,000 Years",
-    virtue: "25% Dharma",
-    desc: "The Iron Age. The current age of darkness and ignorance. Virtue has reduced to a quarter. Strife, discord, and hypocrisy are rampant. Yet, spiritual liberation is easiest to attain through chanting.",
+    subtitle: "Iron Age (Now)",
+    color: "#9B59B6",
+    glow: "rgba(155,89,182,0.4)",
+    bg: "from-violet-900/40 to-violet-700/20",
+    border: "border-violet-500/40",
+    duration: "432,000 Yrs",
+    virtue: 25,
     icon: "⚔️",
+    desc: "The current age of spiritual darkness. Yet liberation is easiest to attain — a single moment of devotion carries the power of a thousand years in Satya Yuga.",
+    scriptures: ["Kali Santarana", "Modern Philosophy", "World Traditions"],
   },
 ];
 
-export function YugaTimeline() {
+export function YugaTimeline({
+  selectedEra,
+  onSelectEra,
+}: {
+  selectedEra?: string;
+  onSelectEra?: (eraId: string) => void;
+}) {
   return (
-    <div className="w-full max-w-7xl mx-auto py-20 px-4 relative">
-      {/* Central Line */}
-      <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-500 via-gray-400 to-slate-800 -translate-x-1/2 opacity-30" />
-
-      <div className="space-y-32 md:space-y-48">
-        {YUGAS.map((yuga, index) => (
-          <YugaCard key={yuga.id} yuga={yuga} index={index} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function YugaCard({ yuga, index }: { yuga: typeof YUGAS[0]; index: number }) {
-  const isEven = index % 2 === 0;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-      className={`relative flex flex-col md:flex-row items-center gap-12 md:gap-24 ${
-        isEven ? "md:flex-row-reverse" : ""
-      } pl-12 md:pl-0`}
-    >
-      {/* Timeline Node */}
-      <div className="absolute left-4 md:left-1/2 w-12 h-12 rounded-full bg-black border-4 border-white z-10 -translate-x-1/2 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.6)]">
-        <span className="text-sm font-bold">{index + 1}</span>
-      </div>
-
-      {/* Content Card */}
-      <div className="w-full md:w-[calc(50%-3rem)]">
-        <div className={`p-8 md:p-10 rounded-3xl bg-gradient-to-br ${yuga.color} bg-opacity-10 backdrop-blur-xl border border-white/10 shadow-2xl group hover:scale-105 transition-all duration-500 hover:shadow-[0_0_50px_rgba(255,255,255,0.15)] relative overflow-hidden`}>
-          {/* Shimmer Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
-          
-          <div className="flex justify-between items-start mb-6 relative z-10">
-            <div className="text-5xl md:text-6xl filter drop-shadow-lg">{yuga.icon}</div>
-            <div className="text-right">
-              <h3 className="text-3xl md:text-4xl font-bold text-white drop-shadow-md font-serif">{yuga.name}</h3>
-              <span className="text-sm md:text-base font-mono text-white/80 uppercase tracking-widest mt-2 block">
-                {yuga.duration}
+    <div className="w-full max-w-6xl mx-auto px-4">
+      {/* Connecting progress line */}
+      <div className="relative mb-6 hidden md:block">
+        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-yellow-500/50 via-slate-400/50 via-amber-500/50 to-violet-500/50 -translate-y-1/2" />
+        <div className="flex justify-between relative">
+          {YUGAS.map((yuga, index) => (
+            <button
+              key={yuga.id}
+              onClick={() => onSelectEra?.(yuga.id)}
+              className="flex flex-col items-center gap-2 group"
+            >
+              <motion.div
+                className="w-12 h-12 rounded-full border-2 flex items-center justify-center text-lg transition-all duration-300 relative z-10 bg-background"
+                style={{
+                  borderColor: selectedEra === yuga.id ? yuga.color : 'rgba(255,255,255,0.2)',
+                  boxShadow: selectedEra === yuga.id ? `0 0 20px ${yuga.glow}` : 'none',
+                }}
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {yuga.icon}
+              </motion.div>
+              <span
+                className="text-xs font-mono uppercase tracking-wider transition-colors duration-300"
+                style={{ color: selectedEra === yuga.id ? yuga.color : 'rgba(255,255,255,0.5)' }}
+              >
+                {yuga.name.split(' ')[0]}
               </span>
-            </div>
-          </div>
-          
-          <p className="text-white/90 text-base md:text-lg leading-relaxed mb-8 relative z-10">
-            {yuga.desc}
-          </p>
-
-          <div className="w-full bg-black/30 h-3 rounded-full overflow-hidden relative z-10">
-            <motion.div 
-              initial={{ width: 0 }}
-              whileInView={{ width: yuga.virtue.split('%')[0] + '%' }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="h-full bg-white/90 shadow-[0_0_15px_white]" 
-            />
-          </div>
-          <div className="flex justify-between text-xs md:text-sm mt-2 text-white/70 uppercase font-bold relative z-10">
-            <span>Virtue (Dharma)</span>
-            <span>{yuga.virtue}</span>
-          </div>
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Empty space for the other side - visible only on desktop */}
-      <div className="hidden md:block w-[calc(50%-3rem)]" />
-    </motion.div>
+      {/* Era cards grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        {YUGAS.map((yuga) => {
+          const isActive = selectedEra === yuga.id;
+          return (
+            <motion.button
+              key={yuga.id}
+              onClick={() => onSelectEra?.(yuga.id)}
+              className={`text-left rounded-2xl border bg-gradient-to-br backdrop-blur-sm p-4 md:p-5 cursor-pointer transition-all duration-300 ${yuga.bg} ${yuga.border} ${
+                isActive ? 'ring-1' : 'hover:scale-[1.02]'
+              }`}
+              style={{
+                ringColor: isActive ? yuga.color : 'transparent',
+                boxShadow: isActive ? `0 0 30px ${yuga.glow}, inset 0 1px 0 rgba(255,255,255,0.1)` : 'none',
+              }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-2xl md:text-3xl">{yuga.icon}</span>
+                <span
+                  className="text-[10px] font-mono uppercase tracking-widest opacity-70"
+                  style={{ color: yuga.color }}
+                >
+                  {yuga.duration}
+                </span>
+              </div>
+
+              <h3
+                className="font-headline font-bold text-base md:text-lg mb-0.5"
+                style={{ color: isActive ? yuga.color : 'white' }}
+              >
+                {yuga.name}
+              </h3>
+              <p className="text-xs text-white/50 mb-3">{yuga.subtitle}</p>
+
+              {/* Virtue bar */}
+              <div className="w-full bg-black/30 h-1.5 rounded-full overflow-hidden mb-3">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${yuga.virtue}%` }}
+                  transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                  className="h-full"
+                  style={{ backgroundColor: yuga.color }}
+                />
+              </div>
+              <p className="text-[10px] text-white/40 font-mono">{yuga.virtue}% Dharma</p>
+
+              {/* Expanded content when active */}
+              <AnimatePresence>
+                {isActive && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-4 pt-4 border-t border-white/10">
+                      <p className="text-xs text-white/70 leading-relaxed mb-3">
+                        {yuga.desc}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {yuga.scriptures.map((s) => (
+                          <span
+                            key={s}
+                            className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-white/70"
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

@@ -147,6 +147,33 @@ export async function saveMessage(
 }
 
 /**
+ * Save user feedback (thumbs up/down) for a specific message
+ */
+export async function saveMessageFeedback(
+  userId: string,
+  chatId: string,
+  messageId: string,
+  feedback: 'up' | 'down'
+): Promise<void> {
+  const chatRef = doc(db, `users/${userId}/chatHistory/${chatId}`);
+  const chatSnap = await getDoc(chatRef);
+  
+  if (!chatSnap.exists()) {
+    throw new Error('Chat not found');
+  }
+  
+  const currentMessages = chatSnap.data().messages || [];
+  const updatedMessages = currentMessages.map((m: any) => 
+    m.id === messageId ? { ...m, feedback } : m
+  );
+  
+  await updateDoc(chatRef, {
+    messages: updatedMessages,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+/**
  * Update chat title (auto-generate from first message)
  */
 export async function updateChatTitle(

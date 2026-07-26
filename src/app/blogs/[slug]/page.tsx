@@ -136,7 +136,11 @@ export default function BlogDetailsPage() {
           </div>
 
           <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-headline prose-a:text-primary hover:prose-a:text-primary/80">
-            <ReactMarkdown>{blog.content}</ReactMarkdown>
+            {blog.format === 'html' ? (
+              <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+            ) : (
+              <ReactMarkdown>{blog.content}</ReactMarkdown>
+            )}
           </div>
         </article>
       </main>

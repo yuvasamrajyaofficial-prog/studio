@@ -11,20 +11,105 @@ export interface AISettings {
 }
 
 /**
- * Simple encryption for API keys (basic obfuscation)
- * For production, use Web Crypto API for stronger encryption
+ * Crypto utility for encrypting API keys
  */
-function encryptKey(key: string): string {
-  // Base64 encode for basic obfuscation
-  // TODO: Implement proper encryption with Web Crypto API
-  return btoa(key);
+const ENCRYPTION_ALGORITHM = 'AES-GCM';
+const SALT = 'malola-cosmic-salt-2026';
+
+async function getCryptoKey(userId: string): Promise<CryptoKey> {
+  const enc = new TextEncoder();
+  
+  // Create a base key material from user ID and salt
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(userId + SALT),
+    'PBKDF2',
+    false,
+    ['deriveBits', 'deriveKey']
+  );
+
+  // Derive an AES-GCM key
+  return crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: enc.encode(SALT),
+      iterations: 100000,
+      hash: 'SHA-256'
+    },
+    keyMaterial,
+    { name: ENCRYPTION_ALGORITHM, length: 256 },
+    true,
+    ['encrypt', 'decrypt']
+  );
 }
 
-function decryptKey(encrypted: string): string {
+async function encryptKey(key: string, userId: string): Promise<string> {
+  if (!key) return key;
+
   try {
-    return atob(encrypted);
-  } catch {
-    return encrypted;
+    const cryptoKey = await getCryptoKey(userId);
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const enc = new TextEncoder();
+    
+    const encrypted = await crypto.subtle.encrypt(
+      { name: ENCRYPTION_ALGORITHM, iv },
+      cryptoKey,
+      enc.encode(key)
+    );
+
+    // Combine IV and encrypted data, then convert to base64
+    const encryptedArray = new Uint8Array(encrypted);
+    const combined = new Uint8Array(iv.length + encryptedArray.length);
+    combined.set(iv, 0);
+    combined.set(encryptedArray, iv.length);
+    
+    return btoa(String.fromCharCode(...combined));
+  } catch (err) {
+    console.error('Failed to encrypt key:', err);
+    // Fallback to basic obfuscation if Web Crypto fails (e.g. non-HTTPS environment)
+    return 'b64::' + btoa(key);
+  }
+}
+
+async function decryptKey(encrypted: string, userId: string): Promise<string> {
+  if (!encrypted) return encrypted;
+
+  try {
+    // Check if it's the basic fallback encoding
+    if (encrypted.startsWith('b64::')) {
+       return atob(encrypted.replace('b64::', ''));
+    }
+    // Check for legacy encoding (just pure base64 without our new scheme length)
+    // A secure base64 string will be much longer. If not AES, fallback to old way.
+    
+    const combined = new Uint8Array(
+      atob(encrypted).split('').map(char => char.charCodeAt(0))
+    );
+
+    if (combined.length < 12) {
+        // Likely legacy base64 encoding from before migration
+        return atob(encrypted);
+    }
+
+    const iv = combined.slice(0, 12);
+    const data = combined.slice(12);
+    const cryptoKey = await getCryptoKey(userId);
+
+    const decrypted = await crypto.subtle.decrypt(
+      { name: ENCRYPTION_ALGORITHM, iv },
+      cryptoKey,
+      data
+    );
+
+    const dec = new TextDecoder();
+    return dec.decode(decrypted);
+  } catch (err) {
+    console.warn('Failed to decrypt as AES, attempting legacy fallback:', err);
+    try {
+      return atob(encrypted); // Try legacy plain base64
+    } catch {
+      return encrypted;
+    }
   }
 }
 
@@ -37,9 +122,11 @@ export async function saveAISettings(
 ): Promise<void> {
   const settingsRef = doc(db, `users/${userId}/settings/ai`);
   
+  const encryptedApiKey = await encryptKey(settings.apiKey, userId);
+
   await setDoc(settingsRef, {
     provider: settings.provider,
-    apiKey: encryptKey(settings.apiKey), // Encrypt before storing
+    apiKey: encryptedApiKey,
     isValid: settings.isValid,
     lastTested: settings.lastTested ? serverTimestamp() : null,
     updatedAt: serverTimestamp(),
@@ -58,10 +145,11 @@ export async function getAISettings(userId: string): Promise<AISettings | null> 
   }
   
   const data = snapshot.data();
+  const decryptedApiKey = await decryptKey(data.apiKey, userId);
   
   return {
     provider: data.provider,
-    apiKey: decryptKey(data.apiKey), // Decrypt when retrieving
+    apiKey: decryptedApiKey,
     isValid: data.isValid,
     lastTested: data.lastTested?.toDate(),
   };

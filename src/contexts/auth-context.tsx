@@ -12,10 +12,12 @@ import {
   updateProfile
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
-import { createUserProfile } from '@/lib/firebase/firestore';
+import { createUserProfile, getUserProfile } from '@/lib/firebase/firestore';
+import type { UserProfile } from '@/types/user';
 
 interface AuthContextType {
   user: User | null;
+  userProfile: UserProfile | null;
   loading: boolean;
   signUp: (email: string, password: string, displayName?: string) => Promise<User>;
   signIn: (email: string, password: string) => Promise<void>;
@@ -27,11 +29,21 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
+      
+      if (user) {
+        // Fetch extended user profile from Firestore
+        const profile = await getUserProfile(user.uid);
+        setUserProfile(profile);
+      } else {
+        setUserProfile(null);
+      }
+      
       setLoading(false);
     });
 
@@ -51,13 +63,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await createUserProfile(user.uid, {
       uid: user.uid,
       email: user.email!,
-      displayName: displayName || null,
-      photoURL: null,
+      displayName: displayName || undefined,
+      photoURL: undefined,
       karmaMeter: {
         points: 0,
         level: 1,
         glowColor: '#4ECDC4',
-        activities: [],
       },
       stats: {
         scripturesRead: 0,
@@ -95,8 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await createUserProfile(user.uid, {
           uid: user.uid,
           email: user.email!,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
+          displayName: user.displayName || undefined,
+          photoURL: user.photoURL || undefined,
           culturalContext: {
             country: 'IN',
             languages: ['en'],
@@ -134,7 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signUp, signIn, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, userProfile, loading, signUp, signIn, signInWithGoogle, signOut }}>
       {!loading && children}
     </AuthContext.Provider>
   );

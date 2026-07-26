@@ -19,8 +19,22 @@ interface PostCardProps {
 export function PostCard({ post }: PostCardProps) {
   const { user } = useAuth();
   const [likes, setLikes] = useState(post.likesCount || 0);
-  const [isLiked, setIsLiked] = useState(false); // TODO: check initial state
+  
+  // Initialize isLiked by checking if the current user is in the likedBy array (if schema supports it)
+  // or rely on a property like userHasLiked if provided by the backend.
+  const [isLiked, setIsLiked] = useState(() => {
+    // Check if we have an array of user IDs who liked the post. If not, default to false.
+    // If the schema `Post` adds `likedBy?: string[]`, this will work automatically.
+    return (post as any)?.likedBy?.includes(user?.uid) || false;
+  }); 
+  
   const [isLiking, setIsLiking] = useState(false);
+
+  // Sync state if post or user data changes
+  useEffect(() => {
+    setLikes(post.likesCount || 0);
+    setIsLiked((post as any)?.likedBy?.includes(user?.uid) || false);
+  }, [post.likesCount, (post as any)?.likedBy, user?.uid]);
 
   const handleLike = async () => {
     if (!user) {

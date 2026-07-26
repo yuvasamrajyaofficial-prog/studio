@@ -15,6 +15,9 @@ export interface Scripture {
   coverImage?: string;
   languages: string[];
   tags?: string[];
+  tradition?: string;
+  yuga?: string;
+  verses?: number;
   totalChapters?: number;
   createdAt?: any;
   updatedAt?: any;

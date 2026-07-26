@@ -36,3 +36,14 @@ export async function getFileURL(filePath: string): Promise<string> {
   const storageRef = ref(storage, filePath);
   return await getDownloadURL(storageRef);
 }
+
+/**
+ * Upload general media file (image, video, pdf) to Firebase Storage
+ */
+export async function uploadMediaFile(file: File): Promise<string> {
+  const uniqueName = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+  const storageRef = ref(storage, `media-vault/${uniqueName}`);
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+}
+

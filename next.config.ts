@@ -1,13 +1,11 @@
 import type {NextConfig} from 'next';
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  turbopack: {},
   images: {
     remotePatterns: [
       {
@@ -45,4 +43,4 @@ const withPWA = withPWAInit({
   },
 });
 
-export default withPWA(nextConfig);
+export default nextConfig;

@@ -62,6 +62,29 @@ export interface SoulID {
   shortId?: string; // Short ID like @username_1234
 }
 
+export interface UserStats {
+  scripturesRead?: number;
+  totalReadingTime?: number;
+  aiChatSessions?: number;
+  favoriteScriptures?: string[];
+  communitiesJoined?: string[];
+  versesRead?: number;
+  timeSpent?: number;
+  currentStreak?: number;
+  totalSessions?: number;
+  [key: string]: any;
+}
+
+export interface UserPreferences {
+  theme?: 'light' | 'dark' | 'system';
+  language?: string;
+  notifications?: {
+    email: boolean;
+    push: boolean;
+    dailyWisdom: boolean;
+  };
+}
+
 export interface UserProfile {
   uid: string;
   email: string;
@@ -74,6 +97,8 @@ export interface UserProfile {
     level: number;
     glowColor: string;
   };
+  stats?: UserStats;
+  preferences?: UserPreferences;
   createdAt: Date;
   updatedAt: Date;
   role?: 'user' | 'admin' | 'moderator' | 'creator';

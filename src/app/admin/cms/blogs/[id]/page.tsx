@@ -9,9 +9,11 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ArrowLeft, Save, Loader2, Image as ImageIcon } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Switch } from '@/components/ui/switch';
 import { getBlogById, createBlog, updateBlog, BlogPost } from '@/lib/admin/blog-actions';
+import { getScriptures } from '@/lib/admin/actions';
+import type { Scripture } from '@/types/schema';
 import ReactMarkdown from 'react-markdown';
 
 export default function BlogEditorPage() {
@@ -22,6 +24,7 @@ export default function BlogEditorPage() {
   
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [scriptures, setScriptures] = useState<Scripture[]>([]);
   const [blog, setBlog] = useState<Partial<BlogPost>>({
     title: '',
     slug: '',
@@ -31,19 +34,39 @@ export default function BlogEditorPage() {
     author: 'Admin',
     tags: [],
     published: false,
+    format: 'markdown',
+    scriptureId: '',
+    orderIndex: 1,
   });
   const [tagInput, setTagInput] = useState('');
 
   useEffect(() => {
+    loadScriptures();
     if (!isNew && params.id) {
       loadData(params.id as string);
     }
   }, [params.id, isNew]);
 
+  const loadScriptures = async () => {
+    try {
+      const list = await getScriptures();
+      setScriptures(list as Scripture[]);
+    } catch (err) {
+      console.error('Failed to load scriptures:', err);
+    }
+  };
+
   const loadData = async (id: string) => {
     try {
       const data = await getBlogById(id);
-      if (data) setBlog(data);
+      if (data) {
+        setBlog({
+          format: 'markdown',
+          scriptureId: '',
+          orderIndex: 1,
+          ...data
+        });
+      }
     } catch (error) {
       console.error('Failed to load blog:', error);
       toast({ title: "Error", description: "Failed to load blog post.", variant: "destructive" });
@@ -151,7 +174,11 @@ export default function BlogEditorPage() {
                 <TabsContent value="preview" className="mt-4">
                   <div className="bg-muted/20 border border-border/50 rounded-md p-6 min-h-[500px] prose prose-invert max-w-none dark:prose-invert">
                     {blog.content ? (
-                      <ReactMarkdown>{blog.content}</ReactMarkdown>
+                      blog.format === 'html' ? (
+                        <div dangerouslySetInnerHTML={{ __html: blog.content }} />
+                      ) : (
+                        <ReactMarkdown>{blog.content}</ReactMarkdown>
+                      )
                     ) : (
                       <p className="text-muted-foreground italic">Nothing to preview yet.</p>
                     )}
@@ -195,6 +222,44 @@ export default function BlogEditorPage() {
                   value={blog.author} 
                   onChange={e => setBlog({...blog, author: e.target.value})}
                   className="bg-muted/20 border-border/50"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Content Format</Label>
+                <select
+                  value={blog.format}
+                  onChange={e => setBlog({...blog, format: e.target.value as any})}
+                  className="w-full text-sm bg-muted/20 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground"
+                >
+                  <option value="markdown">Markdown</option>
+                  <option value="html">HTML & CSS Code</option>
+                  <option value="text">Plain Text</option>
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Associated Scripture</Label>
+                <select
+                  value={blog.scriptureId}
+                  onChange={e => setBlog({...blog, scriptureId: e.target.value})}
+                  className="w-full text-sm bg-muted/20 border border-border/50 rounded-lg p-2.5 outline-none focus:border-primary text-foreground"
+                >
+                  <option value="">None</option>
+                  {scriptures.map(s => (
+                    <option key={s.id} value={s.id}>{s.title?.en || s.id}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Order Index</Label>
+                <Input 
+                  type="number"
+                  value={blog.orderIndex} 
+                  onChange={e => setBlog({...blog, orderIndex: Number(e.target.value)})}
+                  className="bg-muted/20 border-border/50"
+                  placeholder="1"
                 />
               </div>
 
