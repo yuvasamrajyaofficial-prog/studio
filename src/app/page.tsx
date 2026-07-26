@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { SudharshanaChakraIcon } from "@/components/icons/sudharshana-chakra";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { 
@@ -13,9 +14,7 @@ import {
   Headphones, 
   Globe, 
   Heart, 
-  Shield,
-  Compass,
-  Award
+  Shield 
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { Card } from "@/components/ui/card";
@@ -28,7 +27,6 @@ import { HowItWorks } from "@/components/home/how-it-works";
 import { Testimonials } from "@/components/home/testimonials";
 import { Newsletter } from "@/components/home/newsletter";
 import { JsonLd } from "@/components/seo/json-ld";
-import { KalpavrikshaTree } from "@/components/3d/kalpavriksha-tree";
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -36,7 +34,7 @@ export default function HomePage() {
 
   const features = [
     {
-      title: "Cosmic AI Spirit Guide",
+      title: "Enter the Cosmos",
       description: "Chat with AI Spirit Guide",
       icon: Sparkles,
       href: "/cosmos",
@@ -54,31 +52,31 @@ export default function HomePage() {
       border: "hover:border-amber-500/50"
     },
     {
-      title: "Soul ID Engine",
-      description: "Astrological Profile",
-      icon: User,
-      href: "/soul-id",
-      color: "text-emerald-500",
-      bg: "bg-emerald-500/10",
-      border: "hover:border-emerald-500/50"
-    },
-    {
       title: "Daily Wisdom",
       description: "Start Day with Insight",
-      icon: Compass,
+      icon: BookOpen,
       href: "#daily-wisdom",
       color: "text-orange-500",
       bg: "bg-orange-500/10",
       border: "hover:border-orange-500/50"
     },
     {
-      title: "Sadhana & Karma",
-      description: "Track Spiritual Points",
-      icon: Award,
-      href: "/dashboard",
-      color: "text-cyan-500",
-      bg: "bg-cyan-500/10",
-      border: "hover:border-cyan-500/50"
+      title: "Blogs & Articles",
+      description: "Read Spiritual Insights",
+      icon: Newspaper,
+      href: "/blogs",
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+      border: "hover:border-blue-500/50"
+    },
+    {
+      title: "My Profile",
+      description: "Manage Your Journey",
+      icon: User,
+      href: "/profile",
+      color: "text-green-500",
+      bg: "bg-green-500/10",
+      border: "hover:border-green-500/50"
     },
   ];
 
@@ -100,7 +98,7 @@ export default function HomePage() {
         type="WebSite"
         data={{
           name: "MALOLA",
-          description: "Your AI-powered spiritual guide to ancient scriptures and cultural intelligence.",
+          description: "Your AI-powered spiritual guide to ancient wisdom.",
         }}
       />
       
@@ -111,22 +109,22 @@ export default function HomePage() {
           
           {/* ================= MOBILE VIEW (APP DASHBOARD) ================= */}
           <div className="md:hidden px-4 pb-10 pt-4">
-             <div className="flex flex-col items-center text-center mb-6">
+             <div className="flex flex-col items-center text-center mb-10">
+               <div className="mb-6 relative">
+                <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
+                <SudharshanaChakraIcon className="w-20 h-20 text-primary animate-spin-slow relative z-10" />
+              </div>
+              
               <h1 className="font-headline text-3xl font-bold text-foreground mb-2">
                 {user ? `Welcome, ${user.displayName?.split(' ')[0] || 'Seeker'}` : 'Welcome to MALOLA'}
               </h1>
               <p className="text-muted-foreground text-sm font-body">
-                Your portal to spiritual intelligence & 3D Kalpavriksha.
+                Your portal to spiritual intelligence.
               </p>
             </div>
 
-            {/* 3D Kalpavriksha Tree Mobile Embed */}
-            <div className="mb-8 overflow-hidden rounded-2xl border border-amber-500/30 bg-card/40 backdrop-blur-md">
-              <KalpavrikshaTree />
-            </div>
-
-            {/* Mobile Feature Grid */}
-            <div className="grid grid-cols-2 gap-3 mb-12">
+            {/* Feature Grid */}
+            <div className="grid grid-cols-2 gap-4 mb-12">
               {features.map((feature) => (
                 <Link key={feature.title} href={feature.href} className="block h-full">
                   <Card className={`h-full p-4 flex flex-col items-center text-center justify-center gap-3 transition-all duration-300 border border-border/50 hover:shadow-lg ${feature.border} bg-card/50 backdrop-blur-sm group active:scale-95`}>
@@ -134,7 +132,7 @@ export default function HomePage() {
                       <feature.icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-headline text-sm font-bold text-foreground mb-1 leading-tight">{feature.title}</h3>
+                      <h3 className="font-headline text-base font-bold text-foreground mb-1 leading-tight">{feature.title}</h3>
                       <p className="text-[10px] text-muted-foreground leading-tight">{feature.description}</p>
                     </div>
                   </Card>
@@ -152,33 +150,30 @@ export default function HomePage() {
           </div>
 
 
-          {/* ================= DESKTOP VIEW (3D LANDING PAGE) ================= */}
+          {/* ================= DESKTOP VIEW (LANDING PAGE) ================= */}
           <div className="hidden md:block">
-            {/* 3D Hero Section */}
-            <section className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-8">
-              {/* Background Ambient Cosmic Gradient */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-purple-500/5 to-transparent pointer-events-none" />
+            {/* Hero Section */}
+            <section className="relative min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center overflow-hidden py-0">
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
               
               <div className="container mx-auto px-4 relative z-10 flex flex-col items-center text-center">
-                
-                <h1 className="font-headline text-4xl lg:text-6xl font-bold tracking-tight mb-4 text-foreground leading-tight">
-                  Global Cultural & <br />
-                  <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-purple-400 bg-clip-text text-transparent">
-                    Spiritual Intelligence
-                  </span>
-                </h1>
-                
-                <p className="max-w-2xl text-base md:text-lg text-muted-foreground mb-4 leading-relaxed font-light font-body">
-                  Explore ancient scriptures, divine wisdom, and astrological insights under the sacred 3D Kalpavriksha wish-fulfilling tree.
-                </p>
-
-                {/* 3D Kalpavriksha Tree Visualizer */}
-                <div className="w-full max-w-4xl my-2">
-                  <KalpavrikshaTree />
+                <div className="mb-10 relative">
+                  <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse" />
+                  <SudharshanaChakraIcon className="w-56 h-56 text-primary animate-spin-slow relative z-10" />
                 </div>
                 
-                {/* Hero CTA Button */}
-                <div className="flex flex-col items-center gap-4 mt-4">
+                <h1 className="font-headline text-5xl lg:text-7xl font-bold tracking-tight mb-8 text-foreground leading-tight">
+                  Global Cultural & <br />
+                  <span className="text-primary">Spiritual Intelligence</span>
+                </h1>
+                
+                <p className="max-w-2xl text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed font-light font-body">
+                  Explore ancient scriptures, divine wisdom, and educational resources through a culture-aware, ethically governed AI platform.
+                </p>
+                
+                {/* CTA Button */}
+                <div className="flex flex-col items-center gap-4">
                   {user ? (
                     <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold h-14 px-10 text-lg shadow-lg shadow-primary/30">
                       <Link href="/cosmos">Enter the Cosmos</Link>
@@ -221,7 +216,7 @@ export default function HomePage() {
                   <FeatureCard 
                     icon={BookOpen}
                     title="Universal Scripture Library"
-                    description="Access texts from Vedas, Upanishads, and global traditions in Kannada (ಕನ್ನಡ), English & Hindi."
+                    description="Access texts from Vedas, Upanishads, and global traditions, organized by era and philosophy."
                   />
                   <FeatureCard 
                     icon={Headphones}
@@ -230,8 +225,8 @@ export default function HomePage() {
                   />
                   <FeatureCard 
                     icon={Sparkles}
-                    title="AI Spirit Guide"
-                    description="Engage with our Antigravity AI guide for context-aware spiritual explanations and guidance."
+                    title="AI-Powered Insights"
+                    description="Engage with our 'Antigravity' agents for context-aware explanations and guidance."
                   />
                   <FeatureCard 
                     icon={Globe}
