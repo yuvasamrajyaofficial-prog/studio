@@ -7,11 +7,12 @@ import { Footer } from '@/components/layout/footer';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SudharshanaChakraIcon } from '@/components/icons/sudharshana-chakra';
-import { BookOpen, Sparkles, Heart, Users, Star, Zap, Video } from 'lucide-react';
+import { BookOpen, Sparkles, Heart, Users, Star, Zap, Video, Compass, Moon, Sun, Clock } from 'lucide-react';
 import Link from 'next/link';
 import type { SoulID } from '@/types/user';
 import { useAuth } from '@/contexts/auth-context';
 import { getUserProfile } from '@/lib/firebase/firestore';
+import { getRealTimePanchang, PanchangData } from '@/lib/panchang-calculator';
 import { cn } from '@/lib/utils';
 
 export default function CosmosPage() {
@@ -19,16 +20,16 @@ export default function CosmosPage() {
   const router = useRouter();
   const [soulID, setSoulID] = useState<SoulID | null>(null);
   const [username, setUsername] = useState<string>('Seeker');
+  const [panchang, setPanchang] = useState<PanchangData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Redirect to login if not authenticated
     if (!user) {
       router.push('/login');
       return;
     }
 
-    // Load user data from Firestore
+    setPanchang(getRealTimePanchang());
     loadUserData();
   }, [user, router]);
 
@@ -64,8 +65,7 @@ export default function CosmosPage() {
       
       <main className="flex-1 pt-16">
         {/* Hero Welcome Section */}
-        <section className="relative min-h-[50vh] flex flex-col items-center justify-center overflow-hidden py-12">
-          {/* Background Effects */}
+        <section className="relative min-h-[45vh] flex flex-col items-center justify-center overflow-hidden py-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
@@ -114,8 +114,57 @@ export default function CosmosPage() {
           </div>
         </section>
 
+        {/* Real-time Panchang Ephemeris Bar */}
+        {panchang && (
+          <section className="py-6 bg-card/50 border-y border-border/50 backdrop-blur-md">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2 text-primary font-bold font-headline text-lg">
+                  <Compass className="w-5 h-5 animate-spin-slow" />
+                  <span>TODAY'S COSMIC PANCHANG</span>
+                </div>
+                <span className="text-xs text-muted-foreground font-mono">Live Ephemeris Calculations</span>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="p-4 rounded-xl bg-background/50 border border-primary/20">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                    <Moon className="w-3.5 h-3.5 text-primary" />
+                    <span>TITHI ({panchang.tithi.paksha})</span>
+                  </div>
+                  <p className="font-bold text-foreground">{panchang.tithi.name}</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-background/50 border border-accent/20">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                    <Star className="w-3.5 h-3.5 text-accent" />
+                    <span>NAKSHATRA</span>
+                  </div>
+                  <p className="font-bold text-foreground">{panchang.nakshatra.name} (Pada {panchang.nakshatra.pada})</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-background/50 border border-purple-500/20">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                    <Sun className="w-3.5 h-3.5 text-purple-400" />
+                    <span>YOGA</span>
+                  </div>
+                  <p className="font-bold text-foreground">{panchang.yoga.name}</p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-background/50 border border-destructive/20">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+                    <Clock className="w-3.5 h-3.5 text-destructive" />
+                    <span>RAHU KALAM</span>
+                  </div>
+                  <p className="font-bold text-foreground">{panchang.rahuKalam.start} - {panchang.rahuKalam.end}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Dashboard Grid */}
-        <section className="py-12 bg-card/30 border-t border-border/50">
+        <section className="py-12 bg-card/30">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               
