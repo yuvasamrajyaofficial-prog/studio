@@ -55,8 +55,12 @@ export interface Verse {
     en: string;
     [key: string]: string | undefined;
   };
+  meaning?: string;
+  wordByWord?: Record<string, string>;
+  audioUrl?: string;
   commentary?: {
     en?: string;
+    sa?: string;
     [key: string]: string | undefined;
   };
   createdAt?: any;
