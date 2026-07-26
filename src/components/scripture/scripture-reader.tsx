@@ -4,14 +4,15 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   ChevronLeft, ChevronRight, ZoomIn, ZoomOut, 
-  Maximize2, Settings2, BookOpen, Download, Share2
+  BookOpen, Download 
 } from "lucide-react";
 import type { Chapter } from "@/types/scripture";
 import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/social/share-button";
+import { VerseViewer } from "./verse-viewer";
 
 interface ScriptureReaderProps {
-  chapter: Chapter;
+  chapter: Chapter | any;
   scriptureId: string;
   nextChapterId?: string;
   prevChapterId?: string;
@@ -28,9 +29,12 @@ export function ScriptureReader({
   const [showToolbar, setShowToolbar] = useState(true);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Calculate pages (group verses for pagination)
+  const chapterTitle = chapter.title?.en || chapter.name || `Chapter ${chapter.number}`;
+  const chapterSummary = chapter.summary?.en || chapter.summary || '';
+  const verseList = chapter.verses || [];
+
   const versesPerPage = 10;
-  const totalPages = Math.ceil(chapter.verses.length / versesPerPage);
+  const totalPages = Math.max(1, Math.ceil(verseList.length / versesPerPage));
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -56,12 +60,12 @@ export function ScriptureReader({
   const getCurrentPageVerses = () => {
     const start = (currentPage - 1) * versesPerPage;
     const end = start + versesPerPage;
-    return chapter.verses.slice(start, end);
+    return verseList.slice(start, end);
   };
 
   return (
     <div className="h-screen bg-muted/30 flex flex-col overflow-hidden">
-      {/* PDF Viewer Toolbar */}
+      {/* Reader Toolbar */}
       <div className={cn(
         "bg-background/95 backdrop-blur-sm border-b border-border/50 transition-all duration-300",
         showToolbar ? "translate-y-0" : "-translate-y-full"
@@ -72,10 +76,10 @@ export function ScriptureReader({
             <BookOpen className="w-5 h-5 text-primary flex-shrink-0" />
             <div className="min-w-0">
               <h1 className="text-sm font-semibold text-foreground truncate">
-                {chapter.name}
+                {chapterTitle}
               </h1>
               <p className="text-xs text-muted-foreground">
-                {chapter.verses.length} verses
+                {verseList.length} verses
               </p>
             </div>
           </div>
@@ -106,8 +110,8 @@ export function ScriptureReader({
           {/* Right: Actions */}
           <div className="flex items-center gap-2">
             <ShareButton
-              title={chapter.name}
-              text={`Read ${chapter.name}`}
+              title={chapterTitle}
+              text={`Read ${chapterTitle}`}
               hashtags={["Scripture", "Wisdom"]}
               className="hidden sm:flex"
             />
@@ -159,132 +163,89 @@ export function ScriptureReader({
         </div>
       </div>
 
-      {/* PDF Document Viewer */}
+      {/* Reader Document View */}
       <div 
         ref={contentRef}
         className="flex-1 overflow-y-auto bg-muted/50 p-4 md:p-8"
         onClick={() => setShowToolbar(true)}
       >
-        <div className="max-w-5xl mx-auto">
-          {/* PDF-style Page */}
+        <div className="max-w-4xl mx-auto">
           <div 
-            className="bg-white shadow-2xl rounded-sm mx-auto transition-all duration-200"
+            className="transition-all duration-200"
             style={{ 
               transform: `scale(${zoom / 100})`,
               transformOrigin: 'top center',
               width: '100%',
-              maxWidth: '210mm', // A4 width
             }}
           >
-            {/* Page Header */}
-            <div className="border-b border-gray-200 px-8 md:px-12 py-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900">
-                    {chapter.name}
-                  </h2>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Chapter {chapter.number} • {chapter.summary}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-600">Page {currentPage}</p>
-                  <p className="text-xs text-gray-400">{totalPages} pages</p>
-                </div>
+            {/* Header */}
+            <div className="border-b border-border/50 pb-6 mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                {chapterTitle}
+              </h2>
+              {chapterSummary && (
+                <p className="text-sm text-muted-foreground mt-2">
+                  Chapter {chapter.number} • {chapterSummary}
+                </p>
+              )}
+            </div>
+
+            {/* Verses List */}
+            <div className="space-y-6">
+              {getCurrentPageVerses().map((verseItem: any, idx: number) => {
+                const formattedVerse = {
+                  id: verseItem.id || `v-${verseItem.number || idx + 1}`,
+                  scriptureId,
+                  chapterId: chapter.id || 'ch-1',
+                  number: verseItem.number || idx + 1,
+                  text: {
+                    original: verseItem.text?.original || verseItem.sanskrit || '',
+                    transliteration: verseItem.text?.transliteration || verseItem.transliteration || '',
+                  },
+                  translations: {
+                    en: verseItem.translations?.en || verseItem.english || verseItem.meaning || '',
+                    hi: verseItem.translations?.hi || '',
+                    sa: verseItem.translations?.sa || '',
+                  },
+                  commentary: {
+                    en: verseItem.commentary?.en || verseItem.meaning || '',
+                    hi: verseItem.commentary?.hi || '',
+                  },
+                  audioUrl: verseItem.audioUrl || '',
+                };
+
+                return (
+                  <VerseViewer 
+                    key={formattedVerse.id || idx} 
+                    verse={formattedVerse} 
+                    showAudio={true}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Navigation Buttons */}
+            {(prevChapterId || nextChapterId) && (
+              <div className="mt-12 flex gap-4 justify-center">
+                {prevChapterId && (
+                  <Button asChild variant="outline" className="flex-1 max-w-xs">
+                    <a href={`/scriptures/${scriptureId}/chapter/${prevChapterId}`}>
+                      <ChevronLeft className="w-4 h-4 mr-2" />
+                      Previous Chapter
+                    </a>
+                  </Button>
+                )}
+                {nextChapterId && (
+                  <Button asChild variant="outline" className="flex-1 max-w-xs">
+                    <a href={`/scriptures/${scriptureId}/chapter/${nextChapterId}`}>
+                      Next Chapter
+                      <ChevronRight className="w-4 h-4 ml-2" />
+                    </a>
+                  </Button>
+                )}
               </div>
-            </div>
-
-            {/* Page Content */}
-            <div className="px-8 md:px-12 py-8 space-y-8">
-              {getCurrentPageVerses().map((verse, idx) => (
-                <div 
-                  key={verse.number}
-                  className="pb-8 border-b border-gray-100 last:border-0"
-                >
-                  {/* Verse Number */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-bold text-sm">
-                      {verse.number}
-                    </div>
-                    <span className="text-sm font-medium text-gray-500">
-                      Verse {verse.number}
-                    </span>
-                  </div>
-
-                  {/* Sanskrit Text */}
-                  <div className="mb-6">
-                    <p className="text-lg md:text-xl font-serif leading-relaxed text-gray-900">
-                      {verse.sanskrit}
-                    </p>
-                  </div>
-
-                  {/* Transliteration */}
-                  {verse.transliteration && (
-                    <div className="mb-6">
-                      <p className="text-sm italic text-gray-600 font-mono">
-                        {verse.transliteration}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Translation */}
-                  <div className="mb-6 pl-4 border-l-4 border-indigo-200">
-                    <p className="text-base leading-relaxed text-gray-700">
-                      {verse.english}
-                    </p>
-                  </div>
-
-                  {/* Meaning/Commentary */}
-                  {verse.meaning && (
-                    <div className="bg-amber-50 p-4 rounded-lg">
-                      <p className="text-sm font-semibold text-amber-900 mb-2">
-                        Meaning:
-                      </p>
-                      <p className="text-sm leading-relaxed text-amber-800">
-                        {verse.meaning}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Page Footer */}
-            <div className="border-t border-gray-200 px-8 md:px-12 py-4 flex items-center justify-between text-xs text-gray-500">
-              <span>{chapter.name}</span>
-              <span>Page {currentPage} of {totalPages}</span>
-            </div>
+            )}
           </div>
-
-          {/* Chapter Navigation at Bottom */}
-          {(prevChapterId || nextChapterId) && (
-            <div className="mt-8 flex gap-4 justify-center max-w-4xl mx-auto">
-              {prevChapterId && (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="flex-1 max-w-xs"
-                >
-                  <a href={`/scriptures/${scriptureId}/chapter/${prevChapterId}`}>
-                    <ChevronLeft className="w-4 h-4 mr-2" />
-                    Previous Chapter
-                  </a>
-                </Button>
-              )}
-              {nextChapterId && (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="flex-1 max-w-xs"
-                >
-                  <a href={`/scriptures/${scriptureId}/chapter/${nextChapterId}`}>
-                    Next Chapter
-                    <ChevronRight className="w-4 h-4 ml-2" />
-                  </a>
-                </Button>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>
